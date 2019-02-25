@@ -1,0 +1,130 @@
+<!--pages/cardetail/cardetail.wxml-->
+<view class=".container">
+<block  wx:if="{{videoData!=null}}"> 
+<view class="page-head">
+<icon class="iconfont icon-truck"></icon>
+<view class="page-head-title">污泥处理车监控</view>
+<view class="page-head-line"></view>
+</view>
+  <view>
+   <video src="{{videoData.videoHLSid}}"></video>
+  </view>
+<view class='.button-sp-area'>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='0'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>上</button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='1'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>下</button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='2'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>左</button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='3'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>右</button>
+</view>
+</block> 
+</view>
+
+<!--循环json取出数据-->
+<block wx:for="{{sensorList}}" wx:key="id"  >
+
+<view class='.page-head'>
+<i-icon type="integral_fill" size='25' color='#BEBEBE'/>
+<view class='.page-head-title'>{{item.sensorType.type}}</view>
+<view class=".page-head-line"></view>
+</view>
+
+<i-cell-group>
+    <i-cell title="编号:" value="{{item.serialNumber}}"></i-cell>
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
+    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    </i-cell>
+    <i-cell title="实时数据:"  value="" >
+    </i-cell>
+    <i-cell  title="历史数据" is-link url="#">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+    <i-cell></i-cell>
+</i-cell-group>
+</block>
+
+
+<!--非循环取出-->
+<!--id=29的氨气传感器
+<block wx:for="{{sensorList}}" wx:key="sensorList" wx:if="{{item.id==29}}">
+
+<view class='.page-head'>
+<i-icon type="integral_fill" size='25' color='#BEBEBE'/>
+<view class='.page-head-title'>{{item.sensorType.type}}</view>
+<view class=".page-head-line"></view>
+</view>
+
+<i-cell-group>
+    <i-cell title="编号:" value="{{item.serialNumber}}"></i-cell>
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
+    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    </i-cell>
+    <i-cell title="实时数据:"  value="{{realValue1}}">
+    </i-cell>
+    <i-cell  title="历史数据" is-link url="#">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+    <i-cell></i-cell>
+</i-cell-group>
+</block>
+-->
+<!--id=30的硫化氢传感器
+<block wx:for="{{sensorList}}" wx:key="sensorList" wx:if="{{item.id==30}}">
+
+<view class='.page-head'>
+<i-icon type="integral_fill" size='25' color='#BEBEBE'/>
+<view class='.page-head-title'>{{item.sensorType.type}}</view>
+<view class=".page-head-line"></view>
+</view>
+
+<i-cell-group>
+    <i-cell title="编号:" value="{{item.serialNumber}}"></i-cell>
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
+    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    </i-cell>
+    <i-cell title="实时数据:" value="{{realValue2}}" >
+
+    </i-cell>
+    <i-cell  title="历史数据" is-link url="#">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+    <i-cell></i-cell>
+</i-cell-group>
+</block>
+-->
+<!--id=31的温湿度传感器
+<block wx:for="{{sensorList}}" wx:key="sensorList" wx:if="{{item.id==31}}">
+
+<view class='.page-head'>
+<i-icon type="integral_fill" size='25' color='#BEBEBE'/>
+<view class='.page-head-title'>{{item.sensorType.type}}</view>
+<view class=".page-head-line"></view>
+</view>
+
+<i-cell-group>
+    <i-cell title="编号:" value="{{item.serialNumber}}"></i-cell>
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
+    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    </i-cell>
+    <i-cell title="实时数据:" value="{{realValue3}}" >
+
+    </i-cell>
+    <i-cell  title="历史数据" is-link url="">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+    <i-cell></i-cell>
+</i-cell-group>
+</block>
+-->
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
