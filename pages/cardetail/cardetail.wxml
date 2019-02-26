@@ -41,7 +41,9 @@
     <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
     <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
     </i-cell>
-    <i-cell title="实时数据:"  value="" >
+    <i-cell wx:if="{{item.typeId==1||item.typeId==5}}" title="实时数据:"  value="{{value1}},{{value2}}" >
+    </i-cell>
+    <i-cell wx:if="{{item.typeId==2||item.typeId==3||item.typeId==4}}" title="实时数据:"  value="{{item.id}}" >
     </i-cell>
     <i-cell  title="历史数据" is-link url="#">
     <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />

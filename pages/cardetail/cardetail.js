@@ -43,10 +43,9 @@ Page({
         })
 
         /*根据sensorID获取传感器实时数据*/
-
         for (var index = 0; index < res.data.sensorList.length; index++) {
-          console.log(res.data.sensorList[index].id)
-
+          var sensorId = res.data.sensorList[index].id
+          console.log(sensorId)
           wx.request({
             url: "http://iot.hnu.edu.cn/sensor/queryRealTimeValue",
             data: { sensorId: res.data.sensorList[index].id },
@@ -58,9 +57,17 @@ Page({
             success: function (res) {
               console.log(res.data)
               //  console.log(that.data.sensorList) 
-              console.log("value1:" + res.data.value1 + "/" + "value2:" + res.data.value2)
+              //console.log("value1:" + res.data.value1 + "/" + "value2:" + res.data.value2)
               //添加每一个传感器ralValue值到realValueList数组
-              that.data.realValueList.push(res.data)
+              //that.data.realValueList.push(res.data)
+              //console.log(that.data.realValueList)
+              var value1 = "sensorvalue1"+sensorId
+              var value2 = "sensorvalue2"+sensorId
+              that.setData({
+                [sensorId]: res.data.value1,
+                [value1]: res.data.value1,
+                [value2]: res.data.value2
+              })
             },
             fail: function (err) {
               console.log(err)
@@ -73,7 +80,8 @@ Page({
         console.log(err)
       }
     })
-    console.log(that.data.realValueList)
+    //console.log(that.data.realValueList)
+    //console.log(that.data.value1)
   },
 
   /*根据sensorID获取传感器实时数据*/

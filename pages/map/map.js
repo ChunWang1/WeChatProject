@@ -104,7 +104,7 @@ Page({
       }
     })
     that.getCarData();
-    that.startSetInter();
+    //that.startSetInter();
   },
 
   getCarData: function () {
