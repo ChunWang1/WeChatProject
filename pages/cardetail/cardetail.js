@@ -1,6 +1,8 @@
 // pages/cardetail/cardetail.js
 // pages/carMonitor/carMonitor.js
 const app = getApp()
+var map={};
+var jsSensorList=[];
 Page({
   /**
    * 页面的初始数据
@@ -12,6 +14,7 @@ Page({
     "sensorList": [],
     "sensorAndrealValue": [],
     "sensorAndrealValueList": [],
+    "sensorRealValueMap":{},
   },
 
   /**
@@ -37,44 +40,15 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
+        jsSensorList = res.data.sensorList
         that.setData({
           sensorList: res.data.sensorList,
           videoData: res.data.video,
-        })
-
-        /*根据sensorID获取传感器实时数据*/
-        for (var index = 0; index < res.data.sensorList.length; index++) {
-          var sensorId = res.data.sensorList[index].id
-          console.log(sensorId)
-          wx.request({
-            url: "http://iot.hnu.edu.cn/sensor/queryRealTimeValue",
-            data: { sensorId: res.data.sensorList[index].id },
-            method: 'GET',
-            headers: {
-              'content-type': 'application/json'
-            },
-
-            success: function (res) {
-              console.log(res.data)
-              //  console.log(that.data.sensorList) 
-              //console.log("value1:" + res.data.value1 + "/" + "value2:" + res.data.value2)
-              //添加每一个传感器ralValue值到realValueList数组
-              //that.data.realValueList.push(res.data)
-              //console.log(that.data.realValueList)
-              var value1 = "sensorvalue1"+sensorId
-              var value2 = "sensorvalue2"+sensorId
-              that.setData({
-                [sensorId]: res.data.value1,
-                [value1]: res.data.value1,
-                [value2]: res.data.value2
-              })
-            },
-            fail: function (err) {
-              console.log(err)
-            }
-          })
-
-        }
+        });
+        setInterval(function () {
+          that.getRealValue();
+        }, 5000);
+        //that.getRealValue();
       },
       fail: function (err) {
         console.log(err)
@@ -85,10 +59,49 @@ Page({
   },
 
   /*根据sensorID获取传感器实时数据*/
-  getRealValueBySensorId: function () {
-
+  getRealValue: function () {
+    var that=this;
+    console.log("getRealValueBySensorId")
+    /*根据sensorID获取传感器实时数据*/
+    for (var index = 0; index < jsSensorList.length; index++) {
+      var sensorId = jsSensorList[index].id
+      var sensorSerialNum = jsSensorList[index].serialNumber;
+      that.getRealValueBySensorId(sensorId, sensorSerialNum);
+    }
 
   },
+
+  getRealValueBySensorId: function (sensorId, sensorSerialNum){
+    var that=this;
+    console.log("getRealValueBySensorId");
+    wx.request({
+      url: "http://iot.hnu.edu.cn/sensor/queryRealTimeValue",
+      data: { sensorId: sensorId },
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
+
+      success: function (res) {
+        console.log(res.data)
+        map[sensorId] = {};
+        map[sensorId].value1 = res.data.value1;
+        if(res.data.value2!=0){ //说明是双值传感器     
+          map[sensorId].value1=res.data.value1;
+          map[sensorId].value2=res.data.value2;
+        }
+        console.log(map)
+        that.setData({
+          sensorRealValueMap:map
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
+
+  
 
 
   /**
