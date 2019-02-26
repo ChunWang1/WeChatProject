@@ -64,9 +64,9 @@ Page({
               var value1 = "sensorvalue1"+sensorId
               var value2 = "sensorvalue2"+sensorId
               that.setData({
-                [sensorId]: res.data.value1,
-                [value1]: res.data.value1,
-                [value2]: res.data.value2
+                sensorId: res.data.value1,
+                value1: res.data.value1,
+                value2: res.data.value2
               })
             },
             fail: function (err) {
