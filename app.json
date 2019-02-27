@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/login/login",
     "pages/map/map",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
