@@ -4,6 +4,7 @@
     "pages/map/map",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
+    "pages/allcardetail/allcardetail",
     "pages/warehouse/warehouse",
     "pages/register/register"
   ],
@@ -26,7 +27,7 @@
       },
       {
         "pagePath": "pages/cardetail/cardetail",
-        "text": "车辆详情",
+        "text": "车辆监控",
         "iconPath": "pages/img/menuicon/car.png",
         "selectedIconPath": "pages/img/menuicon/car2.png"
       },

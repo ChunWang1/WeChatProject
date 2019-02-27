@@ -92,7 +92,6 @@ Page({
             title: "请检查注册信息输入是否正确",
             icon: 'success',
             duration: 20000,
-
           })
         } 
       }
