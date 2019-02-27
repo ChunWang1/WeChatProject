@@ -113,9 +113,11 @@ Page({
           sensorList: res.data.sensorList,
           videoData: res.data.video,
         });
+        that.getRealValue();
         setInterval(function () {
           that.getRealValue();
-        }, 5000);
+        }, 10000);
+        //that.getRealValue();
       },
       fail: function (err) {
         console.log(err)
