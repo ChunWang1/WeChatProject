@@ -1,12 +1,14 @@
 // pages/map/map.js
 var markers = [];
+var mainWareHouse=[];
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    minorWareHouse:[],
+    mainWareHouse:[],
   },
 
   /**
@@ -14,16 +16,73 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    that.showMap();
+    // that.startSetInter();
+  },
+  showMap:function(){
+    var that=this;
+    that.showWareHouse()
+    that.showSite();
+  },
+  showWareHouse:function(){
+    var that=this
     wx.request({
-      url: 'http://iot.hnu.edu.cn/system/queryAllSite',
+      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMainWareHouse',
       header: {
         'content-type': 'application/json'
       },
       success: function (res) {
         console.log(res.data)
+        mainWareHouse=res.data;
+        var listData = res.data;
+        for (var i = 0; i < listData.length; i++) {
+          console.log(listData[i].longitude)
+          that.queryMinorWareHouse(listData[i].id);
+          setTimeout(function(){
+            var minorWareHouse=that.data.minorWareHouse;
+            var contents="";
+            for(let index=0;index<minorWareHouse.length;index++){
+              console.log(JSON.stringify(minorWareHouse[index]));
+              let house = minorWareHouse[index];
+              contents+=house.serialNumber+"号仓库:"+house.remainCapacity+"/"+house.capacity+"\n";
+            }
+            markers = markers.concat({
+              id: mainWareHouse[0].id,
+              latitude: mainWareHouse[0].latitude,
+              longitude: mainWareHouse[0].longitude,
+              width: 50,
+              height: 50,
+              iconPath: '/resources/warehouse.png',
+              callout: {
+                content: contents,
+                padding: 10,
+                textAlign: 'center'
+              }
+            });
+            that.setData({markers:markers})
+          }.bind(that),100);
+          
+        }
         that.setData({
-          listData: res.data
+          markers: markers
         })
+        console.log(markers);
+      }
+    });
+  },
+  test:function(event){
+    console.log(event)
+  },
+  showSite:function(){
+    var that=this
+    wx.request({
+      url: 'http://iot.hnu.edu.cn/system/querySiteMapBySiteIdAndStatus',
+      data: { "siteId": -1, "status": -1 },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
         var listData = res.data;
         for (var i = 0; i < listData.length; i++) {
           if (listData[i].status == 0) {
@@ -75,37 +134,9 @@ Page({
           markers: markers
         })
       }
-    })
-    wx.request({
-      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMainWareHouse',
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data)
-        that.setData({
-          listData: res.data
-        })
-        var listData = res.data;
-        for (var i = 0; i < listData.length; i++) {
-          markers = markers.concat({
-            id: listData[i].id,
-            latitude: listData[i].latitude,
-            longitude: listData[i].longitude,
-            width: 50,
-            height: 50,
-            iconPath: '/resources/warehouse.png'
-          });
-        }
-        console.log(markers);
-        that.setData({
-          markers: markers
-        })
-      }
-    })
-    that.getCarData();
-    //that.startSetInter();
-  },
+    });
+  }
+  ,
 
   getCarData: function () {
     var that = this;
@@ -155,7 +186,23 @@ Page({
       that.getCarData();
     }, 5000)
   },
-
+  //查询子智慧泥仓信息
+  queryMinorWareHouse: function (id) {
+    var that = this;
+    var mudHouse;
+    wx.request({
+      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMinorWareHouse',
+      data: {
+        id: id
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        that.setData({minorWareHouse:res.data})
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
