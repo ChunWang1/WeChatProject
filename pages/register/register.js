@@ -1,4 +1,4 @@
-// pages/login/login.js
+// pages/register/register.js
 Page({
 
   /**
@@ -19,7 +19,7 @@ Page({
       wx.showToast({
         title: '用户名不能为空',
         icon: 'none',
-        duration: 2000 ,
+        duration: 2000,
         success: () => console.log('用户名不能为空！')
       })
       return;
@@ -27,7 +27,7 @@ Page({
       wx.showToast({
         title: '密码不能为空',
         icon: 'none',
-        duration: 2000 ,
+        duration: 2000,
         success: () => console.log('密码不能为空！')
       })
       return;
@@ -54,6 +54,11 @@ Page({
               duration: 2000,
             })
           } else {
+            //缓存
+            wx.setStorage({
+              key: "student",
+              data: res.data.student
+            });
             wx.showToast({
               title: "登陆成功",
               icon: 'success',
@@ -61,7 +66,7 @@ Page({
               success: function () {
                 setTimeout(function () {
                   wx.switchTab({
-                    url: '../map/map',
+                    url: '../login/login',
                   })
                 }, 2000)
               }

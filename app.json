@@ -4,7 +4,8 @@
     "pages/map/map",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
-    "pages/warehouse/warehouse"
+    "pages/warehouse/warehouse",
+    "pages/register/register"
   ],
   "window":{
     "backgroundTextStyle":"light",
