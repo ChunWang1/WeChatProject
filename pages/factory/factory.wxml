@@ -2,7 +2,10 @@
 <view class=".container">
 <block wx:for="{{FactoryData}}" wx:key="FactoryData"> 
 <view class="page-head">
-<view class="page-head-title">{{item.site.siteName}} </view>
+<icon class="iconfont icon-gongchang1">
+ </icon>
+
+<view class="page-head-title">{{item.site.siteName}}监控</view>
 <view class="page-head-line"></view>
 </view>
 
@@ -12,16 +15,20 @@
 
 <view class='.button-sp-area'>
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='0'
- data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>上</button>
+ data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+  <icon class="iconfont icon-fangxiang5"></icon>
+ </button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='1'
- data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>下</button>
+ data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang51"></icon></button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='2'
- data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>左</button>
+ data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'><icon class="iconfont icon-fangxiang"></icon></button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='3'
- data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>右</button>
+ data-speed='0' data-deviceserial="{{item.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'><icon class="iconfont icon-fangxiang1">
+ </icon></button>
 </view>
 </block> 
 

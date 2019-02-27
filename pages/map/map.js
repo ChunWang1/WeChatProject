@@ -96,7 +96,8 @@ Page({
               callout: {
                 content: listData[i].siteName + "\n" + listData[i].telephone + "\n" + "状态：正常",
                 padding: 10,
-                textAlign: 'center'
+                textAlign: 'center',
+                color: '#B22222'
               }
             });
           } else if (listData[i].status == 1) {
@@ -110,7 +111,8 @@ Page({
               callout: {
                 content: listData[i].siteName + "\n" + listData[i].telephone + "\n" + "状态：正在处理",
                 padding: 10,
-                textAlign: 'center'
+                textAlign: 'center',
+                color: '#B22222'
               }
             });
           } else {
@@ -124,7 +126,8 @@ Page({
               callout: {
                 content: listData[i].siteName + "\n" + listData[i].telephone + "\n" + "状态：待处理",
                 padding: 10,
-                textAlign: 'center'
+                textAlign: 'center',
+                color: '#B22222'
               }
             });
           }
@@ -203,6 +206,7 @@ Page({
       }
     })
   },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
