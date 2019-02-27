@@ -1,48 +1,14 @@
 /**app.wxss**/
+@import "./utils/iconfont.wxss";
+
 .container {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
+  padding: 100rpx 0;
   box-sizing: border-box;
 } 
-@font-face {
-  font-family: 'iconfont';  /* project id 1057167 */
-  src: url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.eot');
-  src: url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1057167_7kl2z4gljek.svg#iconfont') format('svg');
-}
 
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
-.icon-truck:before {
-  content: "\e608";
-  color: #BEBEBE;
-  font-size: 25px;
-}
-.icon-anniu_jiantoushouqi_o:before {
-  content: "\eb89";
-}
-
-.icon-anniu_jiantouxiangzuo_o:before {
-  content: "\eb8a";
-}
-
-.icon-anniu_jiantouzhankai_o:before {
-  content: "\eb8b";
-}
-
-.icon-anniu-jiantouxiangyou_o:before {
-  content: "\eb8c";
-}
