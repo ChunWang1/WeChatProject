@@ -63,7 +63,7 @@ Page({
                   wx.switchTab({
                     url: '../map/map',
                   })
-                }, 2000)
+                })
               }
             })
           } else if (res.data == "AUDING") {
