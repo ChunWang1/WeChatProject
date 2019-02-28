@@ -10,6 +10,7 @@
   bindcallouttap='test'
   show-location style="width: 100%; height: 500px;">
   </map>
+  </view>
   <view class='bottom_button'>
       <image class='Image' src='../img/menuicon/factorymap.png' bindtap="showmapsite"></image>
       <image class='Image' src='../img/menuicon/treatmentcarmap.png' bindtap="showtreatmentcar"></image>
@@ -120,6 +121,4 @@
     <view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</view>
     <view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</view>
   </view>
-</view>
-
 </view>
