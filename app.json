@@ -1,9 +1,12 @@
 {
   "pages":[
+    "pages/login/login",
     "pages/map/map",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
-    "pages/warehouse/warehouse"
+    "pages/allcardetail/allcardetail",
+    "pages/warehouse/warehouse",
+    "pages/register/register"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -23,8 +26,8 @@
         "selectedIconPath": "pages/img/menuicon/map2.png"
       },
       {
-        "pagePath": "pages/cardetail/cardetail",
-        "text": "车辆详情",
+        "pagePath": "pages/allcardetail/allcardetail",
+        "text": "车辆监控",
         "iconPath": "pages/img/menuicon/car.png",
         "selectedIconPath": "pages/img/menuicon/car2.png"
       },
