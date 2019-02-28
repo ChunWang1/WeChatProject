@@ -7,8 +7,8 @@
   bindmarkertap="markertap"
   polyline="{{polyline}}"
   bindregionchange="regionchange"
-  bindcallouttap='test'
-  show-location style="width: 100%; height: 500px;">
+  bindcallouttap='showDetailOfSiteOrCar'
+  show-location style="width: 100%; height: 800px;">
   </map>
   <view class='bottom_button'>
       <image class='Image' src='../img/menuicon/factorymap.png' bindtap="showmapsite"></image>
