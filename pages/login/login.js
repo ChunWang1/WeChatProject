@@ -47,18 +47,13 @@ Page({
         console.log(res.data);
         if (res.statusCode == 200) {
           //访问正常
-          if (res.data.error == true) {
+          if (res.data == "ERROR") {
             wx.showToast({
-              title: res.data.msg,
+              title: "账号密码不正确，请重新输入",
               icon: 'none',
               duration: 2000,
             })
-          } else {
-            //缓存
-            wx.setStorage({
-              key: "student",
-              data: res.data.student
-            });
+          } else if (res.data == "SUCCESS") {
             wx.showToast({
               title: "登陆成功",
               icon: 'success',
@@ -70,6 +65,18 @@ Page({
                   })
                 })
               }
+            })
+          } else if (res.data == "AUDING") {
+            wx.showToast({
+              title: "正在审核中，请耐心等待",
+              icon: 'none',
+              duration: 2000,
+            })
+          } else if (res.data == "FORBID") {
+            wx.showToast({
+              title: "审核未通过,无法使用系统",
+              icon: 'none',
+              duration: 2000,
             })
           }
         }

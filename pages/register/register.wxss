@@ -1,3 +1,4 @@
+/* pages/register/register.wxss */
 page{ 
  height: 100%; 
 } 

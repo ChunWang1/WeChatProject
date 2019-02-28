@@ -1,3 +1,4 @@
+<!--pages/register/register.wxml-->
 <!--pages/login/login.wxml-->
  <form bindsubmit="formSubmit">
 <view class="container"> 
@@ -20,17 +21,18 @@
   <label class="loginLab">密码</label> 
   <input class="inputText" password="true" placeholder="请输入密码" bindinput="passwordInput" name="pwd" value='' /> 
  </view> 
+  <view class="line"></view> 
+ <!--确认密码-->
+ <view class="inputView"> 
+  <image class="keyImage" src="../img/menuicon/key.png"></image> 
+  <label class="loginLab">确认密码</label> 
+  <input class="inputText" password="true" placeholder="请确认密码" bindinput="passwordInput" name="rpwd" value='' /> 
+ </view> 
   
  <!--按钮-->
     <view class='button'>
-      <button type='primary' form-type='submit'>登录</button>
+      <button type='primary' form-type='submit'>注册</button>
     </view>
-
-    <navigator url="../../pages/register/register">
-
-      <view class='ViewText'>还没有账号？| 注册一个新账号</view>
-
-    </navigator>
  </view> 
 </view>
 </form>

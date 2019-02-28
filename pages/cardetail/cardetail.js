@@ -4,25 +4,22 @@ import * as echarts from '../../ec-canvas/echarts';
 const app = getApp()
 var map={};
 var jsSensorList=[];
+var anqiHistoryData = [2, 1, 1, 1, 2, 1, 1, 1, 1, 3];
+var lhqHistoryData = [4, 3, 2, 1, 1, 2, 1, 2, 1, 2];
+//var Chart=null;
 
-function initChart(canvas, width, height) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  });
-  canvas.setChart(chart);
-
-  var option = {
+function setOption(chart, anqiHistoryData, lhqHistoryData){
+  const  option = {
     title: {
-      text: '历史数据',
+      text: '传感器历史数据',
       left: 'center'
     },
-    color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
+    color: ["#37A2DA", "#9FE6B8"],
     legend: {
-      data: ['A', 'B', 'C'],
-      top: 50,
+      data: ['氨气浓度(PPM)', '硫化氢浓度(PPM)'],
+      top: 25,
       left: 'center',
-      backgroundColor: 'red',
+      backgroundColor: 'white',
       z: 100
     },
     grid: {
@@ -33,42 +30,43 @@ function initChart(canvas, width, height) {
       trigger: 'axis'
     },
     xAxis: {
+      name:"time",
+      nameTextStyle:{fontSize:10},
       type: 'category',
-      boundaryGap: false,
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      // show: false
+     // boundaryGap: false,
+      show: true,
     },
     yAxis: {
       x: 'center',
       type: 'value',
+      axisLabel: { //调整y轴的lable  
+        textStyle: {
+          fontSize: 15 // 让字体变大
+        }
+      },
+/** 
       splitLine: {
         lineStyle: {
           type: 'dashed'
         }
-      }
-      // show: false
+      }*/
+       show: true
     },
     series: [{
-      name: 'A',
+      name: '氨气浓度(PPM)',
       type: 'line',
       smooth: true,
-      data: [18, 36, 65, 30, 78, 40, 33]
+      data: anqiHistoryData
     }, {
-      name: 'B',
+      name: '硫化氢浓度(PPM)',
       type: 'line',
       smooth: true,
-      data: [12, 50, 51, 35, 70, 30, 20]
-    }, {
-      name: 'C',
-      type: 'line',
-      smooth: true,
-      data: [10, 30, 31, 50, 40, 20, 10]
+      data: lhqHistoryData
     }]
   };
-
   chart.setOption(option);
-  return chart;
 }
+
 
 
 Page({
@@ -81,8 +79,9 @@ Page({
     "sensorRealValueMap":{},
 
     ec: {
-      onInit: initChart
-    }
+      lazyLoad:true//延迟加载
+    },
+    timer:''
   },
 
   /**
@@ -96,12 +95,19 @@ Page({
      })
 
     console.log('onLoad')
+    this.echartsComponnet = that.selectComponent('#mychart-dom-line');
+    this.getOption(); //获取数据
+    this.setData({
+      timer:setInterval(function(){
+        that.getOption();
+      },5000)
+    })
     
     /**
      * 获取传感器和监控
      */
     wx.request({
-      url: "http://iot.hnu.edu.cn/monitor/queryVideoAndSensorByCarIdfoForWX",
+      url: "https://www.teamluo.cn/monitor/queryVideoAndSensorByCarIdfoForWX",
       data: { carId: that.data.carId },
       method: 'GET',
       headers: {
@@ -119,12 +125,34 @@ Page({
           that.getRealValue();
         }, 10000);
         //that.getRealValue();
+        
       },
       fail: function (err) {
         console.log(err)
       }
     })
   },
+
+
+  initChart: function (anqiHistoryData, lhqHistoryData) {
+     console.log("initChart")
+    this.echartsComponnet.init((canvas, width, height) => {
+      // 初始化图表
+    const  chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      // Chart.setOption(this.getOption());
+      setOption(chart, anqiHistoryData, lhqHistoryData);
+      this.chart=chart;
+      return chart;
+    }); 
+  },
+getOption:function(){
+  var that=this;
+  that.initChart(anqiHistoryData, lhqHistoryData)
+},
+
 
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
@@ -147,7 +175,7 @@ Page({
     var that=this;
     console.log("getRealValueBySensorId");
     wx.request({
-      url: "http://iot.hnu.edu.cn/sensor/queryRealTimeValue",
+      url: "https://www.teamluo.cn/sensor/queryRealTimeValue",
       data: { sensorId: sensorId },
       method: 'GET',
       headers: {
@@ -181,7 +209,7 @@ Page({
     console.log("queryHistoryData")
     console.log("sensorId:" + sensorId + "  " + "sensorType:" + sensorType)
     wx.request({
-      url: "http://iot.hnu.edu.cn/sensor/queryHistoryData",
+      url: "https://www.teamluo.cn/sensor/queryHistoryData",
       data:JSON.stringify({
         sensorId: sensorId,
         sensorType: sensorType
@@ -191,7 +219,17 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res.data)
+      //  console.log(res.data)
+        if(sensorType==='氨气传感器'){
+          anqiHistoryData=res.data
+          console.log("anqiHistoryData")
+          console.log(anqiHistoryData)
+        } else if (sensorType === '硫化氢传感器'){
+          lhqHistoryData=res.data
+          console.log("lhqHistoryData")
+          console.log(lhqHistoryData)
+        }
+        
       },
       fail: function (err) {
         console.log(err)
@@ -205,7 +243,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
@@ -226,7 +264,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+   clearInterval(this.data.timer)
   },
 
   /**
