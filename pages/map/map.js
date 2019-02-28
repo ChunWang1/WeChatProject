@@ -317,11 +317,43 @@ Page({
    preventTouchMove: function () { }, 
    /**
      * 隐藏模态对话框
-     */ hideModal: function () { this.setData({ showtreatmentcar: false }); }, /**
+     */ hidetreatmentcarModal: function () { this.setData({ showtreatmentcar: false }); }, /**
      * 对话框取消按钮点击事件
-     */ onCancel: function () { this.hideModal(); }, /**
+     */ ontreatmentcarCancel: function () { this.hidetreatmentcarModal(); }, /**
      * 对话框确认按钮点击事件
-     */ onConfirm: function () { this.hideModal(); },
+     */ ontreatmentcarConfirm: function () { this.hidetreatmentcarModal(); },
+
+  //右下角运输车显示模态框
+  showtransportcar: function () {
+    var carList = this.queryMapCar();
+    this.setData({
+      showtransportcar: true
+    })
+  },
+  preventTouchMove: function () { },
+   /**
+     * 隐藏模态对话框
+     */ hidetransportcarModal: function () { this.setData({ showtransportcar: false }); }, /**
+     * 对话框取消按钮点击事件
+     */ ontransportcarCancel: function () { this.hidetransportcarModal(); }, /**
+     * 对话框确认按钮点击事件
+     */ ontransportcarConfirm: function () { this.hidetransportcarModal(); },
+
+  //右下角智慧泥仓显示模态框
+  showwarehouse: function () {
+    var minorWareHouseList = this.queryWareHouse();
+    this.setData({
+      showwarehouse: true
+    })
+  },
+  preventTouchMove: function () { },
+   /**
+     * 隐藏模态对话框
+     */ hidewarehouseModal: function () { this.setData({ showwarehouse: false }); }, /**
+     * 对话框取消按钮点击事件
+     */ onwarehouseCancel: function () { this.hidewarehouseModal(); }, /**
+     * 对话框确认按钮点击事件
+     */ onwarehouseConfirm: function () { this.hidewarehouseModal(); },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
