@@ -8,117 +8,118 @@
   polyline="{{polyline}}"
   bindregionchange="regionchange"
   bindcallouttap='showDetailOfSiteOrCar'
-  show-location style="width: 100%; height: 800px;">
+  show-location 
+  style="width: 100%; height: 800px;">
   </map>
   </view>
-  <view class='bottom_button'>
-      <image class='Image' src='../img/menuicon/factorymap.png' bindtap="showmapsite"></image>
-      <image class='Image' src='../img/menuicon/treatmentcarmap.png' bindtap="showtreatmentcar"></image>
-      <image class='Image' src='../img/menuicon/transportcarmap.png' bindtap="showtransportcar"></image>
-      <image class='Image' src='../img/menuicon/warehousemap.png' bindtap="showwarehouse"></image>
-  </view>
+  <cover-view class='bottom_Image'>
+      <cover-image class='Image' src='../img/menuicon/factorymap.png' bindtap="showmapsite"></cover-image>
+      <cover-image class='Image' src='../img/menuicon/treatmentcarmap.png' bindtap="showtreatmentcar"></cover-image>
+      <cover-image class='Image' src='../img/menuicon/transportcarmap.png' bindtap="showtransportcar"></cover-image>
+      <cover-image class='Image' src='../img/menuicon/warehousemap.png' bindtap="showwarehouse"></cover-image>
+  </cover-view>
   <!--站点弹窗-->
-<view class="modal-mask"  bindtap="hideMapSite" catchtouchmove="preventTouchMove" wx:if="{{showMapSite}}"></view>
-<view class="modal-dialog" wx:if="{{showMapSite}}">
-  <view class="modal-title">站点信息</view>
-  <view class="modal-content">
-    <view class="table">
-     <view class="tr">
-    <view class="th">编号</view>
-    <view class="th">站点</view>
-    <view class="th ">状态</view>
-  </view>
+<cover-view class="modal-mask"  bindtap="hideMapSite" catchtouchmove="preventTouchMove" wx:if="{{showMapSite}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showMapSite}}">
+  <cover-view class="modal-title">站点信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">编号</cover-view>
+    <cover-view class="th">站点</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
     <block  wx:for="{{siteList}}" wx:for-item="site">
-      <view class="tr">
-        <view class="td">{{site.serialNumber}}</view>
-        <view class="td">{{site.siteName}}</view>
-        <view class="td">{{site.status}}</view>
-      </view>
+      <cover-view class="tr">
+        <cover-view class="td">{{site.serialNumber}}</cover-view>
+        <cover-view class="td">{{site.siteName}}</cover-view>
+        <cover-view class="td">{{site.status}}</cover-view>
+      </cover-view>
   </block>
-    </view>
-  </view>
-  <view class="modal-footer">
-    <view class="btn-cancel" bindtap="onSiteCancel" data-status="cancel">取消</view>
-    <view class="btn-confirm" bindtap="onSiteConfirm" data-status="confirm">确定</view>
-  </view>
-</view>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="onSiteCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="onSiteConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
 
   <!--处理车弹窗-->
-<view class="modal-mask"  bindtap="hidetreatmentcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtreatmentcar}}"></view>
-<view class="modal-dialog" wx:if="{{showtreatmentcar}}">
-  <view class="modal-title">处理车信息</view>
-  <view class="modal-content">
-    <view class="table">
-     <view class="tr">
-    <view class="th">处理车牌号</view>
-    <view class="th">目的地</view>
-    <view class="th ">状态</view>
-  </view>
+<cover-view class="modal-mask"  bindtap="hidetreatmentcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtreatmentcar}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showtreatmentcar}}">
+  <cover-view class="modal-title">处理车信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">处理车牌号</cover-view>
+    <cover-view class="th">目的地</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
     <block  wx:for="{{carList}}" wx:for-item="car">
-      <view class="tr" wx:if="{{car.carType==0}}">
-        <view class="td">{{car.license}}</view>
-        <view class="td">{{car.site.siteName}}</view>
-        <view class="td">{{car.status}}</view>
-      </view>
+      <cover-view class="tr" wx:if="{{car.carType==0}}">
+        <cover-view class="td">{{car.license}}</cover-view>
+        <cover-view class="td">{{car.site.siteName}}</cover-view>
+        <cover-view class="td">{{car.status}}</cover-view>
+      </cover-view>
   </block>
-    </view>
-  </view>
-  <view class="modal-footer">
-    <view class="btn-cancel" bindtap="ontreatmentcarCancel" data-status="cancel">取消</view>
-    <view class="btn-confirm" bindtap="ontreatmentcarConfirm" data-status="confirm">确定</view>
-  </view>
-</view>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="ontreatmentcarCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="ontreatmentcarConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
 
   <!--运输车弹窗-->
-<view class="modal-mask"  bindtap="hidetransportcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtransportcar}}"></view>
-<view class="modal-dialog" wx:if="{{showtransportcar}}">
-  <view class="modal-title">运输车信息</view>
-  <view class="modal-content">
-    <view class="table">
-     <view class="tr">
-    <view class="th">处理车牌号</view>
-    <view class="th">目的地</view>
-    <view class="th ">状态</view>
-  </view>
+<cover-view class="modal-mask"  bindtap="hidetransportcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtransportcar}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showtransportcar}}">
+  <cover-view class="modal-title">运输车信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">处理车牌号</cover-view>
+    <cover-view class="th">目的地</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
     <block  wx:for="{{carList}}" wx:for-item="car">
-      <view class="tr" wx:if="{{car.carType==1}}">
-        <view class="td">{{car.license}}</view>
-        <view class="td">{{car.site.siteName}}</view>
-        <view class="td">{{car.status}}</view>
-      </view>
+      <cover-view class="tr" wx:if="{{car.carType==1}}">
+        <cover-view class="td">{{car.license}}</cover-view>
+        <cover-view class="td">{{car.site.siteName}}</cover-view>
+        <cover-view class="td">{{car.status}}</cover-view>
+      </cover-view>
   </block>
-    </view>
-  </view>
-  <view class="modal-footer">
-    <view class="btn-cancel" bindtap="ontransportcarCancel" data-status="cancel">取消</view>
-    <view class="btn-confirm" bindtap="ontransportcarConfirm" data-status="confirm">确定</view>
-  </view>
-</view>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="ontransportcarCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="ontransportcarConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
 
   <!--智慧泥仓弹窗-->
-<view class="modal-mask"  bindtap="hidewarehouseModal" catchtouchmove="preventTouchMove" wx:if="{{showwarehouse}}"></view>
-<view class="modal-dialog" wx:if="{{showwarehouse}}">
-  <view class="modal-title">智慧泥仓信息</view>
-  <view class="modal-content">
-    <view class="table">
-     <view class="tr">
-    <view class="th">子仓</view>
-    <view class="th">存储量</view>
-    <view class="th ">剩余容量</view>
-    <view class="th ">总容量</view>
-  </view>
+<cover-view class="modal-mask"  bindtap="hidewarehouseModal" catchtouchmove="preventTouchMove" wx:if="{{showwarehouse}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showwarehouse}}">
+  <cover-view class="modal-title">智慧泥仓信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">子仓</cover-view>
+    <cover-view class="th">存储量</cover-view>
+    <cover-view class="th ">剩余容量</cover-view>
+    <cover-view class="th ">总容量</cover-view>
+  </cover-view>
     <block  wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse">
-      <view class="tr">
-        <view class="td">{{minorWareHouse.serialNumber}}</view>
-        <view class="td">{{minorWareHouse.moistrueDegree*100}}%</view>
-        <view class="td">{{minorWareHouse.remainCapacity}}</view>
-        <view class="td">{{minorWareHouse.capacity}}</view>
-      </view>
+      <cover-view class="tr">
+        <cover-view class="td">{{minorWareHouse.serialNumber}}</cover-view>
+        <cover-view class="td">{{minorWareHouse.moistrueDegree*100}}%</cover-view>
+        <cover-view class="td">{{minorWareHouse.remainCapacity}}</cover-view>
+        <cover-view class="td">{{minorWareHouse.capacity}}</cover-view>
+      </cover-view>
   </block>
-    </view>
-  </view>
-  <view class="modal-footer">
-    <view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</view>
-    <view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</view>
-  </view>
-</view>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
