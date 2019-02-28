@@ -19,11 +19,12 @@
   display: inline-block;
   padding: 0 40rpx 20rpx 40rpx;
   font-size: 36rpx;
-  color: #BEBEBE;
+  color: #1c2438;
 }
 .page-head-line{
   margin: 0 auto;
-  width: 150rpx;
+  width: 200rpx;
   height: 2rpx;
-  background-color: #D8D8D8;
+  background-color: #BEBEBE;
 }
+

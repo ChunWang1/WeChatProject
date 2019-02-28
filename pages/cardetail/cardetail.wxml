@@ -3,6 +3,7 @@
 <block  wx:if="{{videoData!=null}}"> 
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
+
 <view class="page-head-title">污泥处理车监控</view>
 <view class="page-head-line"></view>
 </view>
@@ -12,16 +13,26 @@
 <view class='.button-sp-area'>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='0'
- data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>上</button>
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang5"></icon>
+ </button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='1'
- data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>下</button>
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang51"></icon>
+ </button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='2'
- data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>左</button>
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang"></icon>
+ </button>
 
 <button class=".mini-btn" bindtouchstart='startPtz' data-direction='3'
- data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>右</button>
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang1">
+ </icon>
+ </button>
+ 
 </view>
 </block> 
 </view>
@@ -30,27 +41,83 @@
 <block wx:for="{{sensorList}}" wx:key="id"  >
 
 <view class='.page-head'>
-<i-icon type="integral_fill" size='25' color='#BEBEBE'/>
+<i-icon type="integral" size='30' color='#70DB93'/>
 <view class='.page-head-title'>{{item.sensorType.type}}</view>
 <view class=".page-head-line"></view>
 </view>
 
 <i-cell-group>
-    <i-cell title="编号:" value="{{item.serialNumber}}"></i-cell>
-    <i-cell title="监测状态:" >
-    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 正常</i-tag>
-    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <i-cell title="编号:" value="{{item.serialNumber}}">
+    <icon class="iconfont icon-bianhao" slot="icon" ></icon>
     </i-cell>
+    
+
+    <view wx:if="{{item.typeId==1||item.typeId==5}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=40&&sensorRealValueMap[item.id].value2>=30&&sensorRealValueMap[item.id].value2<=80}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="温度(℃):"  value="{{sensorRealValueMap[item.id].value1}}" > <icon class="iconfont icon-thermometer_icon" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="湿度(%):"  value="{{sensorRealValueMap[item.id].value2}}" > <icon class="iconfont icon-shidu" slot="icon" ></icon>
+    </i-cell>
+    </view>
+
+    <view wx:if="{{item.typeId==3}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=8&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="氨气浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+
+ <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="/pages/cardetail/historydata">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+
+<view >
+ <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas>
+</view>
+
+    </view>
+
+    <view wx:if="{{item.typeId==4}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=10&&sensorRealValueMap[item.id].value1>0}}"  slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="硫化氢浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+
+ <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="#">
+    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
+    </i-cell>
+
+<view >
+ <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas>
+</view>
+
+
+    </view>
+<!--
     <i-cell wx:if="{{item.typeId==1||item.typeId==5}}" title="实时数据:"  value="{{sensorRealValueMap[item.id].value1}} {{sensorRealValueMap[item.id].value2}}" >
     </i-cell>
     <i-cell wx:if="{{item.typeId==2||item.typeId==3||item.typeId==4}}" title="实时数据:"  value="{{sensorRealValueMap[item.id].value1}}" > 
     </i-cell>
-    <i-cell  title="历史数据" is-link url="#">
+
+
+    <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="#">
     <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
     </i-cell>
+    -->
     <i-cell></i-cell>
 </i-cell-group>
 </block>
-<view>{{sensorRealValueMap.A30002}}</view>
+<!-- <view>{{sensorRealValueMap.A30002}}</view>
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
+<i-load-more loading="{{ false }}" /> -->

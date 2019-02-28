@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/login/login",
     "pages/map/map",
+    "pages/login/login",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
     "pages/warehouse/warehouse"
@@ -22,12 +22,6 @@
         "text": "首页",
         "iconPath": "pages/img/menuicon/map.png",
         "selectedIconPath": "pages/img/menuicon/map2.png"
-      },
-      {
-        "pagePath": "pages/cardetail/cardetail",
-        "text": "车辆详情",
-        "iconPath": "pages/img/menuicon/car.png",
-        "selectedIconPath": "pages/img/menuicon/car2.png"
       },
       {
         "pagePath": "pages/factory/factory",

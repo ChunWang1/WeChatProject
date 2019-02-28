@@ -68,7 +68,7 @@ Page({
                   wx.switchTab({
                     url: '../map/map',
                   })
-                }, 2000)
+                })
               }
             })
           }
