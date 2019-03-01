@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/login/login",
     "pages/map/map",
+    "pages/login/login",
     "pages/factory/factory",
     "pages/cardetail/cardetail",
     "pages/allcardetail/allcardetail",
@@ -26,7 +26,7 @@
         "selectedIconPath": "pages/img/menuicon/map2.png"
       },
       {
-        "pagePath": "pages/allcardetail/allcardetail",
+        "pagePath": "pages/cardetail/cardetail",
         "text": "车辆监控",
         "iconPath": "pages/img/menuicon/car.png",
         "selectedIconPath": "pages/img/menuicon/car2.png"

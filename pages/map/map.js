@@ -27,7 +27,7 @@ Page({
   showWareHouse:function(){
     var that=this
     wx.request({
-      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMainWareHouse',
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMainWareHouse',
       header: {
         'content-type': 'application/json'
       },
@@ -76,7 +76,7 @@ Page({
   showSite:function(){
     var that=this
     wx.request({
-      url: 'http://iot.hnu.edu.cn/system/querySiteMapBySiteIdAndStatus',
+      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus',
       data: { "siteId": -1, "status": -1 },
       header: {
         'content-type': 'application/json'
@@ -144,7 +144,7 @@ Page({
   getCarData: function () {
     var that = this;
     wx.request({
-      url: 'http://iot.hnu.edu.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
+      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
       header: {
         'content-type': 'application/json'
       },
@@ -194,7 +194,7 @@ Page({
     var that = this;
     var mudHouse;
     wx.request({
-      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMinorWareHouse',
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
       data: {
         id: id
       },
@@ -211,7 +211,7 @@ Page({
     var that = this;
     var carList;
     wx.request({
-      url: 'http://iot.hnu.edu.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
+      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
       header: {
         'content-type': 'application/json'
       },
@@ -255,7 +255,7 @@ Page({
     var that = this;
     var minorWareHouseList;
     wx.request({
-      url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMinorWareHouse',
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
       header: {
         'content-type': 'application/json'
       },
@@ -275,7 +275,7 @@ Page({
   queryMapSite: function (callback) {
     var thit = this
     wx.request({
-      url: 'http://iot.hnu.edu.cn/system/querySiteMapBySiteIdAndStatus?siteId=-1&status=-1',
+      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus?siteId=-1&status=-1',
       header: {
         'content-type': 'application/json'
       },

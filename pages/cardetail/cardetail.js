@@ -74,7 +74,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    carId: 68,
+    carId: 33,
+    site_id:53,
     "sensorList": [],
     "sensorRealValueMap":{},
 
@@ -90,7 +91,8 @@ Page({
   onLoad: function (options) {
     var that = this
     /* that.setData({
-       carId: options.carId//获取从上一个页面的carid
+       carId: options.id//获取从上一个页面的carid
+       site_id:options.site_id//获取从上一个页面的车的site_id
      })*/
     
     console.log('onLoad')
@@ -102,6 +104,7 @@ Page({
       },5000)
     })
     
+    this.queryAllSite();
     /**
      * 获取传感器和监控
      */
@@ -132,11 +135,11 @@ Page({
     })
   },
 
-
+// 初始化图表
   initChart: function (anqiHistoryData, lhqHistoryData) {
      console.log("initChart")
     this.echartsComponnet.init((canvas, width, height) => {
-      // 初始化图表
+      
     const  chart = echarts.init(canvas, null, {
         width: width,
         height: height
@@ -152,7 +155,32 @@ getOption:function(){
   that.initChart(anqiHistoryData, lhqHistoryData)
 },
 
+/**
+ * 查询站点信息
+ */
+  queryAllSite:function(){
+      var that=this;
+    console.log("queryAllSite")
+    wx.request({
+      url: "https://www.teamluo.cn/system/queryAllSite",
+      data: {  },
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
 
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          siteData:res.data 
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+
+  },
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
     var that=this;
