@@ -34,7 +34,7 @@ Page({
     }
 
     wx.request({
-      url: "http://iot.hnu.edu.cn/user/loginValidator",
+      url: "https://www.teamluo.cn/user/loginValidator",
       data: JSON.stringify({
         username: e.detail.value.no,
         password: e.detail.value.pwd

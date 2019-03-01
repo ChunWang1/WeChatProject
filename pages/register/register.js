@@ -51,7 +51,7 @@ Page({
     }
 
     wx.request({
-      url: "http://iot.hnu.edu.cn/user/register",
+      url: "https://www.teamluo.cn/user/register",
       data: JSON.stringify({
         username: e.detail.value.no,
         password: e.detail.value.pwd,

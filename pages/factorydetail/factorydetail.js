@@ -19,7 +19,7 @@ Page({
       siteId: options.siteId//获取从上一个页面的siteId
     })
     wx.request({
-      url: 'http://iot.hnu.edu.cn/monitor/queryFactoryVideoBySiteIdforWX?siteId=' + options.siteId,
+      url: 'https://www.teamluo.cn/monitor/queryFactoryVideoBySiteIdforWX?siteId=' + options.siteId,
       header: {
         'content-type': 'application/json'
       },

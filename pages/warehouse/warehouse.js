@@ -91,7 +91,7 @@ Page({
   onLoad: function (options) {
     var thit = this
       wx.request({
-        url: 'http://iot.hnu.edu.cn/mudWareHouse/queryMinorWareHouse',  //服务器地址
+        url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',  //服务器地址
         method: 'GET',
         header: {
           'content-type': 'application/json' //默认值
@@ -118,7 +118,7 @@ Page({
   queryrecord: function(callback) {
     var thit = this
     wx.request({
-      url: "http://iot.hnu.edu.cn/record/queryAllRecord",
+      url: "https://www.teamluo.cn/record/queryAllRecord",
       method: 'GET',
       header: {
         // "Content-Type":"application/json"
@@ -138,7 +138,7 @@ Page({
   querysludge:function(callback){
     var thit = this
     wx.request({
-      url:"http://iot.hnu.edu.cn/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
+      url:"https://www.teamluo.cn/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
       data: JSON.stringify({
         inOutFlag:3,
         minorWareHouseId:0
