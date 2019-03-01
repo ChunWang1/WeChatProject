@@ -30,7 +30,7 @@
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{siteList}}" wx:for-item="site">
-      <cover-view class="tr" bindtap="showdetailofsite">
+      <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}'>
         <cover-view class="td">{{site.serialNumber}}</cover-view>
         <cover-view class="td">{{site.siteName}}</cover-view>
         <cover-view class="td" wx:if="{{site.status==0}}">正常</cover-view>
@@ -59,8 +59,7 @@
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{carList}}" wx:for-item="car">
-      <cover-view class="tr" bindtap="showdetailoftreatmentcar" wx:if="{{car.carType==0}}">
-        <cover-view class="td" name="carId">{{car.id}}</cover-view> 
+      <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-id='{{car.id}}' wx:if="{{car.carType==0}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
         <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>

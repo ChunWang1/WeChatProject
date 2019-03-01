@@ -312,13 +312,17 @@ Page({
     });
   },
   showdetailofsite:function(event){
+    var id = event.currentTarget.dataset.id
+    console.log(id)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=68',
+      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
     });
   },
   showdetailoftreatmentcar: function (event) {
+    var id = event.currentTarget.dataset.id
+    console.log(id)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=68',
+      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.id,
     });
   },
 
