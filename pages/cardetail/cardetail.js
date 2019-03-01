@@ -90,11 +90,12 @@ Page({
    */
   onLoad: function (options) {
     var that = this
-    /* that.setData({
-       carId: options.id//获取从上一个页面的carid
-       site_id:options.site_id//获取从上一个页面的车的site_id
-     })*/
-    
+
+    console.log(JSON.stringify(options))
+    that.setData({
+       carId: options.carId//获取从上一个页面的carid
+     })
+
     console.log('onLoad')
     this.echartsComponnet = that.selectComponent('#mychart-dom-line');
     this.getOption(); //获取数据
