@@ -35,14 +35,12 @@
 </view>
 </block> 
 
-<block  wx:for="{{siteData}}" wx:key="id" wx:if="{{item.id==site_id}}">
+<block  wx:for="{{siteData}}" wx:key="id" wx:if="{{item.id==siteId}}">
 <i-cell title="车辆当前位置>>" value="{{item.siteName}}">
 <icon class="iconfont icon-fangxiang1" slot="icon">
  </icon>
 </i-cell>
 </block>
-
-
 </view>
 
 <!--循环json取出数据-->

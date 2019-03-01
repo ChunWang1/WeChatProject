@@ -38,10 +38,10 @@ Page({
 
   },
   showdetailoftreatmentcar: function (event) {
-    var id = event.currentTarget.dataset.id
+    var id = event.currentTarget.dataset.carid
     console.log(id)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.id,
+      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid+'&siteId=' + event.currentTarget.dataset.siteid,
     });
   },
   /**
