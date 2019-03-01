@@ -3,7 +3,7 @@
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
 
-<view class="page-head-title">ÎŰÄŕ´ŚŔíłľźŕżŘ</view>
+<view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
 <i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}">
