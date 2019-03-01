@@ -38,7 +38,7 @@
 </view>
 
 <!--循环json取出数据-->
-<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==5||item.typeId==3||item.typeId==4}}">
+<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==2||item.typeId==5||item.typeId==3||item.typeId==4}}">
 
 <view class='.page-head'>
 <i-icon type="integral" size='30' color='#70DB93'/>
