@@ -184,7 +184,6 @@ getOption:function(){
     })
   },
 
-  },
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
     var that=this;
