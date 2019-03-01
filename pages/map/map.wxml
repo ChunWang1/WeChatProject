@@ -58,7 +58,7 @@
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{carList}}" wx:for-item="car">
-      <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-id='{{car.id}}' wx:if="{{car.carType==0}}">
+      <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}' wx:if="{{car.carType==0}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
         <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>

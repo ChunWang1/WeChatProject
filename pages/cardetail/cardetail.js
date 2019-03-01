@@ -75,6 +75,7 @@ Page({
    */
   data: {
     carId: 68,
+    siteId:53,
     "sensorList": [],
     "sensorRealValueMap":{},
 
@@ -91,7 +92,8 @@ Page({
     var that = this
     console.log(JSON.stringify(options))
     that.setData({
-       carId: options.carId//获取从上一个页面的carid
+       carId: options.carId,//获取从上一个页面的carid
+      siteId: options.siteId//获取从上一个页面的siteId
      })
 
     console.log('onLoad')
@@ -102,7 +104,7 @@ Page({
         that.getOption();
       },5000)
     })
-    
+    this.queryAllSite(); 
     /**
      * 获取传感器和监控
      */
@@ -153,6 +155,31 @@ getOption:function(){
   that.initChart(anqiHistoryData, lhqHistoryData)
 },
 
+  /**
+  * 查询站点信息
+  */
+  queryAllSite: function () {
+    var that = this;
+    console.log("queryAllSite")
+    wx.request({
+      url: "https://www.teamluo.cn/system/queryAllSite",
+      data: {},
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
+
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          siteData: res.data
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
 
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {

@@ -313,10 +313,11 @@ Page({
     });
   },
   showdetailoftreatmentcar: function (event) {
-    var id = event.currentTarget.dataset.id
-    console.log(id)
+    var carid = event.currentTarget.dataset.carid
+    console.log(carid)
+    console.log(event.currentTarget.dataset.siteid)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.id,
+      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid+'&siteId='+event.currentTarget.dataset.siteid,
     });
   },
 
