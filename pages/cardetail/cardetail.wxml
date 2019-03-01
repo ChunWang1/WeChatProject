@@ -44,7 +44,7 @@
 </view>
 
 <!--循环json取出数据-->
-<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==2||item.typeId==5||item.typeId==3||item.typeId==4}}">
+<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==5||item.typeId==3||item.typeId==4}}">
 
 <view class='.page-head'>
 <i-icon type="integral" size='30' color='#70DB93'/>
@@ -69,17 +69,6 @@
     <i-cell  title="湿度(%):"  value="{{sensorRealValueMap[item.id].value2}}" > <icon class="iconfont icon-shidu" slot="icon" ></icon>
     </i-cell>
     </view>
-
-    <view wx:if="{{item.typeId==2}}">
-    <i-cell title="监测状态:" >
-    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=8&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
-    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
-    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
-    </i-cell>
-    <i-cell  title="距离(m):"  value="{{sensorRealValueMap[item.id].value1}}" > 
-    <icon class="iconfont icon-shuju" slot="icon" ></icon>
-    </i-cell>
-     </view>
 
     <view wx:if="{{item.typeId==3}}">
     <i-cell title="监测状态:" >

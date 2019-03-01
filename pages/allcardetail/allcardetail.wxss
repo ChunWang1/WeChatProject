@@ -1,17 +1,1 @@
 /* pages/allcardetail/allcardetail.wxss */
-.page-head{
-  padding: 10rpx 10rpx 30rpx;
-  text-align: center;
-}
-.page-head-title{
-  display: inline-block;
-  padding: 0 40rpx 20rpx 40rpx;
-  font-size: 36rpx;
-  color: #1c2438;
-}
-.page-head-line{
-  margin: 0 auto;
-  width: 500rpx;
-  height: 2rpx;
-  background-color: #BEBEBE;
-}
