@@ -32,9 +32,17 @@
  <icon class="iconfont icon-fangxiang1">
  </icon>
  </button>
- 
 </view>
 </block> 
+
+<block  wx:for="{{siteData}}" wx:key="id" wx:if="{{item.id==site_id}}">
+<i-cell title="车辆当前位置>>" value="{{item.siteName}}">
+<icon class="iconfont icon-fangxiang1" slot="icon">
+ </icon>
+</i-cell>
+</block>
+
+
 </view>
 
 <!--循环json取出数据-->
@@ -122,7 +130,8 @@
 <view style="width:100%;height:400px;">
   <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas></view>
 
-<view>{{sensorRealValueMap.A30002}}</view>
+
+
 
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
