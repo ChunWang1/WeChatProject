@@ -12,24 +12,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //查询车辆信息
-      var that = this;
-      var carList;
-      wx.request({
-        url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          console.log(res.data)
-          that.setData({
-            carList: res.data
-          })
-          return
-        }
-      })
+
   },
- 
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -37,13 +21,7 @@ Page({
   onReady: function () {
 
   },
-  showdetailoftreatmentcar: function (event) {
-    var id = event.currentTarget.dataset.id
-    console.log(id)
-    wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.id,
-    });
-  },
+
   /**
    * 生命周期函数--监听页面显示
    */

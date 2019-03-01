@@ -14,7 +14,7 @@ Page({
   onLoad: function (options) {
     var that = this
     wx.request({
-      url: 'https://www.teamluo.cn/monitor/queryAllFactoryVideo',
+      url: 'http://iot.hnu.edu.cn/monitor/queryAllFactoryVideo',
       data: {},
       method: 'GET',
       headers: {

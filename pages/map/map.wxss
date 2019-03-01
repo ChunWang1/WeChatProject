@@ -11,7 +11,7 @@ font-size: 30rpx;
 
 }
 
-.bottom_Image {
+.bottom_button {
 	position: absolute;
 	right: 2px;
 	bottom: 0px;
@@ -19,7 +19,6 @@ font-size: 30rpx;
 
 .Image { 
  margin-left: 22px; 
- margin-top: 15px;
  width: 25px; 
  height: 25px
 } 
