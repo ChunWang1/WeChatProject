@@ -30,10 +30,12 @@
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{siteList}}" wx:for-item="site">
-      <cover-view class="tr">
+      <cover-view class="tr" bindtap="showdetailofsite">
         <cover-view class="td">{{site.serialNumber}}</cover-view>
         <cover-view class="td">{{site.siteName}}</cover-view>
-        <cover-view class="td">{{site.status}}</cover-view>
+        <cover-view class="td" wx:if="{{site.status==0}}">正常</cover-view>
+        <cover-view class="td" wx:elif="{{site.status==1}}">处理中</cover-view>
+        <cover-view class="td" wx:elif="{{site.status==2}}">待处理</cover-view>
       </cover-view>
   </block>
     </cover-view>
@@ -51,15 +53,21 @@
   <cover-view class="modal-content">
     <cover-view class="table">
      <cover-view class="tr">
+     <cover-view class="th">序号</cover-view>
     <cover-view class="th">处理车牌号</cover-view>
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{carList}}" wx:for-item="car">
-      <cover-view class="tr" wx:if="{{car.carType==0}}">
+      <cover-view class="tr" bindtap="showdetailoftreatmentcar" wx:if="{{car.carType==0}}">
+        <cover-view class="td" name="carId">{{car.id}}</cover-view> 
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
-        <cover-view class="td">{{car.status}}</cover-view>
+        <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==1}}">在途中</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==2}}">已到达</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==3}}">已派单(未出发)</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==4}}">返程</cover-view>
       </cover-view>
   </block>
     </cover-view>
@@ -85,7 +93,11 @@
       <cover-view class="tr" wx:if="{{car.carType==1}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
-        <cover-view class="td">{{car.status}}</cover-view>
+        <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==1}}">在途中</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==2}}">已到达</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==3}}">已派单(未出发)</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==4}}">返程</cover-view>
       </cover-view>
   </block>
     </cover-view>

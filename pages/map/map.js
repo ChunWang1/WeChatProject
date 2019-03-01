@@ -311,6 +311,16 @@ Page({
       url: '../cardetail/cardetail?carId=68',
     });
   },
+  showdetailofsite:function(event){
+    wx.navigateTo({
+      url: '../cardetail/cardetail?carId=68',
+    });
+  },
+  showdetailoftreatmentcar: function (event) {
+    wx.navigateTo({
+      url: '../cardetail/cardetail?carId=68',
+    });
+  },
 
   startSetInter: function () {
     var that = this;
