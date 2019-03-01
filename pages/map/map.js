@@ -23,9 +23,6 @@ Page({
     // setInterval(function(){
     //   that.showMap()
     // },5000)
-    setTimeout(function(){
-      console.log(JSON.stringify(markers))
-    },2000)
   },
   showMap:function(){
     var that=this;
@@ -308,11 +305,18 @@ Page({
       }
     })
   },
-
-  showDetailOfSiteOrCar: function (event) {
-    console.log(event)
+  showdetailofsite:function(event){
+    var id = event.currentTarget.dataset.id
+    console.log(id)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=68',
+      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
+    });
+  },
+  showdetailoftreatmentcar: function (event) {
+    var id = event.currentTarget.dataset.id
+    console.log(id)
+    wx.navigateTo({
+      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.id,
     });
   },
 
