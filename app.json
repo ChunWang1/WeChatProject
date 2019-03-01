@@ -3,6 +3,7 @@
     "pages/map/map",
     "pages/login/login",
     "pages/factory/factory",
+    "pages/factorydetail/factorydetail",
     "pages/cardetail/cardetail",
     "pages/allcardetail/allcardetail",
     "pages/warehouse/warehouse",

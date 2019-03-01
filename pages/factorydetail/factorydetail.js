@@ -1,4 +1,4 @@
-// pages/factoryMonitor/factoryMonitor.js
+// pages/factorydetail/factorydetail.js
 const app = getApp()
 Page({
 
@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+
   },
 
   /**
@@ -13,25 +14,26 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+    console.log(JSON.stringify(options))
+    that.setData({
+      siteId: options.siteId//获取从上一个页面的siteId
+    })
     wx.request({
-      url: 'https://www.teamluo.cn/monitor/queryAllFactoryVideo',
-      data: {},
-      method: 'GET',
-      headers: {
+      url: 'http://iot.hnu.edu.cn/monitor/queryFactoryVideoBySiteIdforWX?siteId=' + options.siteId,
+      header: {
         'content-type': 'application/json'
       },
       success: function (res) {
         console.log(res.data)
         that.setData({
-          FactoryData: res.data,
-        })
+          video: res.data
+        });
       },
       fail: function (err) {
         console.log(err)
       }
     })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -76,6 +76,7 @@ Page({
   data: {
     carId: 68,
     siteId:53,
+
     "sensorList": [],
     "sensorRealValueMap":{},
 
@@ -90,6 +91,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+
     console.log(JSON.stringify(options))
     that.setData({
        carId: options.carId,//获取从上一个页面的carid
@@ -105,6 +107,7 @@ Page({
       },5000)
     })
     this.queryAllSite(); 
+
     /**
      * 获取传感器和监控
      */
@@ -135,11 +138,11 @@ Page({
     })
   },
 
-
+// 初始化图表
   initChart: function (anqiHistoryData, lhqHistoryData) {
      console.log("initChart")
     this.echartsComponnet.init((canvas, width, height) => {
-      // 初始化图表
+      
     const  chart = echarts.init(canvas, null, {
         width: width,
         height: height
@@ -181,6 +184,7 @@ getOption:function(){
     })
   },
 
+  },
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
     var that=this;
