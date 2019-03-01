@@ -23,6 +23,9 @@ Page({
     // setInterval(function(){
     //   that.showMap()
     // },5000)
+    setTimeout(function(){
+      console.log(JSON.stringify(markers))
+    },2000)
   },
   showMap:function(){
     var that=this;
@@ -307,6 +310,7 @@ Page({
   },
 
   showDetailOfSiteOrCar: function (event) {
+    console.log(event)
     wx.navigateTo({
       url: '../cardetail/cardetail?carId=68',
     });
