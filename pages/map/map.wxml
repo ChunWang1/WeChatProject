@@ -53,7 +53,6 @@
   <cover-view class="modal-content">
     <cover-view class="table">
      <cover-view class="tr">
-     <cover-view class="th">序号</cover-view>
     <cover-view class="th">处理车牌号</cover-view>
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>

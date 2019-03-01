@@ -305,12 +305,6 @@ Page({
       }
     })
   },
-
-  showDetailOfSiteOrCar: function (event) {
-    wx.navigateTo({
-      url: '../cardetail/cardetail?carId=68',
-    });
-  },
   showdetailofsite:function(event){
     var id = event.currentTarget.dataset.id
     console.log(id)
