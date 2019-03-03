@@ -203,7 +203,7 @@ Page({
   flushSiteIconAndCallOutContent: function() {
     var that = this;
     wx.request({
-      url: 'http://iot.hnu.edu.cn/system/querySiteStatus',
+      url: 'https://www.teamluo.cn/system/querySiteStatus',
       method: "GET",
       header: {
         'content-type': 'application/json'
@@ -301,8 +301,6 @@ Page({
       success(res){
         var roadCar=res.data;
         roadCarOld=roadCar;
-        longitude-=0.004;
-			  latitude-=0.004;
         for (var i = 0; i < roadCar.length; i++) {
           var car = roadCar[i];
           var iconPath = '';
@@ -327,8 +325,8 @@ Page({
             markers = markers.concat({
               id: car.id,
               title:"car",
-              latitude: latitude,
-              longitude: longitude,
+              latitude: car.latitude,
+              longitude: car.longitude,
               width: 25,
               height: 25,
               callout: {
