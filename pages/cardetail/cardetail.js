@@ -1,73 +1,7 @@
 // pages/cardetail/cardetail.js
-import * as echarts from '../../ec-canvas/echarts';
-
 const app = getApp()
-var map={};
-var jsSensorList=[];
-var anqiHistoryData = [];
-var lhqHistoryData = [];
-//var Chart=null;
-
-function setOption(chart, anqiHistoryData, lhqHistoryData){
-  const  option = {
-    title: {
-      text: '传感器历史数据',
-      left: 'center'
-    },
-    color: ["#37A2DA", "#9FE6B8"],
-    legend: {
-      data: ['氨气浓度(PPM)', '硫化氢浓度(PPM)'],
-      top: 25,
-      left: 'center',
-      backgroundColor: 'white',
-      z: 100
-    },
-    grid: {
-      containLabel: true
-    },
-    tooltip: {
-      show: true,
-      trigger: 'axis'
-    },
-    xAxis: {
-      name:"time",
-      nameTextStyle:{fontSize:10},
-      type: 'category',
-     // boundaryGap: false,
-      show: true,
-    },
-    yAxis: {
-      x: 'center',
-      type: 'value',
-      axisLabel: { //调整y轴的lable  
-        textStyle: {
-          fontSize: 15 // 让字体变大
-        }
-      },
-/** 
-      splitLine: {
-        lineStyle: {
-          type: 'dashed'
-        }
-      }*/
-       show: true
-    },
-    series: [{
-      name: '氨气浓度(PPM)',
-      type: 'line',
-      smooth: true,
-      data: anqiHistoryData
-    }, {
-      name: '硫化氢浓度(PPM)',
-      type: 'line',
-      smooth: true,
-      data: lhqHistoryData
-    }]
-  };
-  chart.setOption(option);
-}
-
-
+var map = {};
+var jsSensorList = [];
 
 Page({
   /**
@@ -75,15 +9,11 @@ Page({
    */
   data: {
     carId: 68,
-    siteId:53,
+    siteId: 53,
 
     "sensorList": [],
-    "sensorRealValueMap":{},
+    "sensorRealValueMap": {},
 
-    ec: {
-      lazyLoad:true//延迟加载
-    },
-    timer:''
   },
 
   /**
@@ -94,19 +24,13 @@ Page({
 
     console.log(JSON.stringify(options))
     that.setData({
-       carId: options.carId,//获取从上一个页面的carid
+      carId: options.carId,//获取从上一个页面的carid
       siteId: options.siteId//获取从上一个页面的siteId
-     })
+    })
 
     console.log('onLoad')
-    this.echartsComponnet = that.selectComponent('#mychart-dom-line');
-    this.getOption(); //获取数据
-    this.setData({
-      timer:setInterval(function(){
-        that.getOption();
-      },5000)
-    })
-    this.queryAllSite(); 
+
+    this.queryAllSite();
 
     /**
      * 获取传感器和监控
@@ -130,7 +54,7 @@ Page({
           that.getRealValue();
         }, 10000);
         //that.getRealValue();
-        
+
       },
       fail: function (err) {
         console.log(err)
@@ -138,25 +62,6 @@ Page({
     })
   },
 
-// 初始化图表
-  initChart: function (anqiHistoryData, lhqHistoryData) {
-     console.log("initChart")
-    this.echartsComponnet.init((canvas, width, height) => {
-      
-    const  chart = echarts.init(canvas, null, {
-        width: width,
-        height: height
-      });
-      // Chart.setOption(this.getOption());
-      setOption(chart, anqiHistoryData, lhqHistoryData);
-      this.chart=chart;
-      return chart;
-    }); 
-  },
-getOption:function(){
-  var that=this;
-  that.initChart(anqiHistoryData, lhqHistoryData)
-},
 
   /**
   * 查询站点信息
@@ -186,7 +91,7 @@ getOption:function(){
 
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
-    var that=this;
+    var that = this;
     console.log("getRealValueBySensorId")
     /*根据sensorID获取传感器实时数据*/
     for (var index = 0; index < jsSensorList.length; index++) {
@@ -194,15 +99,12 @@ getOption:function(){
       var sensorSerialNum = jsSensorList[index].serialNumber
       var sensorType = jsSensorList[index].sensorType.type
       that.getRealValueBySensorId(sensorId, sensorSerialNum);
-      if (sensorType === "氨气传感器" || sensorType === "硫化氢传感器"){
-      that.queryHistoryData(sensorId, sensorType);
-      }
     }
 
   },
 
-  getRealValueBySensorId: function (sensorId, sensorSerialNum){
-    var that=this;
+  getRealValueBySensorId: function (sensorId, sensorSerialNum) {
+    var that = this;
     console.log("getRealValueBySensorId");
     wx.request({
       url: "https://www.teamluo.cn/sensor/queryRealTimeValue",
@@ -216,13 +118,13 @@ getOption:function(){
         console.log(res.data)
         map[sensorId] = {};
         map[sensorId].value1 = res.data.value1;
-        if(res.data.value2!=0){ //说明是双值传感器     
-          map[sensorId].value1=res.data.value1;
-          map[sensorId].value2=res.data.value2;
+        if (res.data.value2 != 0) { //说明是双值传感器     
+          map[sensorId].value1 = res.data.value1;
+          map[sensorId].value2 = res.data.value2;
         }
         console.log(map)
         that.setData({
-          sensorRealValueMap:map
+          sensorRealValueMap: map
         })
       },
       fail: function (err) {
@@ -231,56 +133,29 @@ getOption:function(){
     })
   },
 
-/**
- * 获取传感器历史数据
- */
-  queryHistoryData: function (sensorId, sensorType){
-    var that=this
-    console.log("queryHistoryData")
-    console.log("sensorId:" + sensorId + "  " + "sensorType:" + sensorType)
-    wx.request({
-      url: "https://www.teamluo.cn/sensor/queryHistoryData",
-      data:JSON.stringify({
-        sensorId: sensorId,
-        sensorType: sensorType
-      }),
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-      //  console.log(res.data)
-        if(sensorType==='氨气传感器'){
-          anqiHistoryData=res.data
-          console.log("anqiHistoryData")
-          console.log(anqiHistoryData)
-        } else if (sensorType === '硫化氢传感器'){
-          lhqHistoryData=res.data
-          console.log("lhqHistoryData")
-          console.log(lhqHistoryData)
-        }
-        
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-    
-  },
+  //跳转到查看传感器历史数据页面事件
+  showHistoryData: function (event) {
+    // var sensorid = event.currentTarget.dataset.sensorid
 
+    //  console.log(sensorid)
+    //  console.log(event.currentTarget.dataset.sensortype)
+    wx.navigateTo({
+      url: '../sensorhistorydata/sensorhistorydata?sensorId=' + event.currentTarget.dataset.sensorid + '&sensorType=' + event.currentTarget.dataset.sensortype,
+    });
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
@@ -294,7 +169,7 @@ getOption:function(){
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-   clearInterval(this.data.timer)
+
   },
 
   /**
@@ -308,7 +183,7 @@ getOption:function(){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-      
+
   },
 
   /**
@@ -365,6 +240,6 @@ getOption:function(){
   },
 
 
-  
+
 })
 
