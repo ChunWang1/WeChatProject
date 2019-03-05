@@ -1,0 +1,30 @@
+.panel{
+background:#fff;
+font-size: ",[0,30],";
+margin: ",[0,20]," ",[0,10]," 0 ",[0,10],"; -webkit-box-shadow:-3px -3px 5px #ddd;
+box-shadow:-3px -3px 5px #ddd; 
+}
+.flex-row{
+  display: -webkit-flex; 
+  display: flex; 
+  -webkit-flex-direction: row; 
+  flex-direction: row; 
+  -webkit-justify-content: center; 
+  justify-content: center; 
+  -webkit-align-items: center; 
+  align-items: center; 
+}
+.flex-column{ 
+  display: -webkit-flex; 
+  display: flex; -webkit-flex-direction: column; 
+  flex-direction: column; 
+  -webkit-justify-content: center; 
+  justify-content: center; 
+  -webkit-align-items: stretch; 
+  align-items: stretch; 
+  }
+.flex-cell{ 
+  -webkit-flex: 1; 
+  flex: 1; 
+  }
+

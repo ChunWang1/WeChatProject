@@ -44,7 +44,7 @@
 </view>
 
 <!--循环json取出数据-->
-<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==2||item.typeId==5||item.typeId==3||item.typeId==4}}">
+<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==2||item.typeId==5||item.typeId==3||item.typeId==4||item.typeId==6}}">
 
 <view class='.page-head'>
 <i-icon type="integral" size='30' color='#70DB93'/>
@@ -72,11 +72,22 @@
 
     <view wx:if="{{item.typeId==2}}">
     <i-cell title="监测状态:" >
-    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=8&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=20&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
     <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
     <icon class="iconfont icon-jiance1" slot="icon" ></icon>
     </i-cell>
-    <i-cell  title="距离(m):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <i-cell  title="距离(mm):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+     </view>
+
+     <view wx:if="{{item.typeId==6}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1>25}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 请添加干化剂</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="距离(mm):"  value="{{sensorRealValueMap[item.id].value1}}" > 
     <icon class="iconfont icon-shuju" slot="icon" ></icon>
     </i-cell>
      </view>
@@ -90,44 +101,24 @@
     <i-cell  title="氨气浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
     <icon class="iconfont icon-shuju" slot="icon" ></icon>
     </i-cell>
-<!--
- <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="/pages/cardetail/historydata">
-    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
-    </i-cell>-->
-    </view>
-    <view wx:if="{{item.typeId==4}}">
+    </view >
+
+    <view wx:if="{{item.typeId==4}}" >
     <i-cell title="监测状态:" >
     <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=10&&sensorRealValueMap[item.id].value1>0}}"  slot="footer" class="i-tags" color="green"> 正常</i-tag>
-    <i-tag wx:if="{{item.status==1}}" slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
     <icon class="iconfont icon-jiance1" slot="icon" ></icon>
     </i-cell>
     <i-cell  title="硫化氢浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
     <icon class="iconfont icon-shuju" slot="icon" ></icon>
     </i-cell>
-<!--
- <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="#">
-    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
-    </i-cell>-->
   </view>
-<!--
-    <i-cell wx:if="{{item.typeId==1||item.typeId==5}}" title="实时数据:"  value="{{sensorRealValueMap[item.id].value1}} {{sensorRealValueMap[item.id].value2}}" >
+    <i-cell title="历史数据:" bindtap="showHistoryData" data-sensorid='{{item.id}}' data-sensortype='{{item.sensorType.type}}'  is-link >
+    <icon class="iconfont icon-lishishuju-" slot="icon" ></icon>
     </i-cell>
-    <i-cell wx:if="{{item.typeId==2||item.typeId==3||item.typeId==4}}" title="实时数据:"  value="{{sensorRealValueMap[item.id].value1}}" > 
-    </i-cell>
-
-
-    <i-cell  title="历史数据" bind:click="queryHistoryData" data-sensorid="{{item.id}}" data-sensortype="{{item.sensorType.type}}" is-link url="#">
-    <i-icon slot="icon" type="dynamic_fill" size='28' color="#80848f" />
-    </i-cell>
-    -->
-    <i-cell></i-cell>
 </i-cell-group>
 
 </block>
-
-<view style="width:100%;height:400px;">
-  <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas></view>
-
 
 
 
