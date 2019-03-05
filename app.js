@@ -36,7 +36,8 @@ App({
   globalData: {
     userInfo: null,
     // accessToken会自动失效，需要通过后端请求刷新。详见 https://open.ys7.com/doc/zh/book/index/user.html
-    ACCESS_TOKEN: "at.c3w4c60obd8tws69dukv8sa1b5ayyowj-4qp1pk2i8k-1n2bkeg-wy66rfhns",
+    ACCESS_TOKEN: "at.91ee13eg46rs5lepb3xbm1ih8sgn4byr-9rh4ualj21-1kgvk4a-19vobpkjf",
+    
 
     /* const DEVICE_SERIAL = "C29134495"; */
     CHANNEL_NO: 1,

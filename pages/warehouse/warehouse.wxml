@@ -19,7 +19,7 @@
 <view class="echart-iframe">
   <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec }}" bind:init="echartInit"></ec-canvas>
 </view>
-<view class='chart-iframe' wx:for="{{itemList}}" wx:for-item="item">
+<view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
   <view class='ViewText'>{{item.name}}号仓({{item.moistrueDegree}})</view>
   <view class='testText'>
   <text>总容量：{{item.capacity}}吨</text>
@@ -38,7 +38,32 @@
 </swiper-item>
  
 <swiper-item>
- 
+
+<view class="panel flex-column">
+    <view class="flex-cell flex-row" >
+        <text class="flex-cell flex-row" style="font-weight:bold">状态</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">编号</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">目的地</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">重量</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">功能</text>
+    </view>
+    <view class="flex-row flex-cell" wx:for="{{sludgeList}}" wx:for-item="sludge"  wx:key="{{sludgeList.rfidString}}" style="display:{{recordShow}};margin:20rpx">
+        <text class="flex-cell flex-row" wx:if="{{sludge.status == 0 ||sludge.status==2||sludge.status==4}}" style='color:#FFFF00'>未到达</text>
+        <text class="flex-cell flex-row" wx:elif="{{sludge.status == 1||sludge.status == 3||sludge.status == 5}}" style="color:#008000">已到达</text>
+        <text class="flex-cell flex-row" wx:else></text>
+
+        <text class="flex-cell flex-row">{{sludge.rfidString}}</text>
+        <text class="flex-cell flex-row">{{sludge.destinationAddress}}</text>
+        <text class="flex-cell flex-row">{{sludge.weight}}吨</text>
+        <text class="flex-cell flex-row" wx:if="{{sludge.sludgeFunction.function == null}}"></text>
+         <text class="flex-cell flex-row" wx:else>{{sludge.sludgeFunction.function}}</text>
+    </view>
+</view>
+
+
+
+
+<!--
 <view class="table">
   <view class="tr">
     <view class="th">状态</view>
@@ -47,7 +72,7 @@
     <view class="th ">重量</view>
     <view class="th ">功能</view>
   </view>
-    <block  wx:for="{{sludgeList}}" wx:for-item="sludge">
+    <block  wx:for="{{sludgeList}}" wx:for-item="sludge" wx:key="{{sludge.rfidString}}">
       <view class="tr">
       <view class="td" wx:if="{{sludge.status == 0 ||sludge.status==2||sludge.status==4}}">未到达</view>
       <view class="td" wx:elif="{{sludge.status == 1||sludge.status == 3||sludge.status == 5}}">已到达</view>
@@ -60,11 +85,34 @@
     </view>
   </block>
 </view>
- 
+ -->
 </swiper-item>
  
 <swiper-item>
  
+<view class="panel flex-column">
+    <view class="flex-cell flex-row">
+        <text class="flex-cell flex-row" style="font-weight:bold">状态</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">工厂</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">处理人</text>
+        <text class="flex-cell flex-row" style="font-weight:bold">污泥重量</text>
+        
+    </view>
+    <view class="flex-row flex-cell"  wx:for="{{recordList}}" wx:for-item="record" wx:key="{{recordList.site.siteName}}">
+        <text class="flex-cell flex-row" wx:if="{{record.status == 0}}" style="color:#008000">已完成</text>
+        <text class="flex-cell flex-row" wx:elif="{{record.status == 1}}" style='color:#FFFF00'>处理中</text>
+        <text class="flex-cell flex-row" wx:elif="{{record.status == 2}}" style='color:#FF0000'>待处理</text>
+        <text class="flex-cell flex-row" wx:else></text>
+
+        <text class="flex-cell flex-row">{{record.site.siteName}}</text>
+        <text class="flex-cell flex-row" wx:if="{{record.car.driver.realname == null}}"></text>
+        <text class="flex-cell flex-row" wx:else>{{record.car.driver.realname}}</text>
+        <text class="flex-cell flex-row">{{record.sludgesWeight}}吨</text>
+    </view>
+    
+</view>
+
+<!--
 <view  class="table">
 <view class="tr">
     <view class="th">状态</view>
@@ -85,7 +133,7 @@
     </view>
   </block>
 </view>
-
+-->
  
 </swiper-item>
  
