@@ -1,5 +1,5 @@
 <!--pages/factorydetail/factorydetail.wxml-->
-<view class=".container">
+<view class=".container" wx:if="{{video.length>0}}">
 <view class="page-head">
 <icon class="iconfont icon-gongchang1">
  </icon>

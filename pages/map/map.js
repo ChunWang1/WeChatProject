@@ -49,9 +49,8 @@ Page({
   },
   showMap: function() {
     var that = this;
-    that.showWareHouse()
+    that.showWareHouse();
     that.showSite();
-    that.showCar();
   },
   showWareHouse: function() {
     var that = this
@@ -63,6 +62,7 @@ Page({
       success: function(res) {
         mainWareHouse = res.data;
         for (var i = 0; i < mainWareHouse.length; i++) {
+          var iconPath = '/resources/warehouse.png';
           var wareHouse = {
             id: mainWareHouse[i].id,
             latitude: mainWareHouse[i].latitude,
@@ -70,7 +70,7 @@ Page({
             width: 50,
             height: 50,
             title: "warehouse",
-            iconPath: '/resources/warehouse.png',
+            iconPath: iconPath,
             callout: {
               content: "",
               padding: 10,

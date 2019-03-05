@@ -4,8 +4,8 @@ import * as echarts from '../../ec-canvas/echarts';
 const app = getApp()
 var map={};
 var jsSensorList=[];
-var anqiHistoryData = [2, 1, 1, 1, 2, 1, 1, 1, 1, 3];
-var lhqHistoryData = [4, 3, 2, 1, 1, 2, 1, 2, 1, 2];
+var anqiHistoryData = [];
+var lhqHistoryData = [];
 //var Chart=null;
 
 function setOption(chart, anqiHistoryData, lhqHistoryData){
@@ -308,7 +308,7 @@ getOption:function(){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+      
   },
 
   /**
