@@ -23,8 +23,8 @@ var mainWareHouse = [];
 var carInSiteInfo = {};
 var siteInfoOld = {}
 var roadCarOld=[]
-var longitude = 114.349081
-var latitude = 22.732652
+var longitude = 113.83040
+var latitude = 20.77615
 Page({
 
   /**
@@ -124,7 +124,7 @@ Page({
     setTimeout(function () {
       var carrierNum = carInSiteInfo[siteId].carrier.length;
       var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-      if (treatmentCarNum != 0) {
+      if (treatmentCarNum != 0 && treatmentCarNum!='undefined') {
         content += treatmentCarNum + "辆处理车\n";
         for (let i = 0; i < treatmentCarNum; i++) {
           content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
@@ -141,7 +141,7 @@ Page({
       var localMarkers = that.data.markers;
       for (let i = 0; i < localMarkers.length; i++) {
         if (localMarkers[i].title == "warehouse") {
-          markers[i].callout.content = content;
+          //markers[i].callout.content = content;
           var edit = "markers[" + i + "].callout.content";
           that.setData({
             [edit]: content
@@ -150,7 +150,7 @@ Page({
         }
       }
 
-    }, 800)
+    }, 2000)
   },
 
   showSite: function() {
@@ -196,7 +196,7 @@ Page({
         })
         setInterval(function() {
           that.flushSiteIconAndCallOutContent();
-        }, 8000)
+        }, 10000)
       }
     });
   },
@@ -272,7 +272,7 @@ Page({
               }
             }
           }
-        }, 1000)
+        }, 2000)
       }
     })
   },

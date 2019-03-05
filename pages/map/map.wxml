@@ -1,6 +1,6 @@
 <!--pages/map/map.wxml-->
 <view>
- <map id="map" longitude="114.064552" latitude="22.548457" scale="12"
+ <map id="map" longitude="113.83106" latitude="22.65932" scale="12"
   controls="{{controls}}"
   bindcontroltap="controltap"
   markers="{{markers}}"
