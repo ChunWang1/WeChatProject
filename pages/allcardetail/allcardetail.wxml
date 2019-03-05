@@ -15,3 +15,7 @@
     <i-cell wx:if="{{car.status==4}}" title="{{car.license}} 返程中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
 </i-cell-group>
 </view>
+<view  wx:if="{{carList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>

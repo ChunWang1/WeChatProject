@@ -35,6 +35,10 @@
   </view>
 </view>
 </form>
+<view  wx:if="{{itemList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
 </swiper-item>
  
 <swiper-item>
@@ -86,6 +90,10 @@
   </block>
 </view>
  -->
+ <view  wx:if="{{sludgeList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
 </swiper-item>
  
 <swiper-item>
@@ -134,7 +142,10 @@
   </block>
 </view>
 -->
- 
+  <view  wx:if="{{recordList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
 </swiper-item>
  
 </swiper>
