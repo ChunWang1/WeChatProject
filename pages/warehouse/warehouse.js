@@ -36,6 +36,7 @@ Page({
     ec: {
       onInit: initChart
     },
+    //recordShow: "none",
     itemList: [
       { name: '一号仓', moistrueDegree: "0.8", capacity: 100, data: [{ value: 100 }, { value: 10 }] },
       { name: '二号仓', moistrueDegree: "0.8", capacity: 200,data: [{ value: 100 }, { value: 0 }] },

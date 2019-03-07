@@ -6,7 +6,7 @@
 <view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}">
+<i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}" wx:key="{{car.id}}">
     <i-cell title="{{car.license}}" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
 </i-cell-group>
 </view>
