@@ -16,37 +16,6 @@
     "navigationBarTitleText": "污泥处理系统",
     "navigationBarTextStyle":"black"
   },
-  "tabBar": {
-    "selecctedColor": "#ffffff",
-    "backgroundColor": "#eeeeee",
-    "position": "bottom",
-    "list": [
-      {
-        "pagePath": "pages/map/map",
-        "text": "首页",
-        "iconPath": "pages/img/menuicon/map.png",
-        "selectedIconPath": "pages/img/menuicon/map2.png"
-      },
-      {
-        "pagePath": "pages/allcardetail/allcardetail",
-        "text": "车辆监控",
-        "iconPath": "pages/img/menuicon/car.png",
-        "selectedIconPath": "pages/img/menuicon/car2.png"
-      },
-      {
-        "pagePath": "pages/factory/factory",
-        "text": "工厂监控",
-        "iconPath": "pages/img/menuicon/factory.png",
-        "selectedIconPath": "pages/img/menuicon/factory2.png"
-      },
-      {
-        "pagePath": "pages/warehouse/warehouse",
-        "text": "智慧泥仓",
-        "iconPath": "pages/img/menuicon/warehouse.png",
-        "selectedIconPath": "pages/img/menuicon/warehouse2.png"
-      }
-    ]
-  },
   "networkTimeout": {
     "request": 20000,
     "connectSocket": 20000,

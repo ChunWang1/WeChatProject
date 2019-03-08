@@ -1,4 +1,6 @@
 <!--pages/factoryMonitor/factoryMonitor.wxml-->
+<import src="../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:tabBar}}"></template>
 <view class=".container">
 <block wx:for="{{FactoryData}}" wx:key="FactoryData"> 
 <view class="page-head">

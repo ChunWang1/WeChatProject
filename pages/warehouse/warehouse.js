@@ -1,4 +1,5 @@
 // pages/warehouse/warehouse.js
+const app=getApp();
 import * as echarts from '../../ec-canvas/echarts';
 function initChart(canvas, width, height, data) {//这里多加一个参数
   const chart = echarts.init(canvas, null, {
@@ -157,6 +158,12 @@ Page({
         console.log(err)
       }
     })
-  }
+  },
+  /**
+ * 生命周期函数--监听页面显示
+ */
+  onShow: function () {
+    app.showManageTabBar();    //显示自定义的底部导航
+  },
 
 })

@@ -57,10 +57,10 @@ Page({
             wx.showToast({
               title: "登陆成功",
               icon: 'success',
-              duration: 20000,
+              duration: 2000,
               success: function () {
                 setTimeout(function () {
-                  wx.switchTab({
+                  wx.redirectTo({
                     url: '../map/map',
                   })
                 })
