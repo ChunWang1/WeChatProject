@@ -1,5 +1,4 @@
 // pages/map/map.js
-const app = getApp()
 var siteStatus = {
   NORMAL: 0,
   PROCESSING: 1,
@@ -18,7 +17,6 @@ var carStatus = {
   GETBACK: 4,
   ALL: -1
 };
-var markers = [];
 var minorWareHouse = [];
 var mainWareHouse = [];
 var carInSiteInfo = {};
@@ -32,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    marksers: [],
+    markers: [],
   },
 
   /**
@@ -46,31 +44,27 @@ Page({
     setInterval(function () {
       that.queryCarInRoad();
     }, 2000)
-    //that.showMap()
   },
-  showMap: function() {
-    var that = this;
-    that.showWareHouse();
-    that.showSite();
-  },
+
   showWareHouse: function() {
     var that = this
     wx.request({
-      url: app.globalData.QUERY_MainWareHouse_URL,
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMainWareHouse',
       header: {
         'content-type': 'application/json'
       },
       success: function(res) {
         mainWareHouse = res.data;
+        var localMarkers = that.data.markers;
         for (var i = 0; i < mainWareHouse.length; i++) {
           var iconPath = '/resources/warehouse.png';
           var wareHouse = {
-            id: mainWareHouse[i].id,
+            id: "warehouse"+mainWareHouse[i].id,
+            title:"warehouse",
             latitude: mainWareHouse[i].latitude,
             longitude: mainWareHouse[i].longitude,
             width: 50,
             height: 50,
-            title: "warehouse",
             iconPath: iconPath,
             callout: {
               content: "",
@@ -79,15 +73,16 @@ Page({
               color: '#B22222'
             }
           }
-          markers.push(wareHouse)
-          that.setData({
-            markers: markers
-          });
-          that.flushWareHouseColloutContent()
-          setInterval(function() {
-            that.flushWareHouseColloutContent()
-          }, 10000)
+          localMarkers.push(wareHouse)
         }
+        that.setData({
+          markers: localMarkers
+        });
+        //console.log(85+":"+JSON.stringify(that.data.markers))
+        that.flushWareHouseColloutContent()
+        setInterval(function () {
+          that.flushWareHouseColloutContent()
+        }, 10000)
       }
     });
   },
@@ -96,7 +91,7 @@ Page({
     var that = this
     for (let i = 0; i < mainWareHouse.length; i++) {
       wx.request({
-        url: app.globalData.QUERY_MinorWareHouse_URL,
+        url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
         method: 'GET',
         header: {
           'content-type': 'application/json'
@@ -115,6 +110,7 @@ Page({
     }
   },
   flushWareHouseContentById: function (siteId, content) { //siteId=-1 denote in mudwareHouse
+    console.log(118+":"+content)
     var that = this
     console.log("call showCarInSiteContents")
     carInSiteInfo[siteId] = {}
@@ -157,7 +153,7 @@ Page({
   showSite: function() {
     var that = this
     wx.request({
-      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
+      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus',
       data: {
         "siteId": -1,
         "status": -1
@@ -168,6 +164,7 @@ Page({
       success: function(res) {
         console.log(res.data)
         var siteList = res.data;
+        var localMarkers=that.data.markers;
         for (let i = 0; i < siteList.length; i++) {
           var site = siteList[i];
           var contents = site.siteName + "\n" + site.telephone + "\n";
@@ -176,7 +173,7 @@ Page({
           siteInfoOld[site.id].content = contents;
           var iconPath = '/resources/factory' + site.status + '.png';
           var siteMark={
-            id: site.id,
+            id: "site"+site.id,
             title: "site",
             latitude: site.latitude,
             longitude: site.longitude,
@@ -190,11 +187,12 @@ Page({
               color: '#B22222'
             }
           }
-          markers.push(siteMark)
+          localMarkers.push(siteMark)
         }
         that.setData({
-          markers: markers
+          markers: localMarkers
         })
+        that.flushSiteIconAndCallOutContent();
         setInterval(function() {
           that.flushSiteIconAndCallOutContent();
         }, 10000)
@@ -204,7 +202,7 @@ Page({
   flushSiteIconAndCallOutContent: function() {
     var that = this;
     wx.request({
-      url: app.globalData.QUERY_SiteStatus_URL,
+      url: 'https://www.teamluo.cn/system/querySiteStatus',
       method: "GET",
       header: {
         'content-type': 'application/json'
@@ -232,7 +230,7 @@ Page({
             if(site.status==0){
               content+="状态:正常\n"
             }
-            else if(siteStatus==1){
+            else if(site.status==1){
               content += "状态:处理中\n"
             }
             else{
@@ -257,8 +255,7 @@ Page({
             siteInfoOld[siteId].status = site.status; //更新status
             var localMarkers = that.data.markers;
             for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].title == "site" && localMarkers[i].id == siteId) {
-                markers[i].callout.content = content;
+              if (localMarkers[i].id == "site"+siteId) {
                 var nowContent = "markers[" + i + "].callout.content";
                 that.setData({
                   [nowContent]: content
@@ -279,11 +276,12 @@ Page({
   },
   queryCarInRoad:function(){
     var that=this
+    //先清除记录
     if(roadCarOld.length!=0){
       var localMarkers=that.data.markers;
       for(let i=0;i<roadCarOld.length;i++){
         for(let j=0;j<localMarkers.length;j++){
-          if(roadCarOld[i].id==localMarkers[j].id&&localMarkers[j].title=="car"){
+          if("car"+roadCarOld[i].id==localMarkers[j].id){
             localMarkers.splice(j,1)
             break;
           }
@@ -294,7 +292,7 @@ Page({
       })
     }
     wx.request({
-      url: app.globalData.QUERY_CarInRoad_URL,
+      url: 'https://www.teamluo.cn/car/queryCarInRoad',
       method:'GET',
       header: {
         'content-type': 'application/json'
@@ -302,18 +300,21 @@ Page({
       success(res){
         var roadCar=res.data;
         roadCarOld=roadCar;
+        var localMarkers=that.data.markers;
         for (var i = 0; i < roadCar.length; i++) {
+          var contents = '';
           var car = roadCar[i];
           var iconPath = '';
+          console.log("313"+car.carType)
           if (car.carType == 0) {
-            contents += '污泥处理车';
+            contents += '类型:污泥处理车\n';
             iconPath = '/resources/car.png';
           } else {
-            contents += '污泥运输车';
+            contents += '类型:污泥运输车\n';
             iconPath = '/resources/transportCar.png';
           }
+         contents += "车牌:"+car.license + "\n";
           if (car.status == 1 || car.status == 4) {
-            var contents = car.license + "\n";
             if (car.status == 1) {
               if (car.siteId != null && car.siteId != '') {
                 contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
@@ -323,9 +324,8 @@ Page({
             } else {
               contents += "返程中\n"
             }
-            markers = markers.concat({
-              id: car.id,
-              title:"car",
+            var carMarker=({
+              id: "car"+car.id,
               latitude: car.latitude,
               longitude: car.longitude,
               width: 25,
@@ -338,11 +338,12 @@ Page({
               },
               iconPath: iconPath
             });
+            localMarkers.push(carMarker);
           }
-          that.setData({
-            markers: markers
-          })
         }
+        that.setData({
+          markers: localMarkers
+        })
       }
     })
 
@@ -350,7 +351,7 @@ Page({
   queryCar: function(siteId, carType, carStatus) {
     var that = this;
     wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
+      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus',
       method: 'GET',
       data: {
         siteId: siteId,
@@ -361,7 +362,6 @@ Page({
         'content-type': 'application/json'
       },
       success(res) {
-        //console.log(siteId+" "+JSON.stringify(res.data))
         if (carType == 0) {
           carInSiteInfo[siteId].treatmentCar = res.data;
         } else if (carType == 1) {
@@ -371,63 +371,7 @@ Page({
     })
   },
 
-  showCar: function() {
-    var that = this;
-    wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-      data: {
-        siteId: -1,
-        carType: carType.ALL,
-        status: carStatus.ALL
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function(res) {
-        var listData = res.data;
-        for (var i = 0; i < listData.length; i++) {
-          var car = listData[i];
-          var iconPath = '';
-          if (car.carType == 0) {
-            contents += '污泥处理车';
-            iconPath = '/resources/car.png';
-          } else {
-            contents += '污泥运输车';
-            iconPath = '/resources/transportCar.png';
-          }
-          if (car.status == 1 || car.status == 4) {
-            var contents = car.license + "\n";
-            if (car.status == 1) {
-              if (car.siteId != null && car.siteId != '') {
-                contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
-              } else {
-                contents += "运输中\n"
-              }
-            } else {
-              contents += "返程中\n"
-            }
-            markers = markers.concat({
-              id: car.id,
-              latitude: car.latitude,
-              longitude: car.longitude,
-              width: 25,
-              height: 25,
-              callout: {
-                content: contents,
-                padding: 10,
-                textAlign: 'center',
-                color: '#B22222'
-              },
-              iconPath: iconPath
-            });
-          }
-          that.setData({
-            markers: markers
-          })
-        }
-      }
-    })
-  },
+  
   showdetailofsite: function(event) {
     var id = event.currentTarget.dataset.id
     console.log(id)
@@ -455,7 +399,7 @@ Page({
     var that = this;
     var mudHouse;
     wx.request({
-      url: app.globalData.QUERY_MinorWareHouse_URL,
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
       data: {
         id: id
       },
@@ -474,12 +418,7 @@ Page({
     var that = this;
     var carList;
     wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-      data: {
-        siteId: -1,
-        carType: -1,
-        status: -1
-      },
+      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
       header: {
         'content-type': 'application/json'
       },
@@ -497,7 +436,7 @@ Page({
     var that = this;
     var minorWareHouseList;
     wx.request({
-      url: app.globalData.QUERY_MinorWareHouse_URL,
+      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
       header: {
         'content-type': 'application/json'
       },
@@ -517,11 +456,7 @@ Page({
   queryMapSite: function(callback) {
     var thit = this
     wx.request({
-      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
-      data: {
-        siteId: -1,
-        status: -1
-      },
+      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus?siteId=-1&status=-1',
       header: {
         'content-type': 'application/json'
       },

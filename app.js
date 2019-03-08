@@ -1,5 +1,4 @@
 var URL = "https://www.teamluo.cn";
-
 App({
   
   onLaunch: function () {
