@@ -36,7 +36,7 @@ Page({
      * 获取传感器和监控
      */
     wx.request({
-      url: "https://www.teamluo.cn/monitor/queryVideoAndSensorByCarIdfoForWX",
+      url: app.globalData.QUERY_VideoAndSensorByCarIdfoForWX_URL,
       data: { carId: that.data.carId },
       method: 'GET',
       headers: {
@@ -70,7 +70,7 @@ Page({
     var that = this;
     console.log("queryAllSite")
     wx.request({
-      url: "https://www.teamluo.cn/system/queryAllSite",
+      url: app.globalData.QUERY_AllSite_URL,
       data: {},
       method: 'GET',
       headers: {
@@ -107,7 +107,7 @@ Page({
     var that = this;
     console.log("getRealValueBySensorId");
     wx.request({
-      url: "https://www.teamluo.cn/sensor/queryRealTimeValue",
+      url: app.globalData.QUERY_RealTimeValue_URL,
       data: { sensorId: sensorId },
       method: 'GET',
       headers: {
