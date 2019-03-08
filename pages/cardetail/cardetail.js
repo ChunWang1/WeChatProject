@@ -1,7 +1,7 @@
 // pages/cardetail/cardetail.js
 const app = getApp()
-var map={};
-var jsSensorList=[];
+var map = {};
+var jsSensorList = [];
 
 Page({
   /**
@@ -9,10 +9,10 @@ Page({
    */
   data: {
     carId: 68,
-    siteId:53,
+    siteId: 53,
 
     "sensorList": [],
-    "sensorRealValueMap":{},
+    "sensorRealValueMap": {},
 
   },
 
@@ -24,13 +24,13 @@ Page({
 
     console.log(JSON.stringify(options))
     that.setData({
-       carId: options.carId,//获取从上一个页面的carid
+      carId: options.carId,//获取从上一个页面的carid
       siteId: options.siteId//获取从上一个页面的siteId
-     })
+    })
 
     console.log('onLoad')
-    
-    this.queryAllSite(); 
+
+    this.queryAllSite();
 
     /**
      * 获取传感器和监控
@@ -54,7 +54,7 @@ Page({
           that.getRealValue();
         }, 10000);
         //that.getRealValue();
-        
+
       },
       fail: function (err) {
         console.log(err)
@@ -91,7 +91,7 @@ Page({
 
   /*根据sensorID获取传感器实时数据*/
   getRealValue: function () {
-    var that=this;
+    var that = this;
     console.log("getRealValueBySensorId")
     /*根据sensorID获取传感器实时数据*/
     for (var index = 0; index < jsSensorList.length; index++) {
@@ -103,8 +103,8 @@ Page({
 
   },
 
-  getRealValueBySensorId: function (sensorId, sensorSerialNum){
-    var that=this;
+  getRealValueBySensorId: function (sensorId, sensorSerialNum) {
+    var that = this;
     console.log("getRealValueBySensorId");
     wx.request({
       url: "https://www.teamluo.cn/sensor/queryRealTimeValue",
@@ -118,13 +118,13 @@ Page({
         console.log(res.data)
         map[sensorId] = {};
         map[sensorId].value1 = res.data.value1;
-        if(res.data.value2!=0){ //说明是双值传感器     
-          map[sensorId].value1=res.data.value1;
-          map[sensorId].value2=res.data.value2;
+        if (res.data.value2 != 0) { //说明是双值传感器     
+          map[sensorId].value1 = res.data.value1;
+          map[sensorId].value2 = res.data.value2;
         }
         console.log(map)
         that.setData({
-          sensorRealValueMap:map
+          sensorRealValueMap: map
         })
       },
       fail: function (err) {
@@ -133,12 +133,12 @@ Page({
     })
   },
 
-//跳转到查看传感器历史数据页面事件
+  //跳转到查看传感器历史数据页面事件
   showHistoryData: function (event) {
-   // var sensorid = event.currentTarget.dataset.sensorid
+    // var sensorid = event.currentTarget.dataset.sensorid
 
-  //  console.log(sensorid)
-  //  console.log(event.currentTarget.dataset.sensortype)
+    //  console.log(sensorid)
+    //  console.log(event.currentTarget.dataset.sensortype)
     wx.navigateTo({
       url: '../sensorhistorydata/sensorhistorydata?sensorId=' + event.currentTarget.dataset.sensorid + '&sensorType=' + event.currentTarget.dataset.sensortype,
     });
@@ -148,14 +148,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
@@ -169,7 +169,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-   
+
   },
 
   /**
@@ -240,6 +240,6 @@ Page({
   },
 
 
-  
+
 })
 

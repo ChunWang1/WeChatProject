@@ -1,4 +1,5 @@
 // pages/allcardetail/allcardetail.js
+const app = getApp()
 Page({
 
   /**
@@ -16,7 +17,8 @@ Page({
       var that = this;
       var carList;
       wx.request({
-        url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
+        url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
+        data: { siteId:-1 , carType:- 1 , status:- 1 },
         header: {
           'content-type': 'application/json'
         },

@@ -203,7 +203,7 @@ Page({
     console.log("queryHistoryData")
     console.log("sensorId:" + sensorId + "  " + "sensorType:" + sensorType)
     wx.request({
-      url: "https://www.teamluo.cn/sensor/queryHistoryData",
+      url: app.globalData.QUERY_HistoryData_URL,
       data: JSON.stringify({
         sensorId: sensorId,
         sensorType: sensorType

@@ -6,7 +6,16 @@
 <view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}" wx:key="{{car.id}}">
-    <i-cell title="{{car.license}}" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
+<i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}">
+  <i-cell wx:if="{{car.status==0}}" title="{{car.license}} 处于空闲状态" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
+  </i-cell>
+    <i-cell wx:if="{{car.status==1}}" title="{{car.license}} 在去往{{car.site.siteName}}的途中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
+    <i-cell wx:if="{{car.status==2}}" title="{{car.license}} 已到达{{car.site.siteName}}" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
+    <i-cell wx:if="{{car.status==3}}" title="{{car.license}} 已分配任务(未出发)" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
+    <i-cell wx:if="{{car.status==4}}" title="{{car.license}} 返程中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
 </i-cell-group>
+</view>
+<view  wx:if="{{carList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
 </view>

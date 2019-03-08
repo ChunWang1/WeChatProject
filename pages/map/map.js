@@ -1,4 +1,5 @@
 // pages/map/map.js
+const app = getApp()
 var siteStatus = {
   NORMAL: 0,
   PROCESSING: 1,
@@ -23,8 +24,8 @@ var mainWareHouse = [];
 var carInSiteInfo = {};
 var siteInfoOld = {}
 var roadCarOld=[]
-var longitude = 114.349081
-var latitude = 22.732652
+var longitude = 113.83040
+var latitude = 20.77615
 Page({
 
   /**
@@ -49,20 +50,20 @@ Page({
   },
   showMap: function() {
     var that = this;
-    that.showWareHouse()
+    that.showWareHouse();
     that.showSite();
-    that.showCar();
   },
   showWareHouse: function() {
     var that = this
     wx.request({
-      url: 'https://www.teamluo.cn/mudWareHouse/queryMainWareHouse',
+      url: app.globalData.QUERY_MainWareHouse_URL,
       header: {
         'content-type': 'application/json'
       },
       success: function(res) {
         mainWareHouse = res.data;
         for (var i = 0; i < mainWareHouse.length; i++) {
+          var iconPath = '/resources/warehouse.png';
           var wareHouse = {
             id: mainWareHouse[i].id,
             latitude: mainWareHouse[i].latitude,
@@ -70,7 +71,7 @@ Page({
             width: 50,
             height: 50,
             title: "warehouse",
-            iconPath: '/resources/warehouse.png',
+            iconPath: iconPath,
             callout: {
               content: "",
               padding: 10,
@@ -95,7 +96,7 @@ Page({
     var that = this
     for (let i = 0; i < mainWareHouse.length; i++) {
       wx.request({
-        url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
+        url: app.globalData.QUERY_MinorWareHouse_URL,
         method: 'GET',
         header: {
           'content-type': 'application/json'
@@ -124,7 +125,7 @@ Page({
     setTimeout(function () {
       var carrierNum = carInSiteInfo[siteId].carrier.length;
       var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-      if (treatmentCarNum != 0) {
+      if (treatmentCarNum != 0 && treatmentCarNum!='undefined') {
         content += treatmentCarNum + "辆处理车\n";
         for (let i = 0; i < treatmentCarNum; i++) {
           content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
@@ -141,7 +142,7 @@ Page({
       var localMarkers = that.data.markers;
       for (let i = 0; i < localMarkers.length; i++) {
         if (localMarkers[i].title == "warehouse") {
-          markers[i].callout.content = content;
+          //markers[i].callout.content = content;
           var edit = "markers[" + i + "].callout.content";
           that.setData({
             [edit]: content
@@ -150,13 +151,13 @@ Page({
         }
       }
 
-    }, 800)
+    }, 2000)
   },
 
   showSite: function() {
     var that = this
     wx.request({
-      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus',
+      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
       data: {
         "siteId": -1,
         "status": -1
@@ -196,14 +197,14 @@ Page({
         })
         setInterval(function() {
           that.flushSiteIconAndCallOutContent();
-        }, 8000)
+        }, 10000)
       }
     });
   },
   flushSiteIconAndCallOutContent: function() {
     var that = this;
     wx.request({
-      url: 'https://www.teamluo.cn/system/querySiteStatus',
+      url: app.globalData.QUERY_SiteStatus_URL,
       method: "GET",
       header: {
         'content-type': 'application/json'
@@ -272,7 +273,7 @@ Page({
               }
             }
           }
-        }, 1000)
+        }, 2000)
       }
     })
   },
@@ -293,7 +294,7 @@ Page({
       })
     }
     wx.request({
-      url: 'https://www.teamluo.cn/car/queryCarInRoad',
+      url: app.globalData.QUERY_CarInRoad_URL,
       method:'GET',
       header: {
         'content-type': 'application/json'
@@ -349,7 +350,7 @@ Page({
   queryCar: function(siteId, carType, carStatus) {
     var that = this;
     wx.request({
-      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus',
+      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
       method: 'GET',
       data: {
         siteId: siteId,
@@ -373,7 +374,7 @@ Page({
   showCar: function() {
     var that = this;
     wx.request({
-      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus',
+      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
       data: {
         siteId: -1,
         carType: carType.ALL,
@@ -454,7 +455,7 @@ Page({
     var that = this;
     var mudHouse;
     wx.request({
-      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
+      url: app.globalData.QUERY_MinorWareHouse_URL,
       data: {
         id: id
       },
@@ -473,7 +474,12 @@ Page({
     var that = this;
     var carList;
     wx.request({
-      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus?siteId=-1&carType=-1&status=-1',
+      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
+      data: {
+        siteId: -1,
+        carType: -1,
+        status: -1
+      },
       header: {
         'content-type': 'application/json'
       },
@@ -491,7 +497,7 @@ Page({
     var that = this;
     var minorWareHouseList;
     wx.request({
-      url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',
+      url: app.globalData.QUERY_MinorWareHouse_URL,
       header: {
         'content-type': 'application/json'
       },
@@ -511,7 +517,11 @@ Page({
   queryMapSite: function(callback) {
     var thit = this
     wx.request({
-      url: 'https://www.teamluo.cn/system/querySiteMapBySiteIdAndStatus?siteId=-1&status=-1',
+      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
+      data: {
+        siteId: -1,
+        status: -1
+      },
       header: {
         'content-type': 'application/json'
       },
