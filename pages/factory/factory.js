@@ -15,7 +15,7 @@ Page({
     app.editTabBar();
     var that = this
     wx.request({
-      url: 'https://www.teamluo.cn/monitor/queryAllFactoryVideo',
+      url: app.globalData.QUERY_AllFactoryVideo_URL,
       data: {},
       method: 'GET',
       headers: {

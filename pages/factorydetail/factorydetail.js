@@ -19,7 +19,8 @@ Page({
       siteId: options.siteId//获取从上一个页面的siteId
     })
     wx.request({
-      url: 'https://www.teamluo.cn/monitor/queryFactoryVideoBySiteIdforWX?siteId=' + options.siteId,
+      url: app.globalData.QUERY_FactoryVideoBySiteIdforWX_URL,
+      data: { siteId: options.siteId},
       header: {
         'content-type': 'application/json'
       },

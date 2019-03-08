@@ -1,4 +1,5 @@
 // pages/login/login.js
+const app = getApp()
 Page({
 
   /**
@@ -34,7 +35,7 @@ Page({
     }
 
     wx.request({
-      url: "https://www.teamluo.cn/user/loginValidator",
+      url: app.globalData.LOGIN_Validator_URL,
       data: JSON.stringify({
         username: e.detail.value.no,
         password: e.detail.value.pwd
@@ -55,7 +56,7 @@ Page({
             })
           } else if (res.data == "SUCCESS") {
             wx.showToast({
-              title: "登陆成功",
+              title: "登录成功",
               icon: 'success',
               duration: 2000,
               success: function () {

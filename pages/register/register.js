@@ -1,4 +1,5 @@
 // pages/register/register.js
+const app = getApp()
 Page({
 
   /**
@@ -51,7 +52,7 @@ Page({
     }
 
     wx.request({
-      url: "https://www.teamluo.cn/user/register",
+      url: app.globalData.REGISTER_URL,
       data: JSON.stringify({
         username: e.detail.value.no,
         password: e.detail.value.pwd,
