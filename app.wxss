@@ -13,21 +13,21 @@
 } 
 
 .menu-item{  
-  width: 32%;
+  width: 33%;
   height: 9vh;  
   float: left;  
   text-align: center;  
   padding-top: 8px;  
 }  
 .menu-item2{  
-  width: 24%;
+  width: 25%;
   height: 9vh;
   float: left;  
   text-align: center;  
   padding-top: 8px;  
 }  
-.menu-item2{  
-  width: 52%;
+.menu-item3{  
+  width: 50%;
   height: 9vh;
   float: left;  
   text-align: center;  
