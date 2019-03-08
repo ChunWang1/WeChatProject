@@ -17,7 +17,6 @@ var carStatus = {
   GETBACK: 4,
   ALL: -1
 };
-var markers = [];
 var minorWareHouse = [];
 var mainWareHouse = [];
 var carInSiteInfo = {};
@@ -165,6 +164,7 @@ Page({
       success: function(res) {
         console.log(res.data)
         var siteList = res.data;
+        var localMarkers=that.data.markers;
         for (let i = 0; i < siteList.length; i++) {
           var site = siteList[i];
           var contents = site.siteName + "\n" + site.telephone + "\n";
@@ -187,10 +187,10 @@ Page({
               color: '#B22222'
             }
           }
-          markers.push(siteMark)
+          localMarkers.push(siteMark)
         }
         that.setData({
-          markers: markers
+          markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
         setInterval(function() {
@@ -256,7 +256,6 @@ Page({
             var localMarkers = that.data.markers;
             for (let i = 0; i < localMarkers.length; i++) {
               if (localMarkers[i].id == "site"+siteId) {
-                markers[i].callout.content = content;
                 var nowContent = "markers[" + i + "].callout.content";
                 that.setData({
                   [nowContent]: content
@@ -277,6 +276,7 @@ Page({
   },
   queryCarInRoad:function(){
     var that=this
+    //先清除记录
     if(roadCarOld.length!=0){
       var localMarkers=that.data.markers;
       for(let i=0;i<roadCarOld.length;i++){
@@ -298,10 +298,11 @@ Page({
         'content-type': 'application/json'
       },
       success(res){
-        var contents='';
         var roadCar=res.data;
         roadCarOld=roadCar;
+        var localMarkers=that.data.markers;
         for (var i = 0; i < roadCar.length; i++) {
+          var contents = '';
           var car = roadCar[i];
           var iconPath = '';
           console.log("313"+car.carType)
@@ -323,7 +324,7 @@ Page({
             } else {
               contents += "返程中\n"
             }
-            markers = markers.concat({
+            var carMarker=({
               id: "car"+car.id,
               latitude: car.latitude,
               longitude: car.longitude,
@@ -337,11 +338,12 @@ Page({
               },
               iconPath: iconPath
             });
+            localMarkers.push(carMarker);
           }
-          that.setData({
-            markers: markers
-          })
         }
+        that.setData({
+          markers: localMarkers
+        })
       }
     })
 
