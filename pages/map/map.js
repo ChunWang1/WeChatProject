@@ -31,7 +31,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    marksers: [],
+    markers: [],
   },
 
   /**
@@ -45,13 +45,8 @@ Page({
     setInterval(function () {
       that.queryCarInRoad();
     }, 2000)
-    //that.showMap()
   },
-  showMap: function() {
-    var that = this;
-    that.showWareHouse();
-    that.showSite();
-  },
+
   showWareHouse: function() {
     var that = this
     wx.request({
@@ -61,15 +56,16 @@ Page({
       },
       success: function(res) {
         mainWareHouse = res.data;
+        var localMarkers = that.data.markers;
         for (var i = 0; i < mainWareHouse.length; i++) {
           var iconPath = '/resources/warehouse.png';
           var wareHouse = {
-            id: mainWareHouse[i].id,
+            id: "warehouse"+mainWareHouse[i].id,
+            title:"warehouse",
             latitude: mainWareHouse[i].latitude,
             longitude: mainWareHouse[i].longitude,
             width: 50,
             height: 50,
-            title: "warehouse",
             iconPath: iconPath,
             callout: {
               content: "",
@@ -78,15 +74,16 @@ Page({
               color: '#B22222'
             }
           }
-          markers.push(wareHouse)
-          that.setData({
-            markers: markers
-          });
-          that.flushWareHouseColloutContent()
-          setInterval(function() {
-            that.flushWareHouseColloutContent()
-          }, 10000)
+          localMarkers.push(wareHouse)
         }
+        that.setData({
+          markers: localMarkers
+        });
+        //console.log(85+":"+JSON.stringify(that.data.markers))
+        that.flushWareHouseColloutContent()
+        setInterval(function () {
+          that.flushWareHouseColloutContent()
+        }, 10000)
       }
     });
   },
@@ -114,6 +111,7 @@ Page({
     }
   },
   flushWareHouseContentById: function (siteId, content) { //siteId=-1 denote in mudwareHouse
+    console.log(118+":"+content)
     var that = this
     console.log("call showCarInSiteContents")
     carInSiteInfo[siteId] = {}
@@ -175,7 +173,7 @@ Page({
           siteInfoOld[site.id].content = contents;
           var iconPath = '/resources/factory' + site.status + '.png';
           var siteMark={
-            id: site.id,
+            id: "site"+site.id,
             title: "site",
             latitude: site.latitude,
             longitude: site.longitude,
@@ -194,6 +192,7 @@ Page({
         that.setData({
           markers: markers
         })
+        that.flushSiteIconAndCallOutContent();
         setInterval(function() {
           that.flushSiteIconAndCallOutContent();
         }, 10000)
@@ -231,7 +230,7 @@ Page({
             if(site.status==0){
               content+="状态:正常\n"
             }
-            else if(siteStatus==1){
+            else if(site.status==1){
               content += "状态:处理中\n"
             }
             else{
@@ -256,7 +255,7 @@ Page({
             siteInfoOld[siteId].status = site.status; //更新status
             var localMarkers = that.data.markers;
             for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].title == "site" && localMarkers[i].id == siteId) {
+              if (localMarkers[i].id == "site"+siteId) {
                 markers[i].callout.content = content;
                 var nowContent = "markers[" + i + "].callout.content";
                 that.setData({
@@ -282,7 +281,7 @@ Page({
       var localMarkers=that.data.markers;
       for(let i=0;i<roadCarOld.length;i++){
         for(let j=0;j<localMarkers.length;j++){
-          if(roadCarOld[i].id==localMarkers[j].id&&localMarkers[j].title=="car"){
+          if("car"+roadCarOld[i].id==localMarkers[j].id){
             localMarkers.splice(j,1)
             break;
           }
@@ -299,20 +298,22 @@ Page({
         'content-type': 'application/json'
       },
       success(res){
+        var contents='';
         var roadCar=res.data;
         roadCarOld=roadCar;
         for (var i = 0; i < roadCar.length; i++) {
           var car = roadCar[i];
           var iconPath = '';
+          console.log("313"+car.carType)
           if (car.carType == 0) {
-            contents += '污泥处理车';
+            contents += '类型:污泥处理车\n';
             iconPath = '/resources/car.png';
           } else {
-            contents += '污泥运输车';
+            contents += '类型:污泥运输车\n';
             iconPath = '/resources/transportCar.png';
           }
+         contents += "车牌:"+car.license + "\n";
           if (car.status == 1 || car.status == 4) {
-            var contents = car.license + "\n";
             if (car.status == 1) {
               if (car.siteId != null && car.siteId != '') {
                 contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
@@ -323,8 +324,7 @@ Page({
               contents += "返程中\n"
             }
             markers = markers.concat({
-              id: car.id,
-              title:"car",
+              id: "car"+car.id,
               latitude: car.latitude,
               longitude: car.longitude,
               width: 25,
@@ -360,7 +360,6 @@ Page({
         'content-type': 'application/json'
       },
       success(res) {
-        //console.log(siteId+" "+JSON.stringify(res.data))
         if (carType == 0) {
           carInSiteInfo[siteId].treatmentCar = res.data;
         } else if (carType == 1) {
@@ -370,63 +369,7 @@ Page({
     })
   },
 
-  showCar: function() {
-    var that = this;
-    wx.request({
-      url: 'https://www.teamluo.cn/car/queryMapCarBySiteIdAndCarTypeAndStatus',
-      data: {
-        siteId: -1,
-        carType: carType.ALL,
-        status: carStatus.ALL
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function(res) {
-        var listData = res.data;
-        for (var i = 0; i < listData.length; i++) {
-          var car = listData[i];
-          var iconPath = '';
-          if (car.carType == 0) {
-            contents += '污泥处理车';
-            iconPath = '/resources/car.png';
-          } else {
-            contents += '污泥运输车';
-            iconPath = '/resources/transportCar.png';
-          }
-          if (car.status == 1 || car.status == 4) {
-            var contents = car.license + "\n";
-            if (car.status == 1) {
-              if (car.siteId != null && car.siteId != '') {
-                contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
-              } else {
-                contents += "运输中\n"
-              }
-            } else {
-              contents += "返程中\n"
-            }
-            markers = markers.concat({
-              id: car.id,
-              latitude: car.latitude,
-              longitude: car.longitude,
-              width: 25,
-              height: 25,
-              callout: {
-                content: contents,
-                padding: 10,
-                textAlign: 'center',
-                color: '#B22222'
-              },
-              iconPath: iconPath
-            });
-          }
-          that.setData({
-            markers: markers
-          })
-        }
-      }
-    })
-  },
+  
   showdetailofsite: function(event) {
     var id = event.currentTarget.dataset.id
     console.log(id)
