@@ -1,4 +1,6 @@
 <!--pages/allcardetail/allcardetail.wxml-->
+<import src="../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:tabBar}}"></template>
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
