@@ -1,5 +1,6 @@
 // pages/warehouse/warehouse.js
 import * as echarts from '../../ec-canvas/echarts';
+const app = getApp()
 function initChart(canvas, width, height, data) {//这里多加一个参数
   const chart = echarts.init(canvas, null, {
     width: width,
@@ -36,6 +37,7 @@ Page({
     ec: {
       onInit: initChart
     },
+    //recordShow: "none",
     itemList: [
       { name: '一号仓', moistrueDegree: "0.8", capacity: 100, data: [{ value: 100 }, { value: 10 }] },
       { name: '二号仓', moistrueDegree: "0.8", capacity: 200,data: [{ value: 100 }, { value: 0 }] },
@@ -91,7 +93,7 @@ Page({
   onLoad: function (options) {
     var thit = this
       wx.request({
-        url: 'https://www.teamluo.cn/mudWareHouse/queryMinorWareHouse',  //服务器地址
+        url: app.globalData.QUERY_MinorWareHouse_URL,  //服务器地址
         method: 'GET',
         header: {
           'content-type': 'application/json' //默认值
@@ -118,7 +120,7 @@ Page({
   queryrecord: function(callback) {
     var thit = this
     wx.request({
-      url: "https://www.teamluo.cn/record/queryAllRecord",
+      url: app.globalData.QUERY_AllRecord_URL,
       method: 'GET',
       header: {
         // "Content-Type":"application/json"
@@ -138,7 +140,7 @@ Page({
   querysludge:function(callback){
     var thit = this
     wx.request({
-      url:"https://www.teamluo.cn/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
+      url: app.globalData.QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL,
       data: JSON.stringify({
         inOutFlag:3,
         minorWareHouseId:0

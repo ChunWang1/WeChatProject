@@ -1,7 +1,8 @@
 {
   "pages":[
-    "pages/login/login",
     "pages/map/map",
+    "pages/login/login",
+    
     "pages/sensorhistorydata/sensorhistorydata",
     "pages/factory/factory",
     "pages/factorydetail/factorydetail",
