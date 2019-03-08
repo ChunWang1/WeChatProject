@@ -12,4 +12,44 @@
   box-sizing: border-box;
 } 
 
+.menu-item{  
+  width: 33%;
+  height: 9vh;  
+  float: left;  
+  text-align: center;  
+  padding-top: 8px;  
+}  
+.menu-item2{  
+  width: 25%;
+  height: 9vh;
+  float: left;  
+  text-align: center;  
+  padding-top: 8px;  
+}  
+.menu-item3{  
+  width: 50%;
+  height: 9vh;
+  float: left;  
+  text-align: center;  
+  padding-top: 8px;  
+} 
+.img{  
+  width: 50rpx;  
+  height: 50rpx;  
+  display: block;  
+  margin:auto;  
+}  
+.clear{  
+  clear: both;  
+}  
+.tab-bar{  
+  position: fixed;  
+  width: 100%;  
+  padding: 0px; 
+  background-color:#EDEDED;
+ 
+}  
+.tabbar_text{
+  font-size: 28rpx
+}
 

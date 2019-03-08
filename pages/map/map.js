@@ -1,5 +1,5 @@
 // pages/map/map.js
-const app = getApp()
+var app = getApp();
 var siteStatus = {
   NORMAL: 0,
   PROCESSING: 1,
@@ -609,6 +609,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    app.showManageTabBar();    //显示自定义的底部导航
 
   },
   regionchange(e) {
