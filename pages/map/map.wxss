@@ -10,13 +10,22 @@ text-align: center;
 font-size: 30rpx;
 
 }
-
+.top{
+  position: absolute;
+  left: 5px;
+	top: 15px;
+}
 .bottom_Image {
 	position: absolute;
 	right: 2px;
-	bottom: 0px;
+	bottom: 60px;
 }
-
+.top_Image { 
+ margin-left: 18px; 
+ margin-top: 15px;
+ width: 30px; 
+ height: 30px
+} 
 .Image { 
  margin-left: 22px; 
  margin-top: 15px;
@@ -97,4 +106,96 @@ font-size: 30rpx;
   display: flex;
   height: 2rem;
   align-items: center;
+}
+
+
+page{  
+  height: 100%  
+}  
+/* 主页 */  
+.home {  
+  position: absolute;  
+  width: 750rpx;  
+  height: 100%;  
+  background-color: white;  
+  z-index: 1;  
+  transition: All 0.4s ease;  
+  -webkit-transition: All 0.4s ease;  
+}  
+.home .icon_user {  
+  width: 68rpx;  
+  height: 68rpx;  
+  margin-left: 20rpx;  
+  margin-top: 20rpx;  
+}  
+/* 遮罩层 */  
+.bg {    
+  display: none;    
+  position: fixed;    
+  top: 0%;    
+  left: 70%;    
+  width: 100%;    
+  height: 100%;    
+  background-color: black;    
+  z-index: 1001;    
+  -moz-opacity: 0.7;    
+  opacity: 0.70;    
+  transition:width 2s;  
+  filter: alpha(opacity=70);    
+}   
+ /* 侧滑栏 */  
+.page_tab {  
+  height: 100%;  
+  width: 750rpx;  
+  position: fixed;  
+ background-color:#FFFFF0 ;  
+  z-index: 0;  
+}  
+  
+.page_tab_content .wc {  
+  color: #000; 
+  
+  position: relative;  
+  font-size: 36rpx;  
+  padding: 20rpx 0 30rpx 20rpx;  
+}  
+  
+.page_tab_content button {  
+  width: 280rpx;  
+  background: #fb9817;  
+  color: #fff;  
+  position: relative;  
+  right: 120rpx;  
+  top: 150rpx;  
+  height: 60rpx;  
+  line-height: 60rpx;  
+}  
+  
+.page_tab_content image {  
+  display: inline-block;  
+  height: 40rpx;  
+  width: 40rpx;  
+  margin-right: 50rpx;  
+}  
+  
+.user_head {  
+  width: 140rpx;  
+  height: 140rpx;  
+  border-radius: 50%;  
+  text-align: center;  
+  margin: 80rpx 0rpx 0rpx 205rpx;  
+} 
+.user_name{
+  width: 120rpx;  
+  height: 20rpx;  
+  border-radius: 50%;  
+  text-align: center;  
+  font-size: 40rpx;
+  margin: 10rpx 30rpx 40rpx 205rpx;
+}
+.page-head-line{
+  margin: 0 auto;
+  width: 100%;
+  height: 10rpx;
+  background-color: #BEBEBE;
 }

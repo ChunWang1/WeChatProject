@@ -1,7 +1,11 @@
 {
   "pages":[
+    "pages/login/login",
     "pages/map/map",
-    "pages/login/login",  
+    "pages/sludgeapply/sludgeapply",
+   
+    "pages/modifypwd/modifypwd", 
+    "pages/personinfor/personinfor",
     "pages/sensorhistorydata/sensorhistorydata",
     "pages/factory/factory",
     "pages/factorydetail/factorydetail",
@@ -36,6 +40,9 @@
     "i-load-more": "../../dist/load-more/index",
     "i-alert": "../../dist/alert/index",
     "i-input": "../../dist/input/index",
-    "i-button": "../../dist/button/index"
+    "i-button": "../../dist/button/index",
+    "i-panel": "../../dist/panel/index",
+    "i-drawer": "../../dist/drawer/index"
+   
   }
 }

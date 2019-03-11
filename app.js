@@ -1,4 +1,5 @@
-var URL = "https://www.teamluo.cn";
+//var URL = "https://www.teamluo.cn";
+var URL ="http://localhost:8080/DisposalSludgeSystem";
 App({
   
   onLaunch: function () {
@@ -109,6 +110,19 @@ App({
   },
   globalData: {
     userInfo: null,
+
+    userData:[{
+      id:"",
+      idCard:"",
+      realname:"",
+      email:"",
+      role:"",
+      sex:"",
+      username:"",
+      telephone:"",
+      password:"",
+    }],
+
     // accessToken会自动失效，需要通过后端请求刷新。详见       https://open.ys7.com/doc/zh/book/index/user.html
     ACCESS_TOKEN: "at.91ee13eg46rs5lepb3xbm1ih8sgn4byr-9rh4ualj21-1kgvk4a-19vobpkjf",
     /* const DEVICE_SERIAL = "C29134495"; */
@@ -123,7 +137,7 @@ App({
     QUERY_RealTimeValue_URL: URL +"/sensor/queryRealTimeValue",
     QUERY_AllFactoryVideo_URL:URL+'/monitor/queryAllFactoryVideo',
     QUERY_FactoryVideoBySiteIdforWX_URL: URL +"/monitor/queryFactoryVideoBySiteIdforWX",
-    LOGIN_Validator_URL: URL +"/user/loginValidator",
+    LOGIN_Validator_URL: URL +"/user/loginValidatorForWx",
     QUERY_MainWareHouse_URL: URL +"/mudWareHouse/queryMainWareHouse",
     QUERY_MinorWareHouse_URL: URL +"/mudWareHouse/queryMinorWareHouse",
     QUERY_SiteMapBySiteIdAndStatus_URL: URL +"/system/querySiteMapBySiteIdAndStatus",
@@ -133,6 +147,7 @@ App({
     QUERY_HistoryData_URL: URL +"/sensor/queryHistoryData",
     QUERY_AllRecord_URL: URL +"/record/queryAllRecord",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL +"/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
+    MODIFY_UserInfo_URL:URL +"/user/modifyUserInfo",
     manageTabBar: {
       "color": "#9E9E9E",
       "selectedColor": "#f00",
@@ -151,16 +166,16 @@ App({
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "监控",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/monitor.png",
+          "selectedIconPath": "../img/menuicon/monitor2.png",
           "clas": "menu-item",
           "active": false,
         },
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "系统管理",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/sysmanage.png",
+          "selectedIconPath": "../img/menuicon/sysmanage2.png",
           "clas": "menu-item",
           "active": false,
         },
@@ -185,24 +200,24 @@ App({
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "任务申请",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/task.png",
+          "selectedIconPath": "../img/menuicon/task2.png",
           "clas": "menu-item2",
           "active": false,
         },
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "监控",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/monitor.png",
+          "selectedIconPath": "../img/menuicon/monitor2.png",
           "clas": "menu-item2",
           "active": false,
         },
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "处理记录",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/record.png",
+          "selectedIconPath": "../img/menuicon/record2.png",
           "clas": "menu-item2",
           "active": false,
         },
@@ -226,16 +241,16 @@ App({
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "监控",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/monitor.png",
+          "selectedIconPath": "../img/menuicon/monitor2.png",
           "clas": "menu-item",
           "active": false,
         },
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "处理记录",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/record.png",
+          "selectedIconPath": "../img/menuicon/record2.png",
           "clas": "menu-item",
           "active": false,
         },
@@ -259,8 +274,8 @@ App({
         {
           "pagePath": "../allcardetail/allcardetail",
           "text": "处理记录",
-          "iconPath": "../img/menuicon/car.png",
-          "selectedIconPath": "../img/menuicon/car2.png",
+          "iconPath": "../img/menuicon/record.png",
+          "selectedIconPath": "../img/menuicon/record2.png",
           "clas": "menu-item3",
           "active": false,
         },
