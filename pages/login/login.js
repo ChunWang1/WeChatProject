@@ -62,7 +62,7 @@ Page({
               success: function () {
                 setTimeout(function () {
                   wx.redirectTo({
-                    url: '../map/map',
+                    url: '/packageManager/pages/map/map',
                   })
                 })
               }

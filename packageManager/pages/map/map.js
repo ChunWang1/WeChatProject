@@ -377,7 +377,7 @@ Page({
     var id = event.currentTarget.dataset.id
     console.log(id)
     wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
     });
   },
   showdetailoftreatmentcar: function(event) {
@@ -385,7 +385,7 @@ Page({
     console.log(carid)
     console.log(event.currentTarget.dataset.siteid)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
+      url: '/packageManager/pages/cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
     });
   },
 

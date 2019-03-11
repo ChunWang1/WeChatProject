@@ -1,6 +1,6 @@
 // pages/warehouse/warehouse.js
 const app=getApp();
-import * as echarts from '../../ec-canvas/echarts';
+import * as echarts from '../ec-canvas/echarts';
 function initChart(canvas, width, height, data) {//这里多加一个参数
   const chart = echarts.init(canvas, null, {
     width: width,
