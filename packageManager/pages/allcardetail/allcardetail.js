@@ -43,7 +43,7 @@ Page({
     var id = event.currentTarget.dataset.carid
     console.log(id)
     wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid+'&siteId=' + event.currentTarget.dataset.siteid,
+      url: '/packageManager/pages/cardetail/cardetail?carId=' + event.currentTarget.dataset.carid+'&siteId=' + event.currentTarget.dataset.siteid,
     });
   },
   /**

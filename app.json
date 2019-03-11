@@ -1,14 +1,33 @@
 {
   "pages":[
-    "pages/map/map",
     "pages/login/login",  
-    "pages/sensorhistorydata/sensorhistorydata",
-    "pages/factory/factory",
-    "pages/factorydetail/factorydetail",
-    "pages/cardetail/cardetail",
-    "pages/allcardetail/allcardetail",
-    "pages/warehouse/warehouse",
     "pages/register/register"
+  ],
+  "subPackages": [
+    {
+      "root": "packageManager",
+      "pages": [
+        "pages/map/map",
+        "pages/sensorhistorydata/sensorhistorydata",
+        "pages/factory/factory",
+        "pages/factorydetail/factorydetail",
+        "pages/cardetail/cardetail",
+        "pages/allcardetail/allcardetail",
+        "pages/warehouse/warehouse"
+      ]
+    },
+    {
+      "root": "packageFactory",
+      "pages": []
+    },
+    {
+      "root": "packageTransportDriver",
+      "pages": []
+    },
+    {
+      "root": "packageTreatmentDriver",
+      "pages": []
+    }
   ],
   "window":{
     "backgroundTextStyle":"light",

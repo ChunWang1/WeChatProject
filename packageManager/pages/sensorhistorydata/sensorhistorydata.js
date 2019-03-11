@@ -1,5 +1,5 @@
 // pages/sensorhistorydata/sensorhistorydata.js
-import * as echarts from '../../ec-canvas/echarts';
+import * as echarts from '../../ec-canvas/ec-canvas.js';
 
 const app = getApp()
 

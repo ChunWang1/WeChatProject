@@ -140,7 +140,7 @@ Page({
     //  console.log(sensorid)
     //  console.log(event.currentTarget.dataset.sensortype)
     wx.navigateTo({
-      url: '../sensorhistorydata/sensorhistorydata?sensorId=' + event.currentTarget.dataset.sensorid + '&sensorType=' + event.currentTarget.dataset.sensortype,
+      url: '/packageManager/pages/sensorhistorydata/sensorhistorydata?sensorId=' + event.currentTarget.dataset.sensorid + '&sensorType=' + event.currentTarget.dataset.sensortype,
     });
   },
 
