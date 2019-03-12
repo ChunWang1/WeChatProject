@@ -13,20 +13,32 @@
         "pages/factorydetail/factorydetail",
         "pages/cardetail/cardetail",
         "pages/allcardetail/allcardetail",
-        "pages/warehouse/warehouse"
+        "pages/warehouse/warehouse",
+		    "pages/modifypwd/modifypwd", 
+        "pages/personinfor/personinfor"
       ]
     },
     {
       "root": "packageFactory",
-      "pages": []
+      "pages": [
+        "pages/map/map",
+        "pages/sludgeapply/sludgeapply",
+        "pages/modifypwd/modifypwd",
+        "pages/personinfor/personinfor",
+        "pages/sludgerecord/sludgerecord"
+      ]
     },
     {
       "root": "packageTransportDriver",
-      "pages": []
+      "pages": [
+        "pages/map/map"
+      ]
     },
     {
       "root": "packageTreatmentDriver",
-      "pages": []
+      "pages": [
+        "pages/map/map"
+      ]
     }
   ],
   "window":{

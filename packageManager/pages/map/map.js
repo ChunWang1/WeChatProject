@@ -1,5 +1,8 @@
 // pages/map/map.js
-var app = getApp();
+var start_clientX;
+var end_clientX;
+const app = getApp()
+const util = require("../../../utils/util.js")
 var siteStatus = {
   NORMAL: 0,
   PROCESSING: 1,
@@ -31,6 +34,43 @@ Page({
    * 页面的初始数据
    */
   data: {
+    no:"",
+    windowWidth: wx.getSystemInfoSync().windowWidth,
+    markers: [],
+  },
+  // 滑动开始
+  touchstart: function (e) {
+    start_clientX = e.changedTouches[0].clientX
+  },
+  // 滑动结束
+  touchend: function (e) {
+    end_clientX = e.changedTouches[0].clientX;
+    if (end_clientX - start_clientX > 120) {
+      this.setData({
+        display: "block",
+        translate: 'transform: translateX(' + this.data.windowWidth * 0.7 + 'px);'
+      })
+    } else if (start_clientX - end_clientX > 0) {
+      this.setData({
+        display: "none",
+        translate: ''
+      })
+    }
+  },
+  // 头像
+  showview: function () {
+    this.setData({
+      display: "block",
+      translate: 'transform: translateX(' + this.data.windowWidth * 0.7 + 'px);'
+    })
+  },
+  // 遮拦
+  hideview: function () {
+    this.setData({
+      display: "none",
+      translate: '',
+    })
+  },
     markers: [],
   },
 
@@ -45,6 +85,10 @@ Page({
     setInterval(function () {
       that.queryCarInRoad();
     }, 2000)
+    that.setData({
+      no: app.globalData.userData[0].username,
+    });
+    app.showManageTabBar();    //显示自定义的底部导航
   },
 
   showWareHouse: function() {
@@ -609,7 +653,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    app.showManageTabBar();    //显示自定义的底部导航
 
   },
   regionchange(e) {
