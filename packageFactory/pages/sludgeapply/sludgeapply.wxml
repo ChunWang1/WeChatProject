@@ -1,4 +1,6 @@
 <!--pages/sludgeapply/sludgeapply.wxml-->
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 <i-panel  wx:for="{{siteData}}" wx:key="id" wx:if="{{item.id==siteId}}">
 <text class='text'>污泥处理申请</text>
 <view class="page-head-line"></view>

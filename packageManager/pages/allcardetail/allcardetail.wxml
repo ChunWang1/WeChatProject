@@ -1,6 +1,6 @@
 <!--pages/allcardetail/allcardetail.wxml-->
-<import src="../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
@@ -8,7 +8,7 @@
 <view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{carList}}" wx:for-item="car" wx:if="{{car.carType==0}}">
+<i-cell-group wx:for="{{carList}}"  wx:key="index" wx:for-item="car" wx:if="{{car.carType==0}}">
   <i-cell wx:if="{{car.status==0}}" title="{{car.license}} 处于空闲状态" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
   </i-cell>
     <i-cell wx:if="{{car.status==1}}" title="{{car.license}} 在去往{{car.site.siteName}}的途中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>

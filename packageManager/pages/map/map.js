@@ -83,8 +83,9 @@ Page({
       that.queryCarInRoad();
     }, 2000)
     that.setData({
-      no: app.globalData.userData[0].username
+      no: app.globalData.userData[0].username,
     });
+    app.showManageTabBar();    //显示自定义的底部导航
   },
 
   showWareHouse: function() {
@@ -649,7 +650,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    app.showManageTabBar();    //显示自定义的底部导航
+    
 
   },
   regionchange(e) {

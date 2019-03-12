@@ -34,10 +34,10 @@
           <text>关于我们</text>
         </view>
       </navigator>
-      <navigator url='../../../pages/login/login'>
+      <navigator url='../../../pages/login/login' open-type="redirect">
         <view class="wc">
           <image src='../../../resources/img/loginOut.png'></image>
-          <text>切换账号</text>
+          <text>退出</text>
         </view>
       </navigator>
     </view>
@@ -47,7 +47,7 @@
   <view class="home" style="{{translate}}">
     <!----------------------原地图代码------------>
 <import src="../../../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 <view>
  <map id="map" longitude="113.83106" latitude="22.65932" scale="12"
   controls="{{controls}}"

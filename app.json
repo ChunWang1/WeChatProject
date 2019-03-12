@@ -24,7 +24,8 @@
         "pages/map/map",
         "pages/sludgeapply/sludgeapply",
         "pages/modifypwd/modifypwd",
-        "pages/personinfor/personinfor"
+        "pages/personinfor/personinfor",
+        "pages/sludgerecord/sludgerecord"
       ]
     },
     {

@@ -1,7 +1,217 @@
 //var URL = "https://www.teamluo.cn";
 var URL ="http://localhost:8080/DisposalSludgeSystem";
 App({
-  
+  manageTabBar: {
+    "color": "#9E9E9E",
+    "selectedColor": "#70DB93",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "position": "bottom",
+    "list": [
+      {
+        pagePath: "/packageManager/pages/map/map",
+        text: "首页",
+        iconPath: "../../../resources/img/map.png",
+        selectedIconPath: "../../../resources/img/map2.png",
+        clas: "menu-item",
+        active: true,
+      },
+      {
+        pagePath: "/packageManager/pages/allcardetail/allcardetail",
+        text: "监控",
+        iconPath: "../../../resources/img/monitor.png",
+        selectedIconPath: "../../../resources/img/monitor2.png",
+        clas: "menu-item",
+        active: false,
+      },
+      {
+        pagePath: "#",
+        text: "系统管理",
+        iconPath: "../../../resources/img/sysmanage.png",
+        selectedIconPath: "../../../resources/img/sysmanage2.png",
+        clas: "menu-item",
+        active: false,
+      },
+
+    ]
+  },
+  factoryTabBar: {
+    "color": "#9E9E9E",
+    "selectedColor": "#70DB93",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "/packageFactory/pages/map/map",
+        "text": "首页",
+        "iconPath": "../../../resources/img/map.png",
+        "selectedIconPath": "../../../resources/img/map2.png",
+        "clas": "menu-item2",
+        "active": true,
+      },
+      {
+        "pagePath": "/packageFactory/pages/sludgeapply/sludgeapply",
+        "text": "任务申请",
+        "iconPath": "../../../resources/img/task.png",
+        "selectedIconPath": "../../../resources/img/task2.png",
+        "clas": "menu-item2",
+        "active": false,
+      },
+      {
+        "pagePath": "../../../allcardetail/allcardetail",
+        "text": "监控",
+        "iconPath": "../../../resources/img/monitor.png",
+        "selectedIconPath": "../../../resources/img/monitor2.png",
+        "clas": "menu-item2",
+        "active": false,
+      },
+      {
+        "pagePath": "../../../allcardetail/allcardetail",
+        "text": "处理记录",
+        "iconPath": "../../../resources/img/record.png",
+        "selectedIconPath": "../../../resources/img/record2.png",
+        "clas": "menu-item2",
+        "active": false,
+      },
+    ]
+  },
+  treatDriverTabBar: {
+    "color": "#9E9E9E",
+    "selectedColor": "#70DB93",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "../map/map",
+        "text": "首页",
+        "iconPath": "../../../resources/img/map.png",
+        "selectedIconPath": "../../../resources/img/map2.png",
+        "clas": "menu-item",
+        "active": true,
+      },
+      {
+        "pagePath": "../../../allcardetail/allcardetail",
+        "text": "监控",
+        "iconPath": "../../../resources/img/monitor.png",
+        "selectedIconPath": "../../../resources/img/monitor2.png",
+        "clas": "menu-item",
+        "active": false,
+      },
+      {
+        "pagePath": "../allcardetail/allcardetail",
+        "text": "处理记录",
+        "iconPath": "../../../resources/img/record.png",
+        "selectedIconPath": "../../../resources/img/record2.png",
+        "clas": "menu-item",
+        "active": false,
+      },
+    ]
+  },
+  transDriverTabBar: {
+    "color": "#9E9E9E",
+    "selectedColor": "#70DB93",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "../map/map",
+        "text": "首页",
+        "iconPath": "../../../resources/img/map.png",
+        "selectedIconPath": "../../../resources/img/map2.png",
+        "clas": "menu-item3",
+        "active": true,
+      },
+      {
+        "pagePath": "../allcardetail/allcardetail",
+        "text": "处理记录",
+        "iconPath": "../../../resources/img/record.png",
+        "selectedIconPath": "../../../resources/img/record2.png",
+        "clas": "menu-item3",
+        "active": false,
+      },
+    ]
+  },
+  //第一种底部  
+  showManageTabBar: function () {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+      _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.manageTabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+      
+      tabBar.list[i].active = false;
+      //console.log(tabBar.list[i].pagePath)
+     // console.log(_pagePath)
+      if (tabBar.list[i].pagePath == _pagePath) {
+       
+        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+      }
+    }
+    _curPage.setData({
+      manageTabBar: tabBar
+    });
+  },
+  showFactoryTabBar: function () {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+      _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.factoryTabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+      tabBar.list[i].active = false;
+      if (tabBar.list[i].pagePath == _pagePath) {
+        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+      }
+    }
+    _curPage.setData({
+      factoryTabBar: tabBar
+    });
+  },
+  showTreatDriverTabBar: function () {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+      _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.treatDriverTabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+      tabBar.list[i].active = false;
+      if (tabBar.list[i].pagePath == _pagePath) {
+        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+      }
+    }
+    _curPage.setData({
+      treatDriverTabBar: tabBar
+    });
+  },
+  showTransDriverTabBar: function () {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+      _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.transDriverTabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+      tabBar.list[i].active = false;
+      if (tabBar.list[i].pagePath == _pagePath) {
+        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+      }
+    }
+    _curPage.setData({
+      transDriverTabBar: tabBar
+    });
+  },
+
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -34,80 +244,14 @@ App({
         }
       }
     })
+  
   },
-  //第一种底部  
-  showManageTabBar: function () {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-      _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.manageTabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-      tabBar.list[i].active = false;
-      if (tabBar.list[i].pagePath == _pagePath) {
-        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-      }
-    }
-    _curPage.setData({
-      tabBar: tabBar
-    });
-  },
-  showFactoryTabBar: function () {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-      _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.factoryTabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-      tabBar.list[i].active = false;
-      if (tabBar.list[i].pagePath == _pagePath) {
-        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-      }
-    }
-    _curPage.setData({
-      tabBar: tabBar
-    });
-  },
-  showTreatDriverTabBar: function () {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-      _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.treatDriverTabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-      tabBar.list[i].active = false;
-      if (tabBar.list[i].pagePath == _pagePath) {
-        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-      }
-    }
-    _curPage.setData({
-      tabBar: tabBar
-    });
-  },
-  showTransDriverTabBar: function () {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-      _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.transDriverTabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-      tabBar.list[i].active = false;
-      if (tabBar.list[i].pagePath == _pagePath) {
-        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-      }
-    }
-    _curPage.setData({
-      tabBar: tabBar
-    });
-  },
+
+  
+
+
+  
+  //全局变量
   globalData: {
     userInfo: null,
 	
@@ -151,139 +295,7 @@ App({
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL +"/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
 	MODIFY_UserInfo_URL:URL +"/user/modifyUserInfo",
     INSERT_RecordByAlert_URL: URL +"/record/insertRecordByAlert",
-    manageTabBar: {
-      "color": "#9E9E9E",
-      "selectedColor": "#f00",
-      "backgroundColor": "#fff",
-      "borderStyle": "#ccc",
-      "position":"bottom",
-      "list": [
-        {
-          "pagePath": "../map/map",
-          "text": "首页",
-          "iconPath": "../../../resources/img/map.png",
-          "selectedIconPath": "../../../resources/img/map2.png",
-          "clas": "menu-item",
-           active: true,
-        },
-        {
-          "pagePath": "../../../allcardetail/allcardetail",
-          "text": "监控",
-          "iconPath": "../../../resources/img/monitor.png",
-          "selectedIconPath": "../img/menuicon/monitor2.png",
-          "clas": "menu-item",
-          "active": false,
-        },
-        {
-          "pagePath": "../allcardetail/allcardetail",
-          "text": "系统管理",
-          "iconPath": "../../../resources/img/sysmanage.png",
-          "selectedIconPath": "../../../img/menuicon/sysmanage2.png",
-          "clas": "menu-item",
-          "active": false,
-        },
-       
-      ]
-    },
-    factoryTabBar: {
-      "color": "#9E9E9E",
-      "selectedColor": "#f00",
-      "backgroundColor": "#fff",
-      "borderStyle": "#ccc",
-      "position": "bottom",
-      "list": [
-        {
-          "pagePath": "../map/map",
-          "text": "首页",
-          "iconPath": "../../../resources/img/map.png",
-          "selectedIconPath": "../../../resources/img/map2.png",
-          "clas": "menu-item2",
-           active: true,
-        },
-        {
-          "pagePath": "../sludgeapply/sludgeapply",
-          "text": "任务申请",
-          "iconPath": "../../../resources/img/task.png",
-          "selectedIconPath": "../../../resources/img/task2.png",
-          "clas": "menu-item2",
-          "active": false,
-        },
-        {
-          "pagePath": "../../../allcardetail/allcardetail",
-          "text": "监控",
-          "iconPath": "../../../resources/img/monitor.png",
-          "selectedIconPath": "../../../resources/img/monitor2.png",
-          "clas": "menu-item2",
-          "active": false,
-        },
-        {
-          "pagePath": "../../../allcardetail/allcardetail",
-          "text": "处理记录",
-          "iconPath": "../../../resources/img/record.png",
-          "selectedIconPath": "../../../resources/img/record2.png",
-          "clas": "menu-item2",
-          "active": false,
-        },
-      ]
-    },
-    treatDriverTabBar: {
-      "color": "#9E9E9E",
-      "selectedColor": "#f00",
-      "backgroundColor": "#fff",
-      "borderStyle": "#ccc",
-      "position": "bottom",
-      "list": [
-        {
-          "pagePath": "../map/map",
-          "text": "首页",
-          "iconPath": "../../../resources/img/map.png",
-          "selectedIconPath": "../../../resources/img/map2.png",
-          "clas": "menu-item",
-          active: true,
-        },
-        {
-          "pagePath": "../../../allcardetail/allcardetail",
-          "text": "监控",
-          "iconPath": "../../../resources/img/monitor.png",
-          "selectedIconPath": "../../../resources/img/monitor2.png",
-          "clas": "menu-item",
-          "active": false,
-        },
-        {
-          "pagePath": "../allcardetail/allcardetail",
-          "text": "处理记录",
-          "iconPath": "../../../resources/img/record.png",
-          "selectedIconPath": "../../../resources/img/record2.png",
-          "clas": "menu-item",
-          "active": false,
-        },
-      ]
-    },
-    transDriverTabBar: {
-      "color": "#9E9E9E",
-      "selectedColor": "#f00",
-      "backgroundColor": "#fff",
-      "borderStyle": "#ccc",
-      "position": "bottom",
-      "list": [
-        {
-          "pagePath": "../map/map",
-          "text": "首页",
-          "iconPath": "../../../resources/img/map.png",
-          "selectedIconPath": "../../../resources/img/map2.png",
-          "clas": "menu-item3",
-          active: true,
-        },
-        {
-          "pagePath": "../allcardetail/allcardetail",
-          "text": "处理记录",
-          "iconPath": "../../../resources/img/record.png",
-          "selectedIconPath": "../../../resources/img/record2.png",
-          "clas": "menu-item3",
-          "active": false,
-        },
-      ]
-    },
+    
   }
 })
     
