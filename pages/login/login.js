@@ -79,13 +79,14 @@ Page({
                 } else if (roleId == 2){
                   //工厂人员
                   wx.redirectTo({
+
                     url: '/packageFactory/pages/map/map',
                   })
 
                 } else if (roleId == 3) {
                   //处理车司机
                   wx.redirectTo({ 
-                    url: 'packageTreatmentDriver/pages/map/map',
+                    url: '/packageTreatmentDriver/pages/map/map',
                   })
 
                 } else if (roleId == 4) {

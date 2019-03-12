@@ -1,5 +1,4 @@
 <!--pages/map/map.wxml-->
-
 <view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
   <!-- 侧滑栏 -->
   <view class="page_tab">
@@ -192,3 +191,4 @@
     
   </view>
 </view>
+
