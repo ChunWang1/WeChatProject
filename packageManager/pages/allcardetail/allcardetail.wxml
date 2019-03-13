@@ -1,6 +1,17 @@
 <!--pages/allcardetail/allcardetail.wxml-->
 <import src="../../../template/tabbar.wxml"/>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+<!--顶部导航栏-->
+<view class="swiper-tab">
+ 
+<view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">车辆监控</view>
+ 
+<view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">工厂监控</view>
+</view>
+<!--内容主体-->
+<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+ <!--车辆监控-->
+<swiper-item>
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
@@ -21,3 +32,24 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+</swiper-item>
+ <!--工厂监控-->
+<swiper-item>
+<view>
+<view class="page-head">
+<icon class="iconfont icon-truck"></icon>
+
+<view class="page-head-title">工厂监控</view>
+<view class="page-head-line"></view>
+</view>
+<i-cell-group wx:for="{{factoryList}}"  wx:key="index" wx:for-item="factory" >
+  <i-cell  title="{{factory.siteName}} " is-link bindtap="showdetailoffactory" data-siteid='{{factory.id}}'>
+  </i-cell>
+</i-cell-group>
+</view>
+<view  wx:if="{{factoryList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</swiper-item>
+</swiper>

@@ -6,32 +6,75 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    currentTab: 0
   },
 
+  swichNav: function (e) {
+
+    console.log(e);
+
+    var that = this;
+
+    if (this.data.currentTab === e.target.dataset.current) {
+
+      return false;
+
+    } else {
+
+      that.setData({
+
+        currentTab: e.target.dataset.current,
+
+      })
+
+    }
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     //查询车辆信息
       var that = this;
-      var carList;
-      wx.request({
-        url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-        data: { siteId:-1 , carType:- 1 , status:- 1 },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          console.log(res.data)
-          that.setData({
-            carList: res.data
-          })
-          return
-        }
-      })
+    that.querytreatmentcar();
+    that.queryallfactoryvideo();
   },
- 
+  
+  querytreatmentcar: function (callback){
+    var that = this;
+    wx.request({
+      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
+      data: { siteId: -1, carType: - 1, status: - 1 },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          carList: res.data
+        })
+        return
+      }
+    })
+  },
+
+  queryallfactoryvideo: function (callback) {
+    var that = this;
+    wx.request({
+      url: app.globalData.QUERY_AllFactoryVideo_URL,
+      data: { },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          factoryList: res.data
+        })
+        return
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -44,6 +87,14 @@ Page({
     console.log(id)
     wx.navigateTo({
       url: '/packageManager/pages/cardetail/cardetail?carId=' + event.currentTarget.dataset.carid+'&siteId=' + event.currentTarget.dataset.siteid,
+    });
+  },
+
+  showdetailoffactory: function (event) {
+    var siteid = event.currentTarget.dataset.siteid
+    console.log(siteid)
+    wx.navigateTo({
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.siteid,
     });
   },
   /**
