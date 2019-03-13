@@ -1,4 +1,4 @@
-<!--pages/map/map.wxml-->
+
 <view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
   <!-- 侧滑栏 -->
   <view class="page_tab">
@@ -47,7 +47,7 @@
   <view class="home" style="{{translate}}">
     <!----------------------原地图代码------------>
 <import src="../../../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 <view>
  <map id="map" longitude="113.83106" latitude="22.65932" scale="12"
   controls="{{controls}}"
@@ -191,4 +191,3 @@
     
   </view>
 </view>
-
