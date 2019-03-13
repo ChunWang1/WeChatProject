@@ -71,3 +71,60 @@ color: #F65959;
 border-bottom: 4rpx solid #F65959;
  
 }
+
+/*单元行*/
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 30rpx;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/*头像*/
+.row image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+    margin: 20rpx;
+}
+
+/*主体*/
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 76%;
+    padding-left: 20rpx;
+}
+
+/*昵称与日期*/
+.top, .bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/*昵称*/
+.license {
+    color: #4d4d4d;
+    font-size: 30rpx;
+}
+
+/*日期*/
+.status {
+    padding: 10rpx;
+    font-size: 26rpx;
+    color: #b2b2b2;
+}
+
+/*话语*/
+.sentence {
+    color: #ccc;
+    font-size: 28rpx;
+    margin-top: 6rpx;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}

@@ -19,14 +19,27 @@
 <view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{carList}}"  wx:key="index" wx:for-item="car" wx:if="{{car.carType==0}}">
-  <i-cell wx:if="{{car.status==0}}" title="{{car.license}} 处于空闲状态" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
-  </i-cell>
-    <i-cell wx:if="{{car.status==1}}" title="{{car.license}} 在去往{{car.site.siteName}}的途中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==2}}" title="{{car.license}} 已到达{{car.site.siteName}}" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==3}}" title="{{car.license}} 已分配任务(未出发)" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==4}}" title="{{car.license}} 返程中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-</i-cell-group>
+<view class="row" wx:for="{{carList}}" wx:key="index" wx:for-item="car" wx:if="{{car.carType==0}}" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
+    <!-- 图片 -->
+    <image src="/resources/car.png" />
+    <!-- 车牌号与状态 -->
+    <view class="content">
+        <view class="top">
+            <view class="license">{{car.license}}</view>
+            <view class="status" wx:if="{{car.status==0}}">空闲中</view>
+            <view class="status" wx:if="{{car.status==1}}">在途中</view>
+            <view class="status" wx:if="{{car.status==2}}">已到达</view>
+            <view class="status" wx:if="{{car.status==3}}">已分配任务(未出发)</view>
+            <view class="status" wx:if="{{car.status==4}}">返程中</view>
+        </view>
+        <view class="bottom">
+            <view class="sentence" wx:if="{{car.status==0||car.status==4}}">暂无任务</view>
+            <view class="sentence" wx:if="{{car.status==1||car.status==3}}">
+            目的地：{{car.site.siteName}}</view>
+             <view class="sentence" wx:if="{{car.status==2}}">所在工厂：{{car.site.siteName}}</view>
+        </view>
+    </view>
+</view>
 </view>
 <view  wx:if="{{carList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
