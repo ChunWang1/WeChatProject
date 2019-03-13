@@ -69,7 +69,7 @@ Page({
       success: function (res) {
         console.log(res.data)
         that.setData({
-          factoryList: res.data
+          videoList: res.data
         })
         return
       }

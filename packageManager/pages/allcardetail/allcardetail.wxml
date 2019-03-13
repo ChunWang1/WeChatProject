@@ -55,10 +55,26 @@
 <view class="page-head-title">工厂监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{factoryList}}"  wx:key="index" wx:for-item="factory" >
-  <i-cell  title="{{factory.siteName}} " is-link bindtap="showdetailoffactory" data-siteid='{{factory.id}}'>
-  </i-cell>
-</i-cell-group>
+<view class="row" wx:for="{{videoList}}" wx:key="index" wx:for-item="video" bindtap="showdetailoffactory" data-siteid="{{video.siteId}}">
+    <!-- 图片 -->
+    <image wx:if="{{video.site.status==0}}" src="/resources/factory0.png" />
+     <image wx:if="{{video.site.status==1}}" src="/resources/factory1.png" />
+      <image wx:if="{{video.site.status==2}}" src="/resources/factory2.png" />
+    <!-- 工厂名称 -->
+    <view class="content">
+        <view class="top">
+            <view class="license">{{video.site.siteName}}</view>
+            <view class="status" wx:if="{{video.site.status==0}}">正常</view>
+            <view class="status" wx:if="{{video.site.status==1}}">处理中</view>
+            <view class="status" wx:if="{{video.site.status==2}}">待处理</view>
+        </view>
+        <view class="bottom">
+            <view class="sentence"  wx:if="{{video.site.telephone==null}}">联系电话：暂无</view>
+            <view class="sentence"  wx:else>
+            联系电话：{{video.site.telephone}}</view>
+        </view>
+    </view>
+</view>
 </view>
 <view  wx:if="{{factoryList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
