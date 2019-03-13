@@ -1,8 +1,8 @@
 <!--pages/warehouse/warehouse.wxml-->
 <import src="../template/tabbar.wxml"/>
 <template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<view>
 <!--顶部导航栏-->
- 
 <view class="swiper-tab">
  
 <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">智慧泥仓</view>
@@ -151,3 +151,4 @@
 </swiper-item>
  
 </swiper>
+</view>
