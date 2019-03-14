@@ -50,6 +50,8 @@ Page({
     imageSrc2: '../../pages/img/menuicon/img2.png',
     // tab切换
     currentTab: 0,
+    record_current: 1,
+    sludeg_current: 1,
   },
 
   swichNav: function (e) {
@@ -85,8 +87,32 @@ Page({
       currentTab: e.detail.current,
 
     })
+  },
 
-
+  //分页事件
+  recordhandleChange({ detail }) {
+    const type = detail.type;
+    if (type === 'next') {
+      this.setData({
+        record_current: this.data.record_current + 1
+      });
+    } else if (type === 'prev') {
+      this.setData({
+        record_current: this.data.record_current - 1
+      });
+    }
+  },
+  sludgehandleChange({ detail }) {
+    const type = detail.type;
+    if (type === 'next') {
+      this.setData({
+        sludeg_current: this.data.sludeg_current + 1
+      });
+    } else if (type === 'prev') {
+      this.setData({
+        sludeg_current: this.data.sludeg_current - 1
+      });
+    }
   },
 
   /**

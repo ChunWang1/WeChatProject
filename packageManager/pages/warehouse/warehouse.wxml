@@ -1,5 +1,5 @@
 <!--pages/warehouse/warehouse.wxml-->
-<import src="../template/tabbar.wxml"/>
+<import src="../../../template/tabbar.wxml"/>
 <template is="tabBar" data="{{tabBar:tabBar}}"></template>
 <view>
 <!--顶部导航栏-->
@@ -47,38 +47,79 @@
 <!--查询框-->
 
 <!--污泥出入记录-->
+<block wx:if="{{sludgeList.length!=0}}">
+<i-cell-group>
+    <i-cell title="状态:"  >
+    <i-tag wx:if="{{sludgeList[sludeg_current-1].status==0}}" slot="footer" class="i-tags"   color="yellow"> 未到达</i-tag>
+    <i-tag wx:elif="{{sludgeList[sludeg_current-1].status==1}}" slot="footer" class="i-tags"   color="green"> 已到达</i-tag>
+    </i-cell>
+    <i-cell title="RFID:" value="{{sludgeList[sludeg_current-1].rfidString}}">
+    </i-cell>
+    <i-cell title="目的地:" value="{{sludgeList[sludeg_current-1].destinationAddress}}">
+    </i-cell>
+    <i-cell title="产生污泥块量(吨):" value="{{sludgeList[sludeg_current-1].weight}}">
+    </i-cell>
+    <i-cell title="污泥运输车司机:" value="{{sludgeList[sludeg_current-1].car.driver.realname}}">
+    </i-cell>
+    <i-cell title="污泥功能:" value="{{sludgeList[sludeg_current-1].sludgeFunction.function}}">
+    </i-cell>
+</i-cell-group>
+ <i-cell >
+ </i-cell>
 
-
+</block>
+ <!--分页--->
+<i-page current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
+    <view slot="prev">上一条记录</view>
+    <view slot="next">下一条记录</view>
+</i-page>
+<!--无数据-->
  <view  wx:if="{{sludgeList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
 </swiper-item>
  
+
 <swiper-item>
- 
-<view class="panel flex-column">
-    <view class="flex-cell flex-row">
-        <text class="flex-cell flex-row" style="font-weight:bold">状态</text>
-        <text class="flex-cell flex-row" style="font-weight:bold">工厂</text>
-        <text class="flex-cell flex-row" style="font-weight:bold">处理人</text>
-        <text class="flex-cell flex-row" style="font-weight:bold">污泥重量</text>
-        
-    </view>
-    <view class="flex-row flex-cell"  wx:for="{{recordList}}" wx:for-item="record" wx:key="{{recordList.site.siteName}}">
-        <text class="flex-cell flex-row" wx:if="{{record.status == 0}}" style="color:#008000">已完成</text>
-        <text class="flex-cell flex-row" wx:elif="{{record.status == 1}}" style='color:#FFFF00'>处理中</text>
-        <text class="flex-cell flex-row" wx:elif="{{record.status == 2}}" style='color:#FF0000'>待处理</text>
-        <text class="flex-cell flex-row" wx:else></text>
+ <!--查询-->
 
-        <text class="flex-cell flex-row">{{record.site.siteName}}</text>
-        <text class="flex-cell flex-row" wx:if="{{record.car.driver.realname == null}}"></text>
-        <text class="flex-cell flex-row" wx:else>{{record.car.driver.realname}}</text>
-        <text class="flex-cell flex-row">{{record.sludgesWeight}}吨</text>
+ <!--处理记录-->
+<block wx:if="{{recordList.length!=0}}" >
+<i-cell-group>
+    <i-cell title="状态:"  >
+    <i-tag wx:if="{{recordList[record_current-1].status==0}}" slot="footer" class="i-tags"   color="green"> 已完成</i-tag>
+    <i-tag wx:elif="{{recordList[record_current-1].status==1}}" slot="footer" class="i-tags"   color="blue"> 处理中</i-tag>
+    <i-tag wx:elif="{{recordList[record_current-1].status==2}}" slot="footer" class="i-tags"   color="yellow"> 待处理</i-tag>
+    </i-cell>
+    <i-cell title="处理人:" value="{{recordList[record_current-1].car.driver.realname}}">
+    </i-cell>
+    <i-cell title="任务分配时间:" value="{{recordList[record_current-1].allocationTime}}">
+    </i-cell>
+    <i-cell title="产生污泥块量(吨):" value="{{recordList[record_current-1].sludgesWeight}}">
+    </i-cell>
+</i-cell-group>
+<i-collapse-item title="更多详情"  >
+    <view slot="content">
+    <i-cell title="污泥处理开始时间:" value="{{recordList[record_current-1].disposalTime}}">
+    </i-cell>
+    <i-cell title="污泥处理完成时间:" value="{{recordList[record_current-1].finishTime}}">
+    </i-cell>
+    <i-cell title="处理人号码:" value="{{recordList[record_current-1].car.driver.telephone}}">
+    </i-cell>   
+    <i-cell title="车牌号:" value="{{recordList[record_current-1].car.license}}">
+    </i-cell> 
     </view>
-    
-</view>
-
+</i-collapse-item>
+ <i-cell >
+ </i-cell>
+</block>
+<!--分页--->
+<i-page current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
+    <view slot="prev">上一条记录</view>
+    <view slot="next">下一条记录</view>
+</i-page>
+<!--暂无数据--->
 <view  wx:if="{{recordList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
