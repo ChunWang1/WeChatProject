@@ -1,6 +1,17 @@
 <!--pages/allcardetail/allcardetail.wxml-->
 <import src="../../../template/tabbar.wxml"/>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+<!--顶部导航栏-->
+<view class="swiper-tab">
+ 
+<view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">车辆监控</view>
+ 
+<view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">工厂监控</view>
+</view>
+<!--内容主体-->
+<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+ <!--车辆监控-->
+<swiper-item>
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
@@ -8,16 +19,66 @@
 <view class="page-head-title">车辆监控</view>
 <view class="page-head-line"></view>
 </view>
-<i-cell-group wx:for="{{carList}}"  wx:key="index" wx:for-item="car" wx:if="{{car.carType==0}}">
-  <i-cell wx:if="{{car.status==0}}" title="{{car.license}} 处于空闲状态" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
-  </i-cell>
-    <i-cell wx:if="{{car.status==1}}" title="{{car.license}} 在去往{{car.site.siteName}}的途中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==2}}" title="{{car.license}} 已到达{{car.site.siteName}}" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==3}}" title="{{car.license}} 已分配任务(未出发)" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-    <i-cell wx:if="{{car.status==4}}" title="{{car.license}} 返程中" is-link bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'></i-cell>
-</i-cell-group>
+<view class="row" wx:for="{{carList}}" wx:key="index" wx:for-item="car" wx:if="{{car.carType==0}}" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
+    <!-- 图片 -->
+    <image src="/resources/car.png" />
+    <!-- 车牌号与状态 -->
+    <view class="content">
+        <view class="top">
+            <view class="license">{{car.license}}</view>
+            <view class="status" wx:if="{{car.status==0}}">空闲中</view>
+            <view class="status" wx:if="{{car.status==1}}">在途中</view>
+            <view class="status" wx:if="{{car.status==2}}">已到达</view>
+            <view class="status" wx:if="{{car.status==3}}">已分配任务(未出发)</view>
+            <view class="status" wx:if="{{car.status==4}}">返程中</view>
+        </view>
+        <view class="bottom">
+            <view class="sentence" wx:if="{{car.status==0||car.status==4}}">暂无任务</view>
+            <view class="sentence" wx:if="{{car.status==1||car.status==3}}">
+            目的地：{{car.site.siteName}}</view>
+             <view class="sentence" wx:if="{{car.status==2}}">所在工厂：{{car.site.siteName}}</view>
+        </view>
+    </view>
+</view>
 </view>
 <view  wx:if="{{carList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+</swiper-item>
+ <!--工厂监控-->
+<swiper-item>
+<view>
+<view class="page-head">
+<icon class="iconfont icon-truck"></icon>
+
+<view class="page-head-title">工厂监控</view>
+<view class="page-head-line"></view>
+</view>
+<view class="row" wx:for="{{videoList}}" wx:key="index" wx:for-item="video" bindtap="showdetailoffactory" data-siteid="{{video.siteId}}">
+    <!-- 图片 -->
+    <image wx:if="{{video.site.status==0}}" src="/resources/factory0.png" />
+     <image wx:if="{{video.site.status==1}}" src="/resources/factory1.png" />
+      <image wx:if="{{video.site.status==2}}" src="/resources/factory2.png" />
+    <!-- 工厂名称 -->
+    <view class="content">
+        <view class="top">
+            <view class="license">{{video.site.siteName}}</view>
+            <view class="status" wx:if="{{video.site.status==0}}">正常</view>
+            <view class="status" wx:if="{{video.site.status==1}}">处理中</view>
+            <view class="status" wx:if="{{video.site.status==2}}">待处理</view>
+        </view>
+        <view class="bottom">
+            <view class="sentence"  wx:if="{{video.site.telephone==null}}">联系电话：暂无</view>
+            <view class="sentence"  wx:else>
+            联系电话：{{video.site.telephone}}</view>
+        </view>
+    </view>
+</view>
+</view>
+<view  wx:if="{{factoryList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</swiper-item>
+</swiper>
