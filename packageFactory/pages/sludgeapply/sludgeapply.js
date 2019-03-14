@@ -44,7 +44,7 @@ Page({
     wx.request({
       url: app.globalData.INSERT_RecordByAlert_URL,
       data: JSON.stringify({
-        siteId: siteId,
+        siteId: that.data.siteId,
         pretreatAmount: pretreatAmount
       }),
       method: 'POST',
