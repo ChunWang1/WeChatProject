@@ -1,6 +1,6 @@
 <!--pages/warehouse/warehouse.wxml-->
-<import src="../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 <!--顶部导航栏-->
  
 <view class="swiper-tab">

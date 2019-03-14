@@ -13,7 +13,7 @@ App({
         text: "首页",
         iconPath: "../../../resources/img/map.png",
         selectedIconPath: "../../../resources/img/map2.png",
-        clas: "menu-item",
+        clas: "menu-item2",
         active: true,
       },
       {
@@ -21,7 +21,15 @@ App({
         text: "监控",
         iconPath: "../../../resources/img/monitor.png",
         selectedIconPath: "../../../resources/img/monitor2.png",
-        clas: "menu-item",
+        clas: "menu-item2",
+        active: false,
+      },
+      {
+        pagePath: "/packageManager/pages/warehouse/warehouse",
+        text: "智慧泥仓",
+        iconPath: "../../../resources/img/warehouse.png",
+        selectedIconPath: "../../../resources/img/warehouse2.png",
+        clas: "menu-item2",
         active: false,
       },
       {
@@ -29,7 +37,7 @@ App({
         text: "系统管理",
         iconPath: "../../../resources/img/sysmanage.png",
         selectedIconPath: "../../../resources/img/sysmanage2.png",
-        clas: "menu-item",
+        clas: "menu-item2",
         active: false,
       },
 
@@ -67,7 +75,7 @@ App({
         "active": false,
       },
       {
-        "pagePath": "../../../allcardetail/allcardetail",
+          "pagePath":"/packageFactory/pages/sludgerecord/sludgerecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -295,6 +303,8 @@ App({
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL +"/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
 	MODIFY_UserInfo_URL:URL +"/user/modifyUserInfo",
     INSERT_RecordByAlert_URL: URL +"/record/insertRecordByAlert",
+    QUERY_AllRecordOfOneFactory_URL: URL +"/record/queryAllRecordOfOneFactory",
+    QUERY_AllSludgeOfOneFactory_URL: URL + "/sludge/queryAllSludgeOfOneFactory",
     
   }
 })

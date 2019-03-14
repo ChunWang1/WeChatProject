@@ -1,17 +1,1 @@
 /* pages/modifypwd/modifypwd.wxss */
-.text{
- display: flex;
- align-items: center;
- justify-content: center;
- font:50px;
- font-weight:bolder;
- margin-top: 25px;
- 
-}
-.page-head-line{
-  margin: 0 auto;
-  width: 300rpx;
-  height: 2rpx;
-  background-color: #BEBEBE;
-  margin-bottom: 20px;
-}
