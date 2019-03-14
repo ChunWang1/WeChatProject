@@ -1,6 +1,6 @@
 // pages/warehouse/warehouse.js
 const app=getApp();
-import * as echarts from '../ec-canvas/echarts';
+import * as echarts from '../../ec-canvas/echarts';
 function initChart(canvas, width, height, data) {//这里多加一个参数
   const chart = echarts.init(canvas, null, {
     width: width,
@@ -166,5 +166,23 @@ Page({
   onShow: function () {
     app.showManageTabBar();    //显示自定义的底部导航
   },
-
+  
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function (ops) {
+    if (ops.from === 'button') {
+      console.log(ops.target);
+    }
+    return {
+      title: '污泥处理系统',
+      path: 'packageManager/pages/warehouse/warehouse',
+      success: function (res) {
+        console.log("转发成功" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        console.log("转发失败" + JSON.stringify(res));
+      }
+    }
+  }
 })

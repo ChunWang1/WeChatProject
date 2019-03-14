@@ -39,12 +39,12 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    that.showWareHouse();
-    that.showSite();
-    that.queryCarInRoad();
-    setInterval(function () {
-      that.queryCarInRoad();
-    }, 2000)
+    that.showWareHouse(); //智慧泥厂
+    that.showSite(); //工厂
+    that.queryCarInRoad(); //查询在途中的汽车
+    // setInterval(function () {
+    //   that.queryCarInRoad();
+    // }, 2000)
   },
 
   showWareHouse: function() {
@@ -55,12 +55,13 @@ Page({
         'content-type': 'application/json'
       },
       success: function(res) {
+        console.log(res.data);
         mainWareHouse = res.data;
         var localMarkers = that.data.markers;
         for (var i = 0; i < mainWareHouse.length; i++) {
           var iconPath = '/resources/warehouse.png';
           var wareHouse = {
-            id: "warehouse"+mainWareHouse[i].id,
+            id: "warehouse"+" "+mainWareHouse[i].id,
             title:"warehouse",
             latitude: mainWareHouse[i].latitude,
             longitude: mainWareHouse[i].longitude,
@@ -74,6 +75,7 @@ Page({
               color: '#B22222'
             }
           }
+          console.log(wareHouse.id);
           localMarkers.push(wareHouse)
         }
         that.setData({
@@ -81,9 +83,9 @@ Page({
         });
         //console.log(85+":"+JSON.stringify(that.data.markers))
         that.flushWareHouseColloutContent()
-        setInterval(function () {
-          that.flushWareHouseColloutContent()
-        }, 10000)
+        // setInterval(function () {
+        //   that.flushWareHouseColloutContent()
+        // }, 10000)
       }
     });
   },
@@ -174,7 +176,7 @@ Page({
           siteInfoOld[site.id].content = contents;
           var iconPath = '/resources/factory' + site.status + '.png';
           var siteMark={
-            id: "site"+site.id,
+            id: "site"+" "+site.id,
             title: "site",
             latitude: site.latitude,
             longitude: site.longitude,
@@ -188,15 +190,16 @@ Page({
               color: '#B22222'
             }
           }
+          console.log(siteMark.id);
           localMarkers.push(siteMark)
         }
         that.setData({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        setInterval(function() {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
+        // setInterval(function() {
+        //   that.flushSiteIconAndCallOutContent();
+        // }, 10000)
       }
     });
   },
@@ -256,7 +259,7 @@ Page({
             siteInfoOld[siteId].status = site.status; //更新status
             var localMarkers = that.data.markers;
             for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].id == "site"+siteId) {
+              if (localMarkers[i].id == "site"+" "+siteId) {
                 var nowContent = "markers[" + i + "].callout.content";
                 that.setData({
                   [nowContent]: content
@@ -372,14 +375,43 @@ Page({
     })
   },
 
+  showdetailofsiteone: function(id) {
+    console.log(id)
+    wx.navigateTo({
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + id,
+    });
+  },
   
-  showdetailofsite: function(event) {
+  showdetailofwarehouse:function(id){
+     console.log(id)
+     wx.navigateTo({
+       url: '/packageManager/pages/warehouse/warehouse?warehouseId=' + id,
+     });
+  },
+  
+  showdetail: function (event) {
+    var that = this;
+    console.log(event);
+    var n = event.markerId.toString(); //将其转化为字符串再切割
+    var str = [];
+    str = n.split(" ");
+    console.log(str);
+    if (str[0] == "warehouse") {
+      that.showdetailofwarehouse(str[1]);
+    }
+    if (str[0] == "site") {
+      that.showdetailofsiteone(str[1]);
+    }
+  },
+
+  showdetailofsite: function (event) {
     var id = event.currentTarget.dataset.id
     console.log(id)
     wx.navigateTo({
       url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
     });
   },
+
   showdetailoftreatmentcar: function(event) {
     var carid = event.currentTarget.dataset.carid
     console.log(carid)
@@ -391,9 +423,9 @@ Page({
 
   startSetInter: function() {
     var that = this;
-    setInterval(function() {
-      that.getCarData();
-    }, 5000)
+    // setInterval(function() {
+    //   that.getCarData();
+    // }, 5000)
   },
   //查询子智慧泥仓信息
   queryMinorWareHouse: function(id) {
@@ -615,6 +647,7 @@ Page({
   regionchange(e) {
     console.log(e.type)
   },
+
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -646,7 +679,19 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function(ops) {
+     if(ops.from === 'button'){
+         console.log(ops.target);
+     }
+     return{
+       title: '污泥处理系统',
+       path: 'packageManager/pages/map/map',
+       success:function(res){
+         console.log("转发成功" + JSON.stringify(res));
+       },
+       fail:function(res){
+         console.log("转发失败" + JSON.stringify(res));
+       }
+     }
   }
 })

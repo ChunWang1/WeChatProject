@@ -157,7 +157,7 @@ App({
           "active": false,
         },
         {
-          "pagePath": "../allcardetail/allcardetail",
+          "pagePath": "../warehouse/warehouse",
           "text": "系统管理",
           "iconPath": "../img/menuicon/car.png",
           "selectedIconPath": "../img/menuicon/car2.png",

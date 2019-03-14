@@ -1,5 +1,5 @@
 // pages/sensorhistorydata/sensorhistorydata.js
-import * as echarts from '../../ec-canvas/ec-canvas.js';
+import * as echarts from '../../../ec-canvas/ec-canvas.js';
 
 const app = getApp()
 
@@ -286,6 +286,18 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    if (ops.from === 'button') {
+      console.log(ops.target);
+    }
+    return {
+      title: '污泥处理系统',
+      path: 'packageManager/pages/sensorhistorydata/sensorhistorydata',
+      success: function (res) {
+        console.log("转发成功" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        console.log("转发失败" + JSON.stringify(res));
+      }
+    }
   }
 })
