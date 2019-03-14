@@ -78,37 +78,6 @@ border-bottom: 4rpx solid #F65959;
  
 }
 
-.table {
-  border: 0px solid darkgray;
-  font-size: 35rpx;
-  margin-top: 20px;
-}
-.tr {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  height: 2rem;
-  align-items: center;
-}
-.td {
-    width:40%;
-    justify-content: center;
-    text-align: center;
-}
-.bg-w{
-  background: snow;
-}
-.bg-g{
-  background: #E6F3F9;
-}
-.th {
-  width: 40%;
-  justify-content: center;
-  display: flex;
-  height: 2rem;
-  align-items: center;
-}
-
 
 .panel{
 background:#fff;
