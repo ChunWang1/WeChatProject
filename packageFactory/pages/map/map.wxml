@@ -1,0 +1,193 @@
+
+<view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
+  <!-- 侧滑栏 -->
+  <view class="page_tab">
+    <block wx:if="{{no ===''}}">
+      <navigator url='../login/login'>
+        <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+        <view class='user_name'>未登录</view>
+        <view class="page-head-line"></view>
+      </navigator>
+    </block>
+    <block wx:else>
+      <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+      <view class='user_name'>{{no}}</view>
+      <view class="page-head-line"></view>
+    </block>
+    <view class="page_tab_content">
+      <navigator url='../personinfor/personinfor'>
+        <view class="wc">
+          <image src='../../../resources/img/infor.png'></image>
+          <text>个人信息</text>
+        </view>
+      </navigator >
+      <navigator url='../modifypwd/modifypwd'>
+      <view class="wc">
+        <image src='../../../resources/img/modify.png'></image>
+        <text bindtap='tosat'>修改密码</text>
+      </view>
+      </navigator>
+      
+      <navigator url='##'>
+        <view class="wc">
+          <image src='../../../resources/img/aboutUS.png'></image>
+          <text>关于我们</text>
+        </view>
+      </navigator>
+      <navigator url='../../../pages/login/login' open-type="redirect">
+        <view class="wc">
+          <image src='../../../resources/img/loginOut.png'></image>
+          <text>退出</text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+  <!-- 主页 -->
+  <view class="home" style="{{translate}}">
+    <!----------------------原地图代码------------>
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
+<view>
+ <map id="map" longitude="113.83106" latitude="22.65932" scale="12"
+  controls="{{controls}}"
+  bindcontroltap="controltap"
+  markers="{{markers}}"
+  bindmarkertap="markertap"
+  polyline="{{polyline}}"
+  bindregionchange="regionchange"
+  bindcallouttap='showDetailOfSiteOrCar'
+  show-location 
+  style="width: 100%; height: 90vh;">
+  </map>
+  </view>
+   <cover-view class='top'>
+  <cover-image class='top_Image' src='../../../resources/img/center.png' bindtap="showview"></cover-image>
+  </cover-view>
+  <cover-view class='bottom_Image'>
+      <cover-image class='Image' src='../../../resources/img/factorymap.png' bindtap="showmapsite"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/treatmentcarmap.png' bindtap="showtreatmentcar"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/transportcarmap.png' bindtap="showtransportcar"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/warehousemap.png' bindtap="showwarehouse"></cover-image>
+  </cover-view>
+  <!--站点弹窗-->
+<cover-view class="modal-mask"  bindtap="hideMapSite" catchtouchmove="preventTouchMove" wx:if="{{showMapSite}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showMapSite}}">
+  <cover-view class="modal-title">站点信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">编号</cover-view>
+    <cover-view class="th">站点</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
+    <block  wx:for="{{siteList}}" wx:for-item="site">
+      <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}'>
+        <cover-view class="td">{{site.serialNumber}}</cover-view>
+        <cover-view class="td">{{site.siteName}}</cover-view>
+        <cover-view class="td" wx:if="{{site.status==0}}">正常</cover-view>
+        <cover-view class="td" wx:elif="{{site.status==1}}">处理中</cover-view>
+        <cover-view class="td" wx:elif="{{site.status==2}}">待处理</cover-view>
+      </cover-view>
+  </block>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="onSiteCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="onSiteConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
+
+  <!--处理车弹窗-->
+<cover-view class="modal-mask"  bindtap="hidetreatmentcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtreatmentcar}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showtreatmentcar}}">
+  <cover-view class="modal-title">处理车信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">处理车牌号</cover-view>
+    <cover-view class="th">目的地</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
+    <block  wx:for="{{carList}}" wx:for-item="car">
+      <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}' wx:if="{{car.carType==0}}">
+        <cover-view class="td">{{car.license}}</cover-view>
+        <cover-view class="td">{{car.site.siteName}}</cover-view>
+        <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==1}}">在途中</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==2}}">已到达</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==3}}">已派单(未出发)</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==4}}">返程</cover-view>
+      </cover-view>
+  </block>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="ontreatmentcarCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="ontreatmentcarConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
+
+  <!--运输车弹窗-->
+<cover-view class="modal-mask"  bindtap="hidetransportcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtransportcar}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showtransportcar}}">
+  <cover-view class="modal-title">运输车信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">处理车牌号</cover-view>
+    <cover-view class="th">目的地</cover-view>
+    <cover-view class="th ">状态</cover-view>
+  </cover-view>
+    <block  wx:for="{{carList}}" wx:for-item="car">
+      <cover-view class="tr" wx:if="{{car.carType==1}}">
+        <cover-view class="td">{{car.license}}</cover-view>
+        <cover-view class="td">{{car.site.siteName}}</cover-view>
+        <cover-view class="td"  wx:if="{{car.status==0}}">空闲</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==1}}">在途中</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==2}}">已到达</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==3}}">已派单(未出发)</cover-view>
+        <cover-view class="td"  wx:elif="{{car.status==4}}">返程</cover-view>
+      </cover-view>
+  </block>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="ontransportcarCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="ontransportcarConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
+
+  <!--智慧泥仓弹窗-->
+<cover-view class="modal-mask"  bindtap="hidewarehouseModal" catchtouchmove="preventTouchMove" wx:if="{{showwarehouse}}"></cover-view>
+<cover-view class="modal-dialog" wx:if="{{showwarehouse}}">
+  <cover-view class="modal-title">智慧泥仓信息</cover-view>
+  <cover-view class="modal-content">
+    <cover-view class="table">
+     <cover-view class="tr">
+    <cover-view class="th">子仓</cover-view>
+    <cover-view class="th">存储量</cover-view>
+    <cover-view class="th ">剩余容量</cover-view>
+    <cover-view class="th ">总容量</cover-view>
+  </cover-view>
+    <block  wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse">
+      <cover-view class="tr">
+        <cover-view class="td">{{minorWareHouse.serialNumber}}</cover-view>
+        <cover-view class="td">{{minorWareHouse.moistrueDegree*100}}%</cover-view>
+        <cover-view class="td">{{minorWareHouse.remainCapacity}}</cover-view>
+        <cover-view class="td">{{minorWareHouse.capacity}}</cover-view>
+      </cover-view>
+  </block>
+    </cover-view>
+  </cover-view>
+  <cover-view class="modal-footer">
+    <cover-view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</cover-view>
+    <cover-view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</cover-view>
+  </cover-view>
+</cover-view>
+<!--------------------------------------------------------->
+    
+    
+    
+  </view>
+</view>

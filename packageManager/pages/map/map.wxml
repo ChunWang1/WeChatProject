@@ -1,6 +1,53 @@
 <!--pages/map/map.wxml-->
-<import src="../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
+  <!-- 侧滑栏 -->
+  <view class="page_tab">
+    <block wx:if="{{no ===''}}">
+      <navigator url='../login/login'>
+        <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+        <view class='user_name'>未登录</view>
+        <view class="page-head-line"></view>
+      </navigator>
+    </block>
+    <block wx:else>
+      <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+      <view class='user_name'>{{no}}</view>
+      <view class="page-head-line"></view>
+    </block>
+    <view class="page_tab_content">
+      <navigator url='../personinfor/personinfor'>
+        <view class="wc">
+          <image src='../../../resources/img/infor.png'></image>
+          <text>个人信息</text>
+        </view>
+      </navigator >
+      <navigator url='../modifypwd/modifypwd'>
+      <view class="wc">
+        <image src='../../../resources/img/modify.png'></image>
+        <text bindtap='tosat'>修改密码</text>
+      </view>
+      </navigator>
+      
+      <navigator url='##'>
+        <view class="wc">
+          <image src='../../../resources/img/aboutUS.png'></image>
+          <text>关于我们</text>
+        </view>
+      </navigator>
+      <navigator url='../../../pages/login/login' open-type="redirect">
+        <view class="wc">
+          <image src='../../../resources/img/loginOut.png'></image>
+          <text>退出</text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+  <!-- 主页 -->
+  <view class="home" style="{{translate}}">
+    <!----------------------原地图代码------------>
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 <view>
  <map id="map" longitude="113.83106" latitude="22.65932" scale="12"
   controls="{{controls}}"
@@ -14,11 +61,14 @@
   style="width: 100%; height: 90vh;">
   </map>
   </view>
+   <cover-view class='top'>
+  <cover-image class='top_Image' src='../../../resources/img/center.png' bindtap="showview"></cover-image>
+  </cover-view>
   <cover-view class='bottom_Image'>
-      <cover-image class='Image' src='../img/menuicon/factorymap.png' bindtap="showmapsite"></cover-image>
-      <cover-image class='Image' src='../img/menuicon/treatmentcarmap.png' bindtap="showtreatmentcar"></cover-image>
-      <cover-image class='Image' src='../img/menuicon/transportcarmap.png' bindtap="showtransportcar"></cover-image>
-      <cover-image class='Image' src='../img/menuicon/warehousemap.png' bindtap="showwarehouse"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/factorymap.png' bindtap="showmapsite"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/treatmentcarmap.png' bindtap="showtreatmentcar"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/transportcarmap.png' bindtap="showtransportcar"></cover-image>
+      <cover-image class='Image' src='../../../resources/img/warehousemap.png' bindtap="showwarehouse"></cover-image>
   </cover-view>
   <!--站点弹窗-->
 <cover-view class="modal-mask"  bindtap="hideMapSite" catchtouchmove="preventTouchMove" wx:if="{{showMapSite}}"></cover-view>
@@ -135,3 +185,10 @@
     <cover-view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</cover-view>
   </cover-view>
 </cover-view>
+<!--------------------------------------------------------->
+    
+    
+    
+  </view>
+</view>
+

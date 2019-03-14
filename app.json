@@ -13,20 +13,32 @@
         "pages/factorydetail/factorydetail",
         "pages/cardetail/cardetail",
         "pages/allcardetail/allcardetail",
-        "pages/warehouse/warehouse"
+        "pages/warehouse/warehouse",
+		    "pages/modifypwd/modifypwd", 
+        "pages/personinfor/personinfor"
       ]
     },
     {
       "root": "packageFactory",
-      "pages": []
+      "pages": [
+        "pages/map/map",
+        "pages/sludgeapply/sludgeapply",
+        "pages/modifypwd/modifypwd",
+        "pages/personinfor/personinfor",
+        "pages/sludgerecord/sludgerecord"
+      ]
     },
     {
       "root": "packageTransportDriver",
-      "pages": []
+      "pages": [
+        "pages/map/map"
+      ]
     },
     {
       "root": "packageTreatmentDriver",
-      "pages": []
+      "pages": [
+        "pages/map/map"
+      ]
     }
   ],
   "window":{
@@ -42,19 +54,21 @@
     "downloadFile": 20000
   },
   "usingComponents": {
-    "i-cell-group": "../../dist/cell-group/index",
-    "i-cell": "../../dist/cell/index",
-    "i-tag": "../../dist/tag/index",
-    "i-icon": "../../dist/icon/index",
+    "i-cell-group": "../../../dist/cell-group/index",
+    "i-cell": "../../../dist/cell/index",
+    "i-tag": "../../../dist/tag/index",
+    "i-icon": "../../../dist/icon/index",
     "i-grid": "../../dist/grid/index",
-    "i-grid-item": "../../dist/grid-item/index",
-    "i-grid-icon": "../../dist/grid-icon/index",
-    "i-grid-label": "../../dist/grid-label/index",
-    "i-collapse": "../../dist/collapse/index",
-    "i-collapse-item": "../../dist/collapse-item/index",
-    "i-load-more": "../../dist/load-more/index",
-    "i-alert": "../../dist/alert/index",
-    "i-input": "../../dist/input/index",
-    "i-button": "../../dist/button/index"
+    "i-grid-item": "../../../dist/grid-item/index",
+    "i-grid-icon": "../../../dist/grid-icon/index",
+    "i-grid-label": "../../../dist/grid-label/index",
+    "i-collapse": "../../../dist/collapse/index",
+    "i-collapse-item": "../../../dist/collapse-item/index",
+    "i-load-more": "../../../dist/load-more/index",
+    "i-alert": "../../../dist/alert/index",
+    "i-input": "../../../dist/input/index",
+    "i-button": "../../../dist/button/index",
+    "i-page": "../../../dist/page/index"
+   
   }
 }
