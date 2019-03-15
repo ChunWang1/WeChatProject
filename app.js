@@ -305,7 +305,9 @@ App({
     INSERT_RecordByAlert_URL: URL +"/record/insertRecordByAlert",
     QUERY_AllRecordOfOneFactory_URL: URL +"/record/queryAllRecordOfOneFactory",
     QUERY_AllSludgeOfOneFactory_URL: URL + "/sludge/queryAllSludgeOfOneFactory",
-    
+    ADD_SludgeByTransCar_URL: URL +"/sludge/addOutSludge",
+    QUERY_AllFunction_URL: URL + "/sludge/queryAllFunc",
+    QUERY_CarrierUnassign_URL: URL + "/car/queryCarrierUnassign",
   }
 })
     

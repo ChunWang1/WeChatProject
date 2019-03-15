@@ -46,6 +46,59 @@
 <swiper-item>
 <!--查询框-->
 
+<!--增加框-->
+<view bindtap='addsludge' class="add_iconview">
+      <image class="add_icon" src="/resources/addsludge.png"></image>
+</view>
+<!--增加弹窗-->
+<!--弹窗-->
+  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+  <view class="modal-dialog" wx:if="{{showModal}}">
+    <view class="modal-title">新增污泥块出仓记录</view>
+    <view class="modal-content">
+      <view class="modal-input">
+       <!--<input placeholder-class="input-holder"  bindinput="wareHouseinputChange" class="input" placeholder="泥仓号"></input>-->
+        <picker bindchange="bindwarehousePickerChange" range="{{itemList}}" value='{{itemList[warehouseIndex].name}}' class='regSelect' range-key="{{'name'}}" >
+        <input class='selectInp'  bindinput="wareHouseinputChange" placeholder="请选择泥仓" name='itemList' disabled='false' value='{{itemList[warehouseIndex].name}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+    </picker>
+      </view>
+      <view class="modal-input">
+        <!--<input placeholder-class="input-holder"  bindinput="transCarinputChange" class="input" placeholder="运输司机"></input>-->
+       <picker bindchange="bindtranscarPickerChange" range="{{carrierUnassignList}}" value='{{carrierUnassignList[carIndex].id}}' class='regSelect' range-key="{{'name'}}" >
+        <input class='selectInp'  bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].id}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+    </picker>
+      </view>
+      <view class="modal-input">
+        <input placeholder-class="input-holder"  bindinput="rfidinputChange" class="input" placeholder="RFID"></input>
+      </view>
+      <view class="modal-input">
+        <input placeholder-class="input-holder"  bindinput="desAddrinputChange" class="input" placeholder="目的地"></input>
+       </view>
+       <view class="modal-input">
+        <!--<input placeholder-class="input-holder" bindinput="functioninputChange" class="input" placeholder="用途"></input>--> 
+        <picker bindchange="bindfunctionPickerChange" range="{{functionList}}" value='{{functionList[functionIndex].function}}' class='regSelect' range-key="{{'function'}}" >
+        <input class='selectInp'  bindinput="functioninputChange" placeholder="请选择用途" name='function' disabled='false' value='{{functionList[functionIndex].function}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+    </picker>
+      </view>
+         <view class="modal-input">
+         <input placeholder-class="input-holder"  bindinput="weightinputChange" class="input" placeholder="重量"></input>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+    </view>
+  </view>
+
 <!--污泥出入记录-->
 <block wx:if="{{sludgeList.length!=0}}">
 <i-cell-group>
@@ -57,7 +110,7 @@
     </i-cell>
     <i-cell title="目的地:" value="{{sludgeList[sludeg_current-1].destinationAddress}}">
     </i-cell>
-    <i-cell title="产生污泥块量(吨):" value="{{sludgeList[sludeg_current-1].weight}}">
+    <i-cell title="污泥块量(吨):" value="{{sludgeList[sludeg_current-1].weight}}">
     </i-cell>
     <i-cell title="污泥运输车司机:" value="{{sludgeList[sludeg_current-1].car.driver.realname}}">
     </i-cell>
