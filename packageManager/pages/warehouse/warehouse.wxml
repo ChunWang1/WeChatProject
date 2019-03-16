@@ -22,7 +22,7 @@
   <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec }}" bind:init="echartInit"></ec-canvas>
 </view>
 <view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
-  <view class='ViewText'>{{item.name}}号仓({{item.moistrueDegree}})</view>
+  <view class='ViewText'>{{item.name}}({{item.moistrueDegree}})</view>
   <view class='testText'>
   <text>总容量：{{item.capacity}}吨</text>
   </view>

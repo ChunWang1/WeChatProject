@@ -135,9 +135,9 @@ Page({
           var data_2 = [{ value: res.data[2].capacity }, { value: res.data[2].capacity - res.data[2].remainCapacity }]
           thit.setData({
             itemList: [
-              { name: res.data[0].id, moistrueDegree: res.data[0].moistrueDegree, capacity: res.data[0].capacity, data: data_0 },
-              { name: res.data[1].id, moistrueDegree: res.data[1].moistrueDegree, capacity: res.data[1].capacity, data: data_1 },
-              { name: res.data[2].id, moistrueDegree: res.data[2].moistrueDegree, capacity: res.data[2].capacity, data: data_2 }
+              { name: res.data[0].id+'号仓', moistrueDegree: res.data[0].moistrueDegree, capacity: res.data[0].capacity, data: data_0 },
+              { name: res.data[1].id + '号仓', moistrueDegree: res.data[1].moistrueDegree, capacity: res.data[1].capacity, data: data_1 },
+              { name: res.data[2].id + '号仓', moistrueDegree: res.data[2].moistrueDegree, capacity: res.data[2].capacity, data: data_2 }
             ]
           })
         },
@@ -308,19 +308,21 @@ Page({
   },
   onConfirm: function () {
     var that = this;
-    var transCarId = parseInt(that.data.transCarinput);
-    var mudWareHouseId = parseInt(that.data.wareHouseinput);
+    var transCarId = parseInt(that.data.transCarId);
+    var mudWareHouseId = parseInt(that.data.warehouseid);
     var rfid = that.data.rfidinput;
     var desAddr = that.data.desAddrinput;
-    var sludgeFunction = {function:that.data.functioninput};
+    var sludgeFunction = {function: that.data.sludgefunction};
     var weight = parseFloat(that.data.weightinput);
+    console.log(transCarId)
+    console.log(mudWareHouseId)
     console.log(weight)
     console.log(sludgeFunction)
     
     wx.request({
       url: app.globalData.ADD_SludgeByTransCar_URL,
       data: JSON.stringify({
-        transCarId: transCarId,
+        transcarId: transCarId,
         minorMudWareHouseId: mudWareHouseId,
         rfidString: rfid,
         destinationAddress: desAddr,
