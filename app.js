@@ -308,6 +308,11 @@ App({
     ADD_SludgeByTransCar_URL: URL +"/sludge/addOutSludge",
     QUERY_AllFunction_URL: URL + "/sludge/queryAllFunc",
     QUERY_CarrierUnassign_URL: URL + "/car/queryCarrierUnassign",
+    QUERY_SludgeByDateAndInOutFlag_URL: URL + "/sludge/querySludgeByDateAndInOutFlag",
+    QUERY_queryassignCarTransportDriver_URL: URL + "/sludge/assignCarTransportDriver",
+    QUERY_SludgeByDriverIdAndInOutFlag_URL: URL + "/sludge/querySludgeByDriverIdAndInOutFlag",
+    QUERY_SludgeBySiteIdAndInOutFlag_URL: URL + "/sludge/querySludgeBySiteIdAndInOutFlag",
+    QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
   }
 })
     
