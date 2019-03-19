@@ -1,5 +1,5 @@
 //var URL = "https://www.teamluo.cn";
-var URL ="http://localhost:8080/DisposalSludgeSystem";
+var URL = "http://localhost:8080/DisposalSludgeSystem";
 App({
   manageTabBar: {
     "color": "#9E9E9E",
@@ -67,7 +67,7 @@ App({
         "active": false,
       },
       {
-        "pagePath": "/packageFactory/pages/factorydetail/factorydetail",
+        "pagePath": "../../../allcardetail/allcardetail",
         "text": "监控",
         "iconPath": "../../../resources/img/monitor.png",
         "selectedIconPath": "../../../resources/img/monitor2.png",
@@ -75,7 +75,7 @@ App({
         "active": false,
       },
       {
-        "pagePath":"/packageFactory/pages/sludgerecord/sludgerecord",
+        "pagePath": "/packageFactory/pages/sludgerecord/sludgerecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -152,12 +152,12 @@ App({
     }
     var tabBar = this.manageTabBar;
     for (var i = 0; i < tabBar.list.length; i++) {
-      
+
       tabBar.list[i].active = false;
       //console.log(tabBar.list[i].pagePath)
-     // console.log(_pagePath)
+      // console.log(_pagePath)
       if (tabBar.list[i].pagePath == _pagePath) {
-       
+
         tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
       }
     }
@@ -252,31 +252,31 @@ App({
         }
       }
     })
-  
+
   },
 
-  
 
 
-  
+
+
   //全局变量
   globalData: {
     userInfo: null,
-	
-	userData:[{
-      id:"",
-      idCard:"",
-      realname:"",
-      email:"",
-      role:"",
-      sex:"",
-      username:"",
-      telephone:"",
-      password:"",
-      roleId:"",
-      siteId:"",
+
+    userData: [{
+      id: "",
+      idCard: "",
+      realname: "",
+      email: "",
+      role: "",
+      sex: "",
+      username: "",
+      telephone: "",
+      password: "",
+      roleId: "",
+      siteId: "",
     }],
-	
+
     // accessToken会自动失效，需要通过后端请求刷新。详见       https://open.ys7.com/doc/zh/book/index/user.html
     ACCESS_TOKEN: "at.91ee13eg46rs5lepb3xbm1ih8sgn4byr-9rh4ualj21-1kgvk4a-19vobpkjf",
     /* const DEVICE_SERIAL = "C29134495"; */
@@ -284,28 +284,28 @@ App({
     START_PTZ_URL: "https://open.ys7.com/api/lapp/device/ptz/start",
     STOP_PTZ_URL: "https://open.ys7.com/api/lapp/device/ptz/stop",
     LIVE_LIST_URL: "https://open.ys7.com/api/lapp/live/video/list",
- //URL
-    QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL: URL+'/car/queryMapCarBySiteIdAndCarTypeAndStatus',
-    QUERY_VideoAndSensorByCarIdfoForWX_URL: URL+"/monitor/queryVideoAndSensorByCarIdfoForWX",
-    QUERY_AllSite_URL: URL+"/system/queryAllSite",
-    QUERY_RealTimeValue_URL: URL +"/sensor/queryRealTimeValue",
-    QUERY_AllFactoryVideo_URL:URL+'/monitor/queryAllFactoryVideo',
-    QUERY_FactoryVideoBySiteIdforWX_URL: URL +"/monitor/queryFactoryVideoBySiteIdforWX",
-    LOGIN_Validator_URL: URL +"/user/loginValidatorForWx",
-    QUERY_MainWareHouse_URL: URL +"/mudWareHouse/queryMainWareHouse",
-    QUERY_MinorWareHouse_URL: URL +"/mudWareHouse/queryMinorWareHouse",
-    QUERY_SiteMapBySiteIdAndStatus_URL: URL +"/system/querySiteMapBySiteIdAndStatus",
-    QUERY_SiteStatus_URL:URL+"/system/querySiteStatus",
-    QUERY_CarInRoad_URL: URL +"/car/queryCarInRoad",
-    REGISTER_URL: URL +"/user/register",
-    QUERY_HistoryData_URL: URL +"/sensor/queryHistoryData",
-    QUERY_AllRecord_URL: URL +"/record/queryAllRecord",
-    QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL +"/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-	MODIFY_UserInfo_URL:URL +"/user/modifyUserInfo",
-    INSERT_RecordByAlert_URL: URL +"/record/insertRecordByAlert",
-    QUERY_AllRecordOfOneFactory_URL: URL +"/record/queryAllRecordOfOneFactory",
+    //URL
+    QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL: URL + '/car/queryMapCarBySiteIdAndCarTypeAndStatus',
+    QUERY_VideoAndSensorByCarIdfoForWX_URL: URL + "/monitor/queryVideoAndSensorByCarIdfoForWX",
+    QUERY_AllSite_URL: URL + "/system/queryAllSite",
+    QUERY_RealTimeValue_URL: URL + "/sensor/queryRealTimeValue",
+    QUERY_AllFactoryVideo_URL: URL + '/monitor/queryAllFactoryVideo',
+    QUERY_FactoryVideoBySiteIdforWX_URL: URL + "/monitor/queryFactoryVideoBySiteIdforWX",
+    LOGIN_Validator_URL: URL + "/user/loginValidatorForWx",
+    QUERY_MainWareHouse_URL: URL + "/mudWareHouse/queryMainWareHouse",
+    QUERY_MinorWareHouse_URL: URL + "/mudWareHouse/queryMinorWareHouse",
+    QUERY_SiteMapBySiteIdAndStatus_URL: URL + "/system/querySiteMapBySiteIdAndStatus",
+    QUERY_SiteStatus_URL: URL + "/system/querySiteStatus",
+    QUERY_CarInRoad_URL: URL + "/car/queryCarInRoad",
+    REGISTER_URL: URL + "/user/register",
+    QUERY_HistoryData_URL: URL + "/sensor/queryHistoryData",
+    QUERY_AllRecord_URL: URL + "/record/queryAllRecord",
+    QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
+    MODIFY_UserInfo_URL: URL + "/user/modifyUserInfo",
+    INSERT_RecordByAlert_URL: URL + "/record/insertRecordByAlert",
+    QUERY_AllRecordOfOneFactory_URL: URL + "/record/queryAllRecordOfOneFactory",
     QUERY_AllSludgeOfOneFactory_URL: URL + "/sludge/queryAllSludgeOfOneFactory",
-    ADD_SludgeByTransCar_URL: URL +"/sludge/addOutSludge",
+    ADD_SludgeByTransCar_URL: URL + "/sludge/addOutSludge",
     QUERY_AllFunction_URL: URL + "/sludge/queryAllFunc",
     QUERY_CarrierUnassign_URL: URL + "/car/queryCarrierUnassign",
     QUERY_SludgeByDateAndInOutFlag_URL: URL + "/sludge/querySludgeByDateAndInOutFlag",
@@ -313,12 +313,10 @@ App({
     QUERY_SludgeByDriverIdAndInOutFlag_URL: URL + "/sludge/querySludgeByDriverIdAndInOutFlag",
     QUERY_SludgeBySiteIdAndInOutFlag_URL: URL + "/sludge/querySludgeBySiteIdAndInOutFlag",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-    QUERY_RecordByDriverId_URL: URL +"/record/queryRecordByDriverId",
-    QUERY_RecordByDate_URL: URL +"/record/queryRecordByDate",
-    QUERY_SludgeByDate_URL: URL +"/sludge/querySludgeByDate",
-    QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
-    DELETE_Sludge_URL: URL +"/sludge/deleteSludge",
-    EDIT_Sludge_URL: URL +"/sludge/editSludge"
+    EDIT_record_URL: URL + "/record/editRecord",
+    DELETE_Record_URL: URL + "/record/deleteRecord",
+    QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
+    QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
+    QUERY_queryRecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
   }
 })
-    

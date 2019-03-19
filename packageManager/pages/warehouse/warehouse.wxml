@@ -54,15 +54,17 @@
 <!--筛选项-->
 <!--按仓库筛选-->
 <view class="tabLayer" hidden="{{tab[0]}}">
-    <text class="{{pinpai_id==0?'active':''}}" data-id="0" data-index="0" data-txt="品牌" bindtap="filter">不限</text>
-    <text class="{{pinpai_id==item.id?'active':''}}" wx:for="{{pinpaiList}}" wx:key="pp" wx:for-item="item" data-id="{{item.id}}" data-index="0" data-txt="{{item.title}}" bindtap="filter">{{item.title}}</text>
+    <text class="{{warehouse_id==0?'active':''}}" data-id="0" data-index="0" data-txt="仓库" bindtap="filter">不限</text>
+    <text class="{{warehouse_id==warehouse.id?'active':''}}" wx:for="{{warehouseList}}" wx:key="pp" wx:for-item="warehouse" data-id="{{warehouse.id}}" data-index="0" data-txt="{{warehouse.id}}" bindtap="filter">{{warehouse.id}}号仓</text>
 </view>
 <!--按工厂筛选-->
 <view class="tabLayer" hidden="{{tab[1]}}">
-     <text class="{site_id==item.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
+<text class="{{site_id==0?'active':''}}" data-id="0" data-index="1" data-txt="工厂" bindtap="filter">不限</text>
+     <text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
 </view>
 <!--按负责人筛选-->
 <view class="tabLayer" hidden="{{tab[2]}}">
+<text class="{{assigntranscar_id==0?'active':''}}" data-id="0" data-index="2" data-txt="负责人" bindtap="filter">不限</text>
  <text class="{{assigntranscar_id==car.id?'active':''}}" wx:for="{{assigntranscarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="2" data-txt="{{car.realname}}" bindtap="filter">{{car.realname}}</text>
 </view>
 
@@ -171,7 +173,39 @@
  
 
 <swiper-item>
- <!--查询-->
+<!--查询框-->
+<view class="tabTit box">
+  <view class="flex1{{!tabforrecord[index]?' active':''}}" wx:for="{{tabTxtforrecord}}" wx:key="type" data-index="{{index}}" bindtap="filterTabforrecord">
+    <text>{{item}}</text>
+    <image src="/resources/down.png"></image>
+  </view>
+</view>
+<!--筛选项-->
+<!--按工厂筛选-->
+<view class="tabLayer" hidden="{{tabforrecord[0]}}">
+<text class="{{site_id==0?'active':''}}" data-id="0" data-index="0" data-txt="工厂" bindtap="filterforrecord">不限</text>
+     <text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="0" data-txt="{{site.siteName}}" bindtap="filterforrecord">{{site.siteName}}</text>
+</view>
+<!--按负责人筛选-->
+<view class="tabLayer" hidden="{{tabforrecord[1]}}">
+<text class="{{assigntreatscar_id==0?'active':''}}" data-id="0" data-index="1" data-txt="负责人" bindtap="filterforrecord">不限</text>
+ <text class="{{assigntreatscar_id==car.id?'active':''}}" wx:for="{{assignTreatcarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="1" data-txt="{{car.realname}}" bindtap="filterforrecord">{{car.realname}}</text>
+</view>
+
+<!--按日期筛选-->
+<view class="tabLayer" hidden="{{tabforrecord[2]}}">
+    <picker mode="date" value="{{date}}"  end="{{date4}}" bindchange="bindDateChange3">  
+        <view class="picker">  
+          {{date3}}  
+        </view>  
+      </picker>  
+      至  
+      <picker mode="date" value="{{date4}}" start="{{date}}" end="2050-01-01" bindchange="bindDateChange4">  
+        <view class="picker">  
+          {{date4}}  
+        </view>  
+      </picker>        
+</view>
 
  <!--处理记录-->
 <block wx:if="{{recordList.length!=0}}" >
@@ -200,6 +234,41 @@
     </i-cell> 
     </view>
 </i-collapse-item>
+<!--编辑处理记录-->
+<view >
+<i-button bind:click="editRecordBtn" type="info" size="small"  shape="circle" data-recordid='{{recordList[record_current-1].id}}' data-siteid='{recordList[record_current-1].siteId}' data-driverid='{recordList[record_current-1].driverId}'>编辑</i-button>
+
+<!--自定义编辑按钮弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditRecordModal}}"></view>
+<view class="modal-dialog" wx:if="{{showEditRecordModal}}">
+  <view class="modal-title">污泥块信息</view>
+   <form bindsubmit="saveRecordEdit">
+   <view >
+    <view class="modal-input" wx:for="{{recordList}}" wx:if="{{item.id===recordId}}" wx:key="id">
+     
+    <i-input  value="{{item.driver.id}}" title="分配司机:" name="driverId" />
+    </view>
+  </view>
+
+  <view class="modal-footer">
+    <view class="btn-cancel"  >
+    <button class="cancel" bindtap="onCancel">取消</button>
+    </view>
+    <view class="btn-confirm" >
+    <button class="confirm" form-type='submit' >保存</button>   
+    </view>
+
+  </view>
+   </form>
+  </view>
+
+<i-button bind:click="delRecordBtn" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
+<i-modal title="删除确认" visible="{{ delRecordVisible }}" actions="{{ delRecordactions }}" bind:click="delRecordModal">
+    <view>删除后无法恢复,是否确认删除这条记录？</view>
+</i-modal>
+<i-message id="message" />
+
+</view>
  <i-cell >
  </i-cell>
 </block>

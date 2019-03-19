@@ -71,10 +71,7 @@ Page({
       translate: '',
     })
   },
-<<<<<<< HEAD
 
-=======
->>>>>>> 9c0d87d84efdfcac4ceacdbf5b5f53e4c5f1d09e
   /**
    * 生命周期函数--监听页面加载
    */
