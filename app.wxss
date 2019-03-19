@@ -48,7 +48,7 @@
   padding: 0px; 
   background-color:#F0FFF0;
   border-top: 2rpx solid #d7d7d7;
- 
+  opacity:1;
 }  
 .tabbar_text{
   font-size: 30rpx

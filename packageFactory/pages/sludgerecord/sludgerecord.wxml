@@ -1,4 +1,6 @@
 <import src="../../../template/tabbar.wxml"/>
+<import src="../../../template/record.wxml"/>
+<import src="../../../template/sludge.wxml"/>
 <template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 <!--顶部导航栏-->
 <view class="swiper-tab">
@@ -8,7 +10,63 @@
 <!--内容主体-->
 <swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
 <swiper-item >
-<block wx:if="{{recordList.length!=0}}" >
+<!--处理车搜索框-->
+<view class='select-box'>
+<text class='select'>全部：</text>
+<button class='showAllrecordbutton' bindtap='showAllrecord'>全部</button>
+</view>
+<view class='select-box'>
+   <picker mode = 'selector'  bindchange='queryRecordByDriver' value='{{index}}' range='{{recordDrivers}}'>
+      <view class='select'> 责任人:
+      <image class='select-img' src="../../../resources/img/down.png"></image>
+      <input class="input"  placeholder="请选择责任人" placeholder-style="color: #64bff1" placeholder-class="center" value='{{recordDrivers[index]}}'/>
+      </view>   
+    </picker>
+</view>
+<!-- 时间段------- -->
+    <view class="picker_group"> 
+      时间： 
+      <picker mode="date" value="{{startDate}}"  end="{{endDate}}" bindchange="recordStartDateChange">  
+        <view class="picker">  
+          {{startDate}}  
+        </view>  
+      </picker>  
+      至  
+      <picker mode="date" value="{{endDate}}" start="{{startDate}}" end="2050-01-01" bindchange="recordEndDateChange">  
+        <view class="picker">  
+          {{endDate}}  
+        </view>  
+      </picker> 
+      <button class='search_button'  bindtap='queryRecordByDate'>
+    <image class='search-img' src='../../../resources/img/search.png'></image>
+ </button> 
+  </view> 
+<!-------------------->
+
+<block >
+<view wx:if="{{recordByDriverIdList.length!=0&&showquerybyDriver==true}}">
+<view style='color:#64bff1;text-align: center;'>查到责任人{{recordDriver}}共{{recordByDriverIdList.length}}条记录</view>
+<template is="record" data="{{record:recordByDriverIdList}}"></template>
+</view>
+
+<view wx:if="{{recordByDriverIdList.length==0&&showquerybyDriver==true}}">
+<i-load-more tip="责任人{{recordDriver}}暂无处理记录" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</block>
+
+<block>
+<view  wx:if="{{recordByDateList.length!=0&&showquerybydate==true}}">
+<view style='color:#64bff1;text-align: center;margin-top: 20rpx;'>查到时间{{startDate}}至{{endDate}}共{{recordByDateList.length}}条记录</view>
+<template is="record" data="{{record:recordByDateList}}"></template>
+</view>
+<view wx:if="{{recordByDateList.length==0&&showquerybydate==true}}">
+<i-load-more tip="时间{{startDate}}至{{endDate}}暂无处理记录" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</block>
+
+<block wx:if="{{recordList.length!=0&&showquerybyDriver==false&&showquerybydate==false}}" >
 <i-cell-group>
     <i-cell title="状态:"  >
     <i-tag wx:if="{{recordList[record_current-1].status==0}}" slot="footer" class="i-tags"   color="green"> 已完成</i-tag>
@@ -36,19 +94,80 @@
 </i-collapse-item>
  <i-cell >
  </i-cell>
-</block>
-<!--分页--->
-<i-page current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
+
+ <i-page current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
 </i-page>
+<view class='bottom-text'>----共{{recordList.length}}条记录----</view>
+</block>
+<!--分页--->
+
 <view wx:if="{{recordList.length==0}}">
 <i-load-more tip="暂无处理车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
 </swiper-item>
+
 <swiper-item >
-<block wx:if="{{sludgeList.length!=0}}">
+<!--运输车记录搜索框-->
+<view class='select-box'>
+<text class='select'>全部：</text>
+<button class='showAllrecordbutton' bindtap='showAllsludge'>全部</button>
+</view>
+<view class='select-box'>
+   <picker mode = 'selector'  bindchange='querySludgeByDriver' value='{{sludgeindex}}' range='{{sludgeDrivers}}'>
+      <view class='select'> 责任人:
+      <image class='select-img' src="../../../resources/img/down.png"></image>
+      <input class="input"  placeholder="请选择责任人" placeholder-style="color: #64bff1" placeholder-class="center" value='{{sludgeDrivers[sludgeindex]}}'/>
+      </view>   
+    </picker>
+</view>
+<!-- 时间段------- -->
+    <view class="picker_group"> 
+      时间： 
+      <picker mode="date" value="{{startSludgeDate}}"  end="{{endSludgeDate}}" bindchange="sludgeStartDateChange">  
+        <view class="picker">  
+          {{startSludgeDate}}  
+        </view>  
+      </picker>  
+      至  
+      <picker mode="date" value="{{endSludgeDate}}" start="{{startSludgeDate}}" end="2050-01-01" bindchange="sludgeEndDateChange">  
+        <view class="picker">  
+          {{endSludgeDate}}  
+        </view>  
+      </picker> 
+      <button class='search_button'  bindtap='querySludgeByDate'>
+    <image class='search-img' src='../../../resources/img/search.png'></image>
+ </button> 
+  </view> 
+<!-------------------->
+
+<block >
+<view wx:if="{{sludgeByDriverIdList.length!=0&&showquerySludgebyDriver==true}}">
+<view style='color:#64bff1;text-align: center;'>查到责任人{{sludgeDriver}}共{{sludgeByDriverIdList.length}}条记录</view>
+<template is="sludge" data="{{sludge:sludgeByDriverIdList}}"></template>
+</view>
+
+<view wx:if="{{sludgeByDriverIdList.length==0&&showquerySludgebyDriver==true}}">
+<i-load-more tip="责任人{{sludgeDriver}}暂无处理记录" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</block>
+
+<block>
+<view  wx:if="{{sludgeByDateList.length!=0&&showquerySludgebydate==true}}">
+<view style='color:#64bff1;text-align: center;margin-top: 20rpx;'>查到时间{{startSludgeDate}}至{{endSludgeDate}}共{{sludgeByDateList.length}}条记录</view>
+<template is="sludge" data="{{sludge:sludgeByDateList}}"></template>
+</view>
+<view wx:if="{{sludgeByDateList.length==0&&showquerySludgebydate==true}}">
+<i-load-more tip="时间{{startSludgeDate}}至{{endSludgeDate}}暂无处理记录" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</block>
+
+
+<block wx:if="{{sludgeList.length!=0&&showquerySludgebyDriver==false&&showquerySludgebydate==false}}">
 <i-cell-group>
     <i-cell title="状态:"  >
     <i-tag wx:if="{{sludgeList[sludeg_current-1].status==0}}" slot="footer" class="i-tags"   color="yellow"> 未到达</i-tag>
@@ -65,6 +184,45 @@
     <i-cell title="污泥功能:" value="{{sludgeList[sludeg_current-1].sludgeFunction.function}}">
     </i-cell>
 </i-cell-group>
+
+<view >
+<i-button bind:click="editSludgeBtn" type="info" size="small"  shape="circle" data-sludgeid='{{sludgeList[sludeg_current-1].id}}'>编辑</i-button>
+
+<!--自定义编辑按钮弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSludgeModal}}"></view>
+<view class="modal-dialog" wx:if="{{showEditSludgeModal}}">
+  <view class="modal-title">污泥块信息</view>
+   <form bindsubmit="saveSludgeEdit">
+   <view >
+    <view class="modal-input" wx:for="{{sludgeList}}" wx:if="{{item.id===sludgeId}}" wx:key="id">
+     
+    <i-input  value="{{item.rfidString}}" title="RFID:" name="RFID" />
+    <i-input  value="{{item.weight}}" type='number' title="重量(吨)：" name="weight" maxLength="10" />
+    <i-input value="{{item.destinationAddress}}"  title="目的地：" name="desAddr" />
+    <i-input  value="{{item.sludgeFunction.function}}"  title="用途：" name="sludgeFunction"/>
+    </view>
+  </view>
+
+  <view class="modal-footer">
+    <view class="btn-cancel"  >
+    <button class="cancel" bindtap="onCancel">取消</button>
+    </view>
+    <view class="btn-confirm" >
+    <button class="confirm" form-type='submit' >保存</button>   
+    </view>
+
+  </view>
+   </form>
+  </view>
+
+<i-button bind:click="delSludgeBtn" type="error" size="small" shape="circle" data-sludgeid='{{sludgeList[sludeg_current-1].id}}'>删除</i-button>
+<i-modal title="删除确认" visible="{{ delSludgeVisible }}" actions="{{ delSludgeactions }}" bind:click="delSludgeModal">
+    <view>删除后无法恢复,是否确认删除这条记录？</view>
+</i-modal>
+<i-message id="message" />
+
+</view>
+
  <i-cell >
  </i-cell>
 
@@ -74,6 +232,7 @@
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
 </i-page>
+<view class='bottom-text'>----共{{sludgeList.length}}条记录----</view>
 <view wx:if="{{sludgeList.length==0}}">
 <i-load-more tip="暂无运输车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
