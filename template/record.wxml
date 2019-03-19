@@ -1,0 +1,31 @@
+<template name="record">
+<view wx:for="{{record}}" wx:key="index">
+<i-cell-group>
+    <i-cell title="状态:"  >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 已完成</i-tag>
+    <i-tag wx:elif="{{item.status==1}}" slot="footer" class="i-tags"   color="blue"> 处理中</i-tag>
+    <i-tag wx:elif="{{item.status==2}}" slot="footer" class="i-tags"   color="yellow"> 待处理</i-tag>
+    </i-cell>
+    <i-cell title="处理人:" value="{{item.car.driver.realname}}">
+    </i-cell>
+    <i-cell title="任务分配时间:" value="{{item.allocationTime}}">
+    </i-cell>
+    <i-cell title="产生污泥块量(吨):" value="{{item.sludgesWeight}}">
+    </i-cell>
+</i-cell-group>
+<i-collapse-item title="更多详情"  >
+    <view slot="content">
+    <i-cell title="污泥处理开始时间:" value="{{item.disposalTime}}">
+    </i-cell>
+    <i-cell title="污泥处理完成时间:" value="{{item.finishTime}}">
+    </i-cell>
+    <i-cell title="处理人号码:" value="{{item.car.driver.telephone}}">
+    </i-cell>   
+    <i-cell title="车牌号:" value="{{item.car.license}}">
+    </i-cell> 
+    </view>
+</i-collapse-item>
+ <i-cell >
+ </i-cell>
+</view>
+</template>

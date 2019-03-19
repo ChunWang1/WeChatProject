@@ -25,7 +25,9 @@
         "pages/sludgeapply/sludgeapply",
         "pages/modifypwd/modifypwd",
         "pages/personinfor/personinfor",
-        "pages/sludgerecord/sludgerecord"
+        "pages/sludgerecord/sludgerecord",
+        "pages/factorydetail/factorydetail"
+  
       ]
     },
     {
@@ -68,7 +70,9 @@
     "i-alert": "../../../dist/alert/index",
     "i-input": "../../../dist/input/index",
     "i-button": "../../../dist/button/index",
-    "i-page": "../../../dist/page/index"
+    "i-page": "../../../dist/page/index",
+    "i-toast": "../../../dist/toast/index",
+    "i-modal": "../../../dist/modal/index"
    
   }
 }

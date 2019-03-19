@@ -1,0 +1,22 @@
+<template name="sludge">
+<view wx:for="{{sludge}}" wx:key="index">
+<i-cell-group>
+    <i-cell title="状态:"  >
+    <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="yellow"> 未到达</i-tag>
+    <i-tag wx:elif="{{item.status==1}}" slot="footer" class="i-tags"   color="green"> 已到达</i-tag>
+    </i-cell>
+    <i-cell title="RFID:" value="{{item.rfidString}}">
+    </i-cell>
+    <i-cell title="目的地:" value="{{item.destinationAddress}}">
+    </i-cell>
+    <i-cell title="产生污泥块量(吨):" value="{{item.weight}}">
+    </i-cell>
+    <i-cell title="污泥运输车司机:" value="{{item.car.driver.realname}}">
+    </i-cell>
+    <i-cell title="污泥功能:" value="{{item.sludgeFunction.function}}">
+    </i-cell>
+</i-cell-group>
+ <i-cell >
+ </i-cell>
+</view>
+</template>

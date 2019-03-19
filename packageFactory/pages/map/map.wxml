@@ -65,39 +65,10 @@
   <cover-image class='top_Image' src='../../../resources/img/center.png' bindtap="showview"></cover-image>
   </cover-view>
   <cover-view class='bottom_Image'>
-      <cover-image class='Image' src='../../../resources/img/factorymap.png' bindtap="showmapsite"></cover-image>
       <cover-image class='Image' src='../../../resources/img/treatmentcarmap.png' bindtap="showtreatmentcar"></cover-image>
       <cover-image class='Image' src='../../../resources/img/transportcarmap.png' bindtap="showtransportcar"></cover-image>
-      <cover-image class='Image' src='../../../resources/img/warehousemap.png' bindtap="showwarehouse"></cover-image>
   </cover-view>
-  <!--站点弹窗-->
-<cover-view class="modal-mask"  bindtap="hideMapSite" catchtouchmove="preventTouchMove" wx:if="{{showMapSite}}"></cover-view>
-<cover-view class="modal-dialog" wx:if="{{showMapSite}}">
-  <cover-view class="modal-title">站点信息</cover-view>
-  <cover-view class="modal-content">
-    <cover-view class="table">
-     <cover-view class="tr">
-    <cover-view class="th">编号</cover-view>
-    <cover-view class="th">站点</cover-view>
-    <cover-view class="th ">状态</cover-view>
-  </cover-view>
-    <block  wx:for="{{siteList}}" wx:for-item="site">
-      <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}'>
-        <cover-view class="td">{{site.serialNumber}}</cover-view>
-        <cover-view class="td">{{site.siteName}}</cover-view>
-        <cover-view class="td" wx:if="{{site.status==0}}">正常</cover-view>
-        <cover-view class="td" wx:elif="{{site.status==1}}">处理中</cover-view>
-        <cover-view class="td" wx:elif="{{site.status==2}}">待处理</cover-view>
-      </cover-view>
-  </block>
-    </cover-view>
-  </cover-view>
-  <cover-view class="modal-footer">
-    <cover-view class="btn-cancel" bindtap="onSiteCancel" data-status="cancel">取消</cover-view>
-    <cover-view class="btn-confirm" bindtap="onSiteConfirm" data-status="confirm">确定</cover-view>
-  </cover-view>
-</cover-view>
-
+  
   <!--处理车弹窗-->
 <cover-view class="modal-mask"  bindtap="hidetreatmentcarModal" catchtouchmove="preventTouchMove" wx:if="{{showtreatmentcar}}"></cover-view>
 <cover-view class="modal-dialog" wx:if="{{showtreatmentcar}}">
@@ -109,7 +80,7 @@
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
-    <block  wx:for="{{carList}}" wx:for-item="car">
+    <block  wx:for="{{treatmentCarList}}" wx:for-item="car" wx:key="id">
       <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}' wx:if="{{car.carType==0}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
@@ -139,7 +110,7 @@
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
-    <block  wx:for="{{carList}}" wx:for-item="car">
+    <block  wx:for="{{transportCarList}}" wx:for-item="car"  wx:key="id">
       <cover-view class="tr" wx:if="{{car.carType==1}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
@@ -155,34 +126,6 @@
   <cover-view class="modal-footer">
     <cover-view class="btn-cancel" bindtap="ontransportcarCancel" data-status="cancel">取消</cover-view>
     <cover-view class="btn-confirm" bindtap="ontransportcarConfirm" data-status="confirm">确定</cover-view>
-  </cover-view>
-</cover-view>
-
-  <!--智慧泥仓弹窗-->
-<cover-view class="modal-mask"  bindtap="hidewarehouseModal" catchtouchmove="preventTouchMove" wx:if="{{showwarehouse}}"></cover-view>
-<cover-view class="modal-dialog" wx:if="{{showwarehouse}}">
-  <cover-view class="modal-title">智慧泥仓信息</cover-view>
-  <cover-view class="modal-content">
-    <cover-view class="table">
-     <cover-view class="tr">
-    <cover-view class="th">子仓</cover-view>
-    <cover-view class="th">存储量</cover-view>
-    <cover-view class="th ">剩余容量</cover-view>
-    <cover-view class="th ">总容量</cover-view>
-  </cover-view>
-    <block  wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse">
-      <cover-view class="tr">
-        <cover-view class="td">{{minorWareHouse.serialNumber}}</cover-view>
-        <cover-view class="td">{{minorWareHouse.moistrueDegree*100}}%</cover-view>
-        <cover-view class="td">{{minorWareHouse.remainCapacity}}</cover-view>
-        <cover-view class="td">{{minorWareHouse.capacity}}</cover-view>
-      </cover-view>
-  </block>
-    </cover-view>
-  </cover-view>
-  <cover-view class="modal-footer">
-    <cover-view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</cover-view>
-    <cover-view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</cover-view>
   </cover-view>
 </cover-view>
 <!--------------------------------------------------------->
