@@ -15,6 +15,7 @@ Page({
   onLoad: function (options) {
     var that = this
     console.log(JSON.stringify(options))
+    console.log(options.siteId)
     that.setData({
       siteId: options.siteId//获取从上一个页面的siteId
     })

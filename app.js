@@ -33,7 +33,7 @@ App({
         active: false,
       },
       {
-        pagePath: "#",
+        pagePath: "/packageManager/pages/warehouse/warehouse",
         text: "系统管理",
         iconPath: "../../../resources/img/sysmanage.png",
         selectedIconPath: "../../../resources/img/sysmanage2.png",

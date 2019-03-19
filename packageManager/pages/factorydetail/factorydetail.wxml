@@ -1,5 +1,7 @@
 <!--pages/factorydetail/factorydetail.wxml-->
-<view class=".container" wx:if="{{video.length>0}}">
+<import src="../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+<view class=".container" wx:if="{{video.site.siteName!=null}}">
 <view class="page-head">
 <icon class="iconfont icon-gongchang1">
  </icon>
@@ -30,4 +32,8 @@
  </icon></button>
 </view>
 
+</view>
+<view  wx:else>
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
 </view>
