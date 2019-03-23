@@ -1,4 +1,4 @@
-<template name="sludge">
+<template name="sludge" >
 <view wx:for="{{sludge}}" wx:key="index">
 <i-cell-group>
     <i-cell title="状态:"  >
@@ -16,7 +16,7 @@
     <i-cell title="污泥功能:" value="{{item.sludgeFunction.function}}">
     </i-cell>
 </i-cell-group>
- <i-cell >
+ <i-cell i-class="collapse">
  </i-cell>
 </view>
 </template>

@@ -57,7 +57,7 @@
 </view>
 </block>
 
-<block>
+<block >
 <view  wx:if="{{recordByDateList.length!=0&&showquerybydate==true}}">
 <view style='color:#64bff1;text-align: center;margin-top: 20rpx;'>查到时间{{startDate}}至{{endDate}}共{{recordByDateList.length}}条记录</view>
 <template is="record" data="{{record:recordByDateList}}"></template>
@@ -164,7 +164,7 @@
 </view>
 </block>
 
-<block>
+<block >
 <view  wx:if="{{sludgeByDateList.length!=0&&showquerySludgebydate==true}}">
 <view style='color:#64bff1;text-align: center;margin-top: 20rpx;'>查到时间{{startSludgeDate}}至{{endSludgeDate}}共{{sludgeByDateList.length}}条记录</view>
 <template is="sludge" data="{{sludge:sludgeByDateList}}"></template>
@@ -234,9 +234,7 @@
 
  <i-cell >
  </i-cell>
-
-</block>
- <!--分页--->
+<!--分页--->
 <i-page  current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
@@ -246,9 +244,8 @@
 <i-load-more tip="暂无运输车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-
+</block>
 </scroll-view>
-
 
 <template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 </swiper-item>

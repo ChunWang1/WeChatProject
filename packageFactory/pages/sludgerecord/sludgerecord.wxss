@@ -219,3 +219,7 @@ border-bottom: 4rpx solid #70DB93;
   background-color: #70DB93
 }
 
+.block{
+  margin-bottom: 240rpx;
+  padding-bottom: 150rpx;
+}

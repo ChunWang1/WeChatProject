@@ -1,4 +1,4 @@
-<template name="record">
+<template name="record" >
 <view wx:for="{{record}}" wx:key="index">
 <i-cell-group>
     <i-cell title="状态:"  >
@@ -13,7 +13,7 @@
     <i-cell title="产生污泥块量(吨):" value="{{item.sludgesWeight}}">
     </i-cell>
 </i-cell-group>
-<i-collapse-item title="更多详情"  >
+<i-collapse-item title="更多详情" i-class="collapse">
     <view slot="content">
     <i-cell title="污泥处理开始时间:" value="{{item.disposalTime}}">
     </i-cell>
@@ -25,7 +25,5 @@
     </i-cell> 
     </view>
 </i-collapse-item>
- <i-cell >
- </i-cell>
 </view>
 </template>
