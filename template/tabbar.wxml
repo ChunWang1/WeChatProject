@@ -1,7 +1,7 @@
 <template name="tabBar">    
   <view class="tab-bar" style="color: {{tabBar.color}}; background: {{tarBar.backgroundColor}}; {{tabBar.position=='top'? 'top: 0' : 'bottom: 0'}}; {{tabBar.borderStyle? (tabBar.position=='top'? 'border-bottom: solid 1px '+tabBar.borderStyle + ';' : 'border-top: solid 1px '+tabBar.borderStyle + ';') : ''}}">    
   <block wx:for="{{tabBar.list}}" wx:for-item="item" wx:key="index">    
-    <navigator url="{{item.pagePath}}" open-type="redirect" class="{{item.clas}}" >    
+    <navigator url="{{item.pagePath}}" open-type="reLaunch" class="{{item.clas}}" >    
       <image src="{{item.active ? item.selectedIconPath : item.iconPath}}" class='img'></image>  
       <text class='tabbar_text' style="color:{{item.active ? tabBar.selectedColor : tabBar.color}}">{{item.text}}</text>    
     </navigator>    
