@@ -375,6 +375,14 @@ Page({
     var that = this;
     that.queryAllRecordOfOneFactory();
     that.queryAllSludgeOfOneFactory();
+    //获取设备可视窗口高度
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          clientHeight: res.windowHeight - 40
+        });
+      }
+    })
   },
   swichNav: function (e) {
     console.log(e);

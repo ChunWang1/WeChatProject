@@ -115,6 +115,7 @@ border-bottom: 4rpx solid #70DB93;
  text-align: center; 
  color: #dcdcdc; 
  margin-top: 20rpx ;
+ margin-bottom: 150rpx;
 }
 .showAllrecordbutton{
   width: 140rpx;
@@ -151,7 +152,7 @@ border-bottom: 4rpx solid #70DB93;
 
 .modal-dialog {
   width: 580rpx;
-  height: 28%;
+  height: 65%;
   overflow: hidden;
   position: fixed;
   top: 5%;

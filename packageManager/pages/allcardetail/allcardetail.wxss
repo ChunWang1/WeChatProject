@@ -59,10 +59,7 @@ color: #777;
 }
  
  
-.swiper {
- 
-height: 1100px;
-}
+
  
  
 .on {

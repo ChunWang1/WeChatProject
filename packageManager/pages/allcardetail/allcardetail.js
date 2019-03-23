@@ -38,6 +38,14 @@ Page({
       var that = this;
     that.querytreatmentcar();
     that.queryallfactoryvideo();
+    //获取设备可视窗口高度
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          clientHeight: res.windowHeight - 40
+        });
+      }
+    })
   },
   
   querytreatmentcar: function (callback){

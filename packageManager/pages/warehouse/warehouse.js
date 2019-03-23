@@ -35,6 +35,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    clientHeight:"",
     ec: {
       onInit: initChart
     },
@@ -166,8 +167,15 @@ Page({
       })
     thit.queryassignCarTransportDriver();
     thit.querryallsite();
-    thit.querryallwarehouse();
-    thit.queryassignCarTreatDriver()
+
+    //获取设备可视窗口高度
+    wx.getSystemInfo({
+      success: function (res) {
+        thit.setData({
+          clientHeight: res.windowHeight-40
+        });
+      }
+    })
   },
  //查询所有记录
   queryrecord: function(callback) {
