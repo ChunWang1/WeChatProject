@@ -92,7 +92,7 @@ App({
     "position": "bottom",
     "list": [
       {
-        "pagePath": "../map/map",
+        "pagePath": "/packageTreatmentDriver/pages/map/map",
         "text": "首页",
         "iconPath": "../../../resources/img/map.png",
         "selectedIconPath": "../../../resources/img/map2.png",
