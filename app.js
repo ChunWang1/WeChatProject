@@ -67,7 +67,7 @@ App({
         "active": false,
       },
       {
-        "pagePath": "../../../allcardetail/allcardetail",
+        "pagePath": "/packageFactory/pages/factorydetail/factorydetail",
         "text": "监控",
         "iconPath": "../../../resources/img/monitor.png",
         "selectedIconPath": "../../../resources/img/monitor2.png",
@@ -315,9 +315,11 @@ App({
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
     EDIT_record_URL: URL + "/record/editRecord",
     DELETE_Record_URL: URL + "/record/deleteRecord",
-    QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
-    QUERY_queryRecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
+    QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
+    QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
+    QUERY_SludgeByDate_URL: URL + "/sludge/querySludgeByDate",
+    QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     //司机公用链接
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",

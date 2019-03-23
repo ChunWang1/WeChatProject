@@ -81,7 +81,7 @@
     <cover-view class="th">站点</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
-    <block  wx:for="{{siteList}}" wx:for-item="site">
+    <block  wx:for="{{siteList}}" wx:for-item="site" wx:key="id">
       <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}'>
         <cover-view class="td">{{site.serialNumber}}</cover-view>
         <cover-view class="td">{{site.siteName}}</cover-view>
@@ -109,7 +109,7 @@
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
-    <block  wx:for="{{carList}}" wx:for-item="car">
+    <block  wx:for="{{carList}}" wx:for-item="car" wx:key="id">
       <cover-view class="tr" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}' wx:if="{{car.carType==0}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
@@ -139,7 +139,7 @@
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>
-    <block  wx:for="{{carList}}" wx:for-item="car">
+    <block  wx:for="{{carList}}" wx:for-item="car" wx:key="id">
       <cover-view class="tr" wx:if="{{car.carType==1}}">
         <cover-view class="td">{{car.license}}</cover-view>
         <cover-view class="td">{{car.site.siteName}}</cover-view>
@@ -170,7 +170,7 @@
     <cover-view class="th ">剩余容量</cover-view>
     <cover-view class="th ">总容量</cover-view>
   </cover-view>
-    <block  wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse">
+    <block  wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse" wx:key="id">
       <cover-view class="tr">
         <cover-view class="td">{{minorWareHouse.serialNumber}}</cover-view>
         <cover-view class="td">{{minorWareHouse.moistrueDegree*100}}%</cover-view>
