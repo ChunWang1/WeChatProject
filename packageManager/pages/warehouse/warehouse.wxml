@@ -185,10 +185,10 @@
  
 
 <swiper-item>
-<<<<<<< HEAD
+
  <!--查询-->
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
-=======
+
 <!--查询框-->
 <view class="tabTit box">
   <view class="flex1{{!tabforrecord[index]?' active':''}}" wx:for="{{tabTxtforrecord}}" wx:key="type" data-index="{{index}}" bindtap="filterTabforrecord">

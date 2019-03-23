@@ -70,5 +70,6 @@
   background-color: #BEBEBE;
   margin-bottom: 20px;
 }
-
-
+.collapse{
+  margin-bottom: 130rpx;
+}
