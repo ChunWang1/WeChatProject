@@ -1,6 +1,6 @@
 <!--pages/allcardetail/allcardetail.wxml-->
 <import src="../../../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+
 <!--顶部导航栏-->
 <view class="swiper-tab">
  
@@ -9,9 +9,12 @@
 <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">工厂监控</view>
 </view>
 <!--内容主体-->
-<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+<swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}" current="{{currentTab}}" duration="200" bindchange="swiperChange">
  <!--车辆监控-->
 <swiper-item>
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
@@ -45,9 +48,14 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+
+</scroll-view>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+
 </swiper-item>
  <!--工厂监控-->
 <swiper-item>
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 <view>
 <view class="page-head">
 <icon class="iconfont icon-truck"></icon>
@@ -80,5 +88,7 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+</scroll-view>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
 </swiper>

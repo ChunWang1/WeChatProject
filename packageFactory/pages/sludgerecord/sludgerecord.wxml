@@ -1,15 +1,17 @@
 <import src="../../../template/tabbar.wxml"/>
 <import src="../../../template/record.wxml"/>
 <import src="../../../template/sludge.wxml"/>
-<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
+
 <!--顶部导航栏-->
 <view class="swiper-tab">
 <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">处理车记录</view>
 <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">运输车记录</view>
 </view>
 <!--内容主体-->
-<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+<swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}" current="{{currentTab}}" duration="200" bindchange="swiperChange">
 <swiper-item >
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
 <!--处理车搜索框-->
 <view class='select-box'>
 <text class='select'>全部：</text>
@@ -95,7 +97,7 @@
  <i-cell >
  </i-cell>
 
- <i-page current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
+ <i-page  current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
 </i-page>
@@ -107,9 +109,17 @@
 <i-load-more tip="暂无处理车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+
+</scroll-view>
+
+
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 </swiper-item>
 
 <swiper-item >
+
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 <!--运输车记录搜索框-->
 <view class='select-box'>
 <text class='select'>全部：</text>
@@ -142,7 +152,6 @@
  </button> 
   </view> 
 <!-------------------->
-
 <block >
 <view wx:if="{{sludgeByDriverIdList.length!=0&&showquerySludgebyDriver==true}}">
 <view style='color:#64bff1;text-align: center;'>查到责任人{{sludgeDriver}}共{{sludgeByDriverIdList.length}}条记录</view>
@@ -228,7 +237,7 @@
 
 </block>
  <!--分页--->
-<i-page current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
+<i-page  current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
 </i-page>
@@ -237,5 +246,10 @@
 <i-load-more tip="暂无运输车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+
+</scroll-view>
+
+
+<template is="tabBar" data="{{tabBar:factoryTabBar}}"></template>
 </swiper-item>
 </swiper>

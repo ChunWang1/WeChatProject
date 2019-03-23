@@ -1,6 +1,6 @@
 <!--pages/warehouse/warehouse.wxml-->
 <import src="../../../template/tabbar.wxml"/>
-<template is="tabBar" data="{{tabBar:tabBar}}"></template>
+
 <view>
 <!--顶部导航栏-->
 <view class="swiper-tab">
@@ -14,9 +14,12 @@
 </view>
 
 <!--内容主体-->
-<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+<swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}" current="{{currentTab}}" duration="200" bindchange="swiperChange">
  
 <swiper-item>
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
 <form>
 <view class="echart-iframe">
   <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec }}" bind:init="echartInit"></ec-canvas>
@@ -41,9 +44,12 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+
+</scroll-view>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
  
-<swiper-item>
+<swiper-item >
 <!--查询框-->
 <view class="tabTit box">
   <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab">
@@ -80,6 +86,8 @@
         </view>  
       </picker>        
 </view>
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
 <!--增加框-->
 <view bindtap='addsludge' class="add_iconview">
@@ -167,13 +175,18 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+
+</scroll-view>
+
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
  
 
 <swiper-item>
  <!--查询-->
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
- <!--处理记录-->
+<!--处理记录-->
 <block wx:if="{{recordList.length!=0}}" >
 <i-cell-group>
     <i-cell title="状态:"  >
@@ -213,7 +226,8 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-</swiper-item>
- 
+</scroll-view>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+</swiper-item> 
 </swiper>
 </view>

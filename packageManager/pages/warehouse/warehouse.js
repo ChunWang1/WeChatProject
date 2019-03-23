@@ -1,7 +1,7 @@
 // pages/warehouse/warehouse.js
 const app=getApp();
 
-import * as echarts from '../../ec-canvas/echarts';
+import * as echarts from '../../../ec-canvas/echarts';
 function initChart(canvas, width, height, data) {//这里多加一个参数
   const chart = echarts.init(canvas, null, {
     width: width,
@@ -35,6 +35,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    clientHeight:"",
     ec: {
       onInit: initChart
     },
@@ -159,6 +160,15 @@ Page({
       })
     thit.queryassignCarTransportDriver();
     thit.querryallsite();
+
+    //获取设备可视窗口高度
+    wx.getSystemInfo({
+      success: function (res) {
+        thit.setData({
+          clientHeight: res.windowHeight-40
+        });
+      }
+    })
   },
  //查询所有记录
   queryrecord: function(callback) {
