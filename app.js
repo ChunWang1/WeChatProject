@@ -100,7 +100,7 @@ App({
         "active": true,
       },
       {
-        "pagePath": "../../../allcardetail/allcardetail",
+        "pagePath": "/packageTreatmentDriver/pages/treatcardetail/treatcardetail",
         "text": "监控",
         "iconPath": "../../../resources/img/monitor.png",
         "selectedIconPath": "../../../resources/img/monitor2.png",
@@ -125,7 +125,7 @@ App({
     "position": "bottom",
     "list": [
       {
-        "pagePath": "../map/map",
+        "pagePath": "/packageTransportDriver/pages/map/map",
         "text": "首页",
         "iconPath": "../../../resources/img/map.png",
         "selectedIconPath": "../../../resources/img/map2.png",
@@ -318,5 +318,10 @@ App({
     QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
     QUERY_queryRecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
+    //司机公用链接
+    QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
+    QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
+    UPDATE_updateCarStatus_URL:URL+"/car/updateCarStatusByButton",
+
   }
 })

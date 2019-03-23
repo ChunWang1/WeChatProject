@@ -185,7 +185,6 @@
  
 
 <swiper-item>
-<<<<<<< HEAD
  <!--查询-->
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 =======
@@ -222,7 +221,6 @@
         </view>  
       </picker>        
 </view>
->>>>>>> 9696c347a8dcb4bc9d29b42c0a2881383169b8f1
 
 <!--处理记录-->
 <block wx:if="{{recordList.length!=0}}" >

@@ -40,7 +40,8 @@
     {
       "root": "packageTreatmentDriver",
       "pages": [
-        "pages/map/map"
+        "pages/map/map",
+        "pages/treatcardetail/treatcardetail"
       ]
     }
   ],

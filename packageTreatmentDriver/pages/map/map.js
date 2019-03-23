@@ -28,6 +28,7 @@ var siteInfoOld = {}
 var roadCarOld = []
 var longitude = 113.83040
 var latitude = 20.77615
+var nowStatus=0;
 Page({
 
   /**
@@ -39,11 +40,11 @@ Page({
     markers: [],
   },
   // 滑动开始
-  touchstart: function (e) {
+  touchstart: function(e) {
     start_clientX = e.changedTouches[0].clientX
   },
   // 滑动结束
-  touchend: function (e) {
+  touchend: function(e) {
     end_clientX = e.changedTouches[0].clientX;
     if (end_clientX - start_clientX > 120) {
       this.setData({
@@ -58,14 +59,14 @@ Page({
     }
   },
   // 头像
-  showview: function () {
+  showview: function() {
     this.setData({
       display: "block",
       translate: 'transform: translateX(' + this.data.windowWidth * 0.7 + 'px);'
     })
   },
   // 遮拦
-  hideview: function () {
+  hideview: function() {
     this.setData({
       display: "none",
       translate: '',
@@ -75,28 +76,29 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
-    that.showWareHouse();
-    that.showSite();
-    that.queryCarInRoad();
-    setInterval(function () {
-      that.queryCarInRoad();
-    }, 2000)
     that.setData({
       no: app.globalData.userData[0].username,
+      userId: app.globalData.userData[0].id,
     });
-    app.showTreatDriverTabBar();    //显示自定义的底部导航
+    that.showWareHouse();
+    that.queryCarInRoad();
+    setInterval(function() {
+      that.queryCarInRoad();
+    }, 5000)
+    console.log(that.data.userId)
+    app.showTreatDriverTabBar();     //显示自定义的底部导航
   },
 
-  showWareHouse: function () {
+  showWareHouse: function() {
     var that = this
     wx.request({
       url: app.globalData.QUERY_MainWareHouse_URL,
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         mainWareHouse = res.data;
         var localMarkers = that.data.markers;
         for (var i = 0; i < mainWareHouse.length; i++) {
@@ -123,14 +125,14 @@ Page({
         });
         //console.log(85+":"+JSON.stringify(that.data.markers))
         that.flushWareHouseColloutContent()
-        setInterval(function () {
+        setInterval(function() {
           that.flushWareHouseColloutContent()
         }, 10000)
       }
     });
   },
 
-  flushWareHouseColloutContent: function () {
+  flushWareHouseColloutContent: function() {
     var that = this
     for (let i = 0; i < mainWareHouse.length; i++) {
       wx.request({
@@ -139,7 +141,7 @@ Page({
         header: {
           'content-type': 'application/json'
         },
-        success: function (res) {
+        success: function(res) {
           var content = "";
           console.log(res.data)
           var minorWareHouse = res.data
@@ -147,177 +149,22 @@ Page({
             let house = minorWareHouse[index];
             content += house.serialNumber + "号仓库:" + house.remainCapacity + "/" + house.capacity + "\n";
           }
-          that.flushWareHouseContentById(-1, content);
+          var localMarkers = that.data.markers;
+          for (let i = 0; i < localMarkers.length; i++) {
+            if (localMarkers[i].title == "warehouse") {
+              var edit = "markers[" + i + "].callout.content";
+              that.setData({
+                [edit]: content
+              });
+              break;
+            }
+          }
         }
       })
     }
   },
-  flushWareHouseContentById: function (siteId, content) { //siteId=-1 denote in mudwareHouse
-    console.log(118 + ":" + content)
-    var that = this
-    console.log("call showCarInSiteContents")
-    carInSiteInfo[siteId] = {}
-    carInSiteInfo[siteId].carrier = {}
-    carInSiteInfo[siteId].treatmentCar = {}
-    that.queryCar(siteId, carType.TREATMENT, carStatus.LEISURE)
-    that.queryCar(siteId, carType.CARRIER, carStatus.LEISURE)
-    setTimeout(function () {
-      var carrierNum = carInSiteInfo[siteId].carrier.length;
-      var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-      if (treatmentCarNum != 0 && treatmentCarNum != 'undefined') {
-        content += treatmentCarNum + "辆处理车\n";
-        for (let i = 0; i < treatmentCarNum; i++) {
-          content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
-        }
-        content += "\n";
-      }
-      if (carrierNum != 0) {
-        content += carrierNum + "辆运输车\n";
-        for (let i = 0; i < carrierNum; i++) {
-          content += carInSiteInfo[siteId].carrier[i].license + "  ";
-        }
-        content += "\n";
-      }
-      var localMarkers = that.data.markers;
-      for (let i = 0; i < localMarkers.length; i++) {
-        if (localMarkers[i].title == "warehouse") {
-          //markers[i].callout.content = content;
-          var edit = "markers[" + i + "].callout.content";
-          that.setData({
-            [edit]: content
-          });
-          break;
-        }
-      }
 
-    }, 2000)
-  },
-
-  showSite: function () {
-    var that = this
-    wx.request({
-      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
-      data: {
-        "siteId": -1,
-        "status": -1
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data)
-        var siteList = res.data;
-        var localMarkers = that.data.markers;
-        for (let i = 0; i < siteList.length; i++) {
-          var site = siteList[i];
-          var contents = site.siteName + "\n" + site.telephone + "\n";
-          siteInfoOld[site.id] = {}
-          siteInfoOld[site.id].status = site.status;
-          siteInfoOld[site.id].content = contents;
-          var iconPath = '/resources/factory' + site.status + '.png';
-          var siteMark = {
-            id: "site" + site.id,
-            title: "site",
-            latitude: site.latitude,
-            longitude: site.longitude,
-            width: 60,
-            height: 60,
-            iconPath: iconPath,
-            callout: {
-              content: contents,
-              padding: 10,
-              textAlign: 'center',
-              color: '#B22222'
-            }
-          }
-          localMarkers.push(siteMark)
-        }
-        that.setData({
-          markers: localMarkers
-        })
-        that.flushSiteIconAndCallOutContent();
-        setInterval(function () {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
-      }
-    });
-  },
-  flushSiteIconAndCallOutContent: function () {
-    var that = this;
-    wx.request({
-      url: app.globalData.QUERY_SiteStatus_URL,
-      method: "GET",
-      header: {
-        'content-type': 'application/json'
-      },
-      success(res) {
-        var siteStatusNow = res.data;
-        for (let i = 0; i < siteStatusNow.length; i++) {
-          var site = siteStatusNow[i];
-          var siteId = site.id;
-          carInSiteInfo[siteId] = {}
-          carInSiteInfo[siteId].carrier = {}
-          carInSiteInfo[siteId].treatmentCar = {}
-          that.queryCar(siteId, carType.TREATMENT, carStatus.ARRIVAL);
-          that.queryCar(siteId, carType.CARRIER, carStatus.ARRIVAL);
-        }
-        setTimeout(function () { //延迟执行，确保数据获取
-          for (let i = 0; i < siteStatusNow.length; i++) {
-            var site = siteStatusNow[i];
-            var siteId = site.id;
-            var iconPath = '';
-            if (siteInfoOld[siteId].status != site.status) {
-              iconPath = '/resources/factory' + site.status + '.png';
-            }
-            var content = siteInfoOld[siteId].content;
-            if (site.status == 0) {
-              content += "状态:正常\n"
-            }
-            else if (site.status == 1) {
-              content += "状态:处理中\n"
-            }
-            else {
-              content += "状态:待处理\n"
-            }
-            var carrierNum = carInSiteInfo[siteId].carrier.length;
-            var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-            if (treatmentCarNum != 0) {
-              content += treatmentCarNum + "辆处理车\n";
-              for (let i = 0; i < treatmentCarNum; i++) {
-                content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
-              }
-              content += "\n";
-            }
-            if (carrierNum != 0) {
-              content += carrierNum + "辆运输车\n";
-              for (let i = 0; i < carrierNum; i++) {
-                content += carInSiteInfo[siteId].carrier[i].license + "  ";
-              }
-              content += "\n";
-            }
-            siteInfoOld[siteId].status = site.status; //更新status
-            var localMarkers = that.data.markers;
-            for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].id == "site" + siteId) {
-                var nowContent = "markers[" + i + "].callout.content";
-                that.setData({
-                  [nowContent]: content
-                });
-                if (iconPath != '') {
-                  var newIconPath = "markers[" + i + "].iconPath";
-                  that.setData({
-                    [newIconPath]: iconPath
-                  });
-                }
-                break;
-              }
-            }
-          }
-        }, 2000)
-      }
-    })
-  },
-  queryCarInRoad: function () {
+  queryCarInRoad: function() {
     var that = this
     //先清除记录
     if (roadCarOld.length != 0) {
@@ -335,20 +182,26 @@ Page({
       })
     }
     wx.request({
-      url: app.globalData.QUERY_CarInRoad_URL,
-      method: 'GET',
+      url: app.globalData.QUERY_queryWorkerMapCar_URL,
+      data: {
+        "userId": that.data.userId
+      },
       header: {
         'content-type': 'application/json'
       },
       success(res) {
         var roadCar = res.data;
+        if (app.globalData.userData[0].carId == null) {
+          app.globalData.userData[0].carId = roadCar[0].id;
+        }
+        console.log(app.globalData.userData[0].carId)
         roadCarOld = roadCar;
         var localMarkers = that.data.markers;
         for (var i = 0; i < roadCar.length; i++) {
           var contents = '';
           var car = roadCar[i];
+          that.flushCarStatus(car);
           var iconPath = '';
-          console.log("313" + car.carType)
           if (car.carType == 0) {
             contents += '类型:污泥处理车\n';
             iconPath = '/resources/car.png';
@@ -357,31 +210,107 @@ Page({
             iconPath = '/resources/transportCar.png';
           }
           contents += "车牌:" + car.license + "\n";
-          if (car.status == 1 || car.status == 4) {
-            if (car.status == 1) {
-              if (car.siteId != null && car.siteId != '') {
-                contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
-              } else {
-                contents += "运输中\n"
-              }
+          if (car.status == 0) {
+            contents += "空闲\n"
+          } else if (car.status == 1) {
+            if (car.siteId != null && car.siteId != '') {
+              contents += "在途中\n" + "目的地:" + car.site.siteName + "\n"
             } else {
-              contents += "返程中\n"
+              contents += "运输中\n"
             }
-            var carMarker = ({
-              id: "car" + car.id,
-              latitude: car.latitude,
-              longitude: car.longitude,
-              width: 25,
-              height: 25,
-              callout: {
-                content: contents,
-                padding: 10,
-                textAlign: 'center',
-                color: '#B22222'
-              },
-              iconPath: iconPath
-            });
-            localMarkers.push(carMarker);
+          } else if (car.status == 2) {
+            contents += "已到达\n"
+          } else if (car.status == 3) {
+            contents += "请前往目的地\n"
+          } else if (car.status == 4) {
+            contents += "返程中\n"
+          }
+          var carMarker = ({
+            id: "car" + car.id,
+            latitude: car.latitude,
+            longitude: car.longitude,
+            width: 25,
+            height: 25,
+            callout: {
+              content: contents,
+              padding: 10,
+              textAlign: 'center',
+              color: '#B22222'
+            },
+            iconPath: iconPath
+          });
+          localMarkers.push(carMarker);
+          if (car.siteId != 0) {
+            var site = car.site;
+            if (localMarkers.length < 3) {
+              var contents = site.siteName + "\n" + site.telephone + "\n";
+              siteInfoOld[site.id] = {}
+              siteInfoOld[site.id].status = site.status;
+              siteInfoOld[site.id].contents = contents;
+              var iconPath = '/resources/factory' + site.status + '.png';
+              if (site.status == 0) {
+                contents += "状态:正常\n"
+              } else if (site.status == 1) {
+                contents += "状态:处理中\n"
+              } else {
+                contents += "状态:待处理\n"
+              }
+              var siteMark = {
+                id: "site" + site.id,
+                title: "site",
+                latitude: site.latitude,
+                longitude: site.longitude,
+                width: 60,
+                height: 60,
+                iconPath: iconPath,
+                callout: {
+                  content: contents,
+                  padding: 10,
+                  textAlign: 'center',
+                  color: '#B22222'
+                }
+              }
+              localMarkers.push(siteMark);
+            } else {
+              if (site.status != siteInfoOld[site.id].status) {
+                var iconPath = '/resources/factory' + site.status + '.png';
+                var contents = siteInfoOld[site.id].contents;
+                if (site.status == 0) {
+                  contents += "状态:正常\n"
+                } else if (site.status == 1) {
+                  contents += "状态:处理中\n"
+                } else {
+                  contents += "状态:待处理\n"
+                }
+                siteInfoOld[site.id].status = site.status;
+                for (let i = 0; i < localMarkers.length; i++) {
+                  if (localMarkers[i].id == "site" + site.id) {
+                    var newIconPath = "markers[" + i + "].iconPath";
+                    var newContents = "markers[" + i + "].callout.content";
+                    that.setData({
+                      [newIconPath]: iconPath,
+                      [newContents]: newContents
+                    });
+                    break;
+                  }
+                }
+              }
+            }
+            that.setData({
+              siteName: site.siteName
+            })
+          } else {
+            that.setData({
+              siteName: "无"
+            })
+            if(localMarkers.length>=3){
+              for (let j = 0; j < localMarkers.length; j++) {
+                if ("site" == localMarkers[j].title) {
+                  localMarkers.splice(j, 1)
+                  break;
+                }
+              }
+            }
           }
         }
         that.setData({
@@ -389,56 +318,140 @@ Page({
         })
       }
     })
-
   },
-  queryCar: function (siteId, carType, carStatus) {
-    var that = this;
+
+  updateCarStatus:function(){
+    var that=this;
     wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-      method: 'GET',
-      data: {
-        siteId: siteId,
-        carType: carType,
-        status: carStatus
-      },
+      url: app.globalData.UPDATE_updateCarStatus_URL,
+      method:'POST',
+      data: JSON.stringify({
+        driverId: app.globalData.userData[0].id,
+        nowStatus: nowStatus
+      }),
+      dataType:'json',
       header: {
         'content-type': 'application/json'
       },
-      success(res) {
-        if (carType == 0) {
-          carInSiteInfo[siteId].treatmentCar = res.data;
-        } else if (carType == 1) {
-          carInSiteInfo[siteId].carrier = res.data;
+      success:function(res){
+        var car=res.data;
+        if (car.status == 0) { //空闲状态
+          that.setData({
+            statusDes: "暂无任务",
+          })
+          nowStatus = 0;
+          //$("#updateCarStatusButton").attr("disabled", true);
+        } else if (car.status == 1) { //在途中
+          if (car.siteId != 0) {
+            that.setData({
+              statusDes: "已到达工厂",
+            })
+          } else {
+            that.setData({
+              statusDes: "已到达目的地",
+            })
+          }
+          nowStatus = 1;
+        } else if (car.status == 2) { //已经到达状态
+          if (car.carType == 0) { //如果是处理车
+            that.setData({
+              statusDes: "处理完成,返程",
+            })
+          } else if (car.carType == 1) { //如果是运输车
+            if (car.siteId != 0) { //!=0
+              that.setData({
+                statusDes: "运往目的地",
+              })
+            } else {
+              that.setData({
+                statusDes: "卸货完成,返程",
+              })
+            }
+          }
+          nowStatus = 2;
+          //$("#updateCarStatusButton").attr("disabled", false);
+        } else if (car.status == 3) { //如果是分配但是为出发状态
+          that.setData({
+            statusDes: "前往工厂",
+          })
+          nowStatus = 3;
+        } else if (car.status == 4) { //返程状态
+          that.setData({
+            statusDes: "到达仓库",
+          })
+          nowStatus = 4;
         }
       }
     })
   },
 
-
-  showdetailofsite: function (event) {
-    var id = event.currentTarget.dataset.id
-    console.log(id)
+  showdetailoftreatmentcar: function(event) {
+    console.log(event)
+    var carId = app.globalData.userData[0].carId;
     wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
-    });
-  },
-  showdetailoftreatmentcar: function (event) {
-    var carid = event.currentTarget.dataset.carid
-    console.log(carid)
-    console.log(event.currentTarget.dataset.siteid)
-    wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
+      url: '../treatcardetail/treatcardetail?carId=' + carId
     });
   },
 
-  startSetInter: function () {
+  flushCarStatus:function(car){
+    var that=this;
+    if (car.status == 0) { //空闲状态
+      that.setData({
+        statusDes:"暂无任务",
+      })
+      nowStatus=0;
+      //$("#updateCarStatusButton").attr("disabled", true);
+    } else if (car.status == 1) { //在途中
+      if (car.siteId != 0) {
+        that.setData({
+          statusDes: "已到达工厂",
+        })
+      } else {
+        that.setData({
+          statusDes: "已到达目的地",
+        })
+      }
+      nowStatus=1;
+    } else if (car.status == 2) { //已经到达状态
+      if (car.carType == 0) { //如果是处理车
+        that.setData({
+          statusDes: "处理完成,返程",
+        })
+      } else if (car.carType == 1) { //如果是运输车
+        if (car.siteId != 0) { //!=0
+          that.setData({
+            statusDes: "运往目的地",
+          })
+        } else {
+          that.setData({
+            statusDes: "卸货完成,返程",
+          })
+        }
+      }
+      nowStatus=2;
+      //$("#updateCarStatusButton").attr("disabled", false);
+    } else if (car.status == 3) { //如果是分配但是为出发状态
+      that.setData({
+        statusDes: "前往工厂",
+      })
+      nowStatus=3;
+    } else if (car.status == 4) { //返程状态
+      that.setData({
+        statusDes: "到达仓库",
+      })
+      nowStatus=4;
+    }
+    
+  },
+
+  startSetInter: function() {
     var that = this;
-    setInterval(function () {
+    setInterval(function() {
       that.getCarData();
     }, 5000)
   },
   //查询子智慧泥仓信息
-  queryMinorWareHouse: function (id) {
+  queryMinorWareHouse: function(id) {
     var that = this;
     var mudHouse;
     wx.request({
@@ -449,7 +462,7 @@ Page({
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         that.setData({
           minorWareHouse: res.data
         })
@@ -457,30 +470,10 @@ Page({
     })
   },
   //查询车辆信息
-  queryMapCar: function (callback) {
-    var that = this;
-    var carList;
-    wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-      data: {
-        siteId: -1,
-        carType: -1,
-        status: -1
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data)
-        that.setData({
-          carList: res.data
-        })
-      }
-    })
-  },
+  
 
   //查询子智慧泥仓信息
-  queryWareHouse: function (callback) {
+  queryWareHouse: function(callback) {
     var that = this;
     var minorWareHouseList;
     wx.request({
@@ -488,141 +481,57 @@ Page({
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res.data)
         that.setData({
           minorWareHouseList: res.data
         })
       },
-      fail: function (err) {
+      fail: function(err) {
         console.log(err)
       }
     })
   },
 
-  //查询站点信息
-  queryMapSite: function (callback) {
-    var thit = this
-    wx.request({
-      url: app.globalData.QUERY_SiteMapBySiteIdAndStatus_URL,
-      data: {
-        siteId: -1,
-        status: -1
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data);
-        thit.setData({
-          siteList: res.data
-        })
-        return
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-  },
-  //右下角站点显示模态框
-  showmapsite: function () {
-    var siteList = this.queryMapSite();
-    this.setData({
-      showMapSite: true
-    })
-  },
-  preventTouchMove: function () { },
-  /**
-   * 隐藏模态对话框
-   */
-  hideMapSite: function () {
-    this.setData({
-      showMapSite: false
-    });
-  },
-  /**
-   * 对话框取消按钮点击事件
-   */
-  onSiteCancel: function () {
-    this.hideMapSite();
-  },
-  /**
-   * 对话框确认按钮点击事件
-   */
-  onSiteConfirm: function () {
-    this.hideMapSite();
-  },
 
-  //右下角处理车显示模态框
-  showtreatmentcar: function () {
-    var carList = this.queryMapCar();
-    this.setData({
-      showtreatmentcar: true
-    })
-  },
-  preventTouchMove: function () { },
-  /**
-   * 隐藏模态对话框
-   */
-  hidetreatmentcarModal: function () {
-    this.setData({
-      showtreatmentcar: false
-    });
-  },
   /**
    * 对话框取消按钮点击事件
    */
-  ontreatmentcarCancel: function () {
+  ontreatmentcarCancel: function() {
     this.hidetreatmentcarModal();
   },
   /**
    * 对话框确认按钮点击事件
    */
-  ontreatmentcarConfirm: function () {
+  ontreatmentcarConfirm: function() {
     this.hidetreatmentcarModal();
   },
 
-  //右下角运输车显示模态框
-  showtransportcar: function () {
-    var carList = this.queryMapCar();
-    this.setData({
-      showtransportcar: true
-    })
-  },
-  preventTouchMove: function () { },
-  /**
-   * 隐藏模态对话框
-   */
-  hidetransportcarModal: function () {
-    this.setData({
-      showtransportcar: false
-    });
-  },
   /**
    * 对话框取消按钮点击事件
    */
-  ontransportcarCancel: function () {
+  ontransportcarCancel: function() {
     this.hidetransportcarModal();
   },
   /**
    * 对话框确认按钮点击事件
    */
-  ontransportcarConfirm: function () {
+  ontransportcarConfirm: function() {
     this.hidetransportcarModal();
   },
 
   //右下角智慧泥仓显示模态框
-  showwarehouse: function () {
+  showwarehouse: function() {
     var minorWareHouseList = this.queryWareHouse();
     this.setData({
       showwarehouse: true
     })
   },
-  preventTouchMove: function () { },
+  preventTouchMove: function() {},
   /**
    * 隐藏模态对话框
    */
-  hidewarehouseModal: function () {
+  hidewarehouseModal: function() {
     this.setData({
       showwarehouse: false
     });
@@ -630,27 +539,27 @@ Page({
   /**
    * 对话框取消按钮点击事件
    */
-  onwarehouseCancel: function () {
+  onwarehouseCancel: function() {
     this.hidewarehouseModal();
   },
   /**
    * 对话框确认按钮点击事件
    */
-  onwarehouseConfirm: function () {
+  onwarehouseConfirm: function() {
     this.hidewarehouseModal();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
 
   },
@@ -660,35 +569,35 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
