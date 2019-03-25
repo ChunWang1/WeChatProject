@@ -29,6 +29,11 @@ var roadCarOld = []
 var longitude = 113.83040
 var latitude = 20.77615
 var nowStatus=0;
+var wareHouseFirst=true;
+var desType=0;
+var selectWarehouseId;
+var selectSludgeFunction;
+var sludgeAddress;
 Page({
 
   /**
@@ -38,6 +43,19 @@ Page({
     no: "",
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
+    sludgeModalVisible:true,
+    wareHouseSelectVisible:false,
+    functionSelectVisible:false,
+    showModalStatus: false,
+    selectArray: [{
+      "id": "1",
+      "text": "泥仓"
+    }, {
+      "id": "2",
+      "text": "直接前往目的地"
+    }],
+    wareHouseArray:[],
+    sludgeFuncArray:[]
   },
   // 滑动开始
   touchstart: function(e) {
@@ -83,12 +101,31 @@ Page({
       userId: app.globalData.userData[0].id,
     });
     that.showWareHouse();
+    that.querySludgeFunction();
     that.queryCarInRoad();
     setInterval(function() {
       that.queryCarInRoad();
     }, 5000)
     console.log(that.data.userId)
-    app.showTransDriverTabBar();     //显示自定义的底部导航
+  },
+
+  querySludgeFunction:function(){
+    var that=this;
+    wx.request({
+      url: app.globalData.QUERY_querySludgeFunction_URL,
+      method:"GET",
+      success:function(res){
+        var func=res.data;
+        var localSludgeFun=that.data.sludgeFuncArray;
+        for (let i = 0; i < func.length;i++){
+         var sludgeFunc={id:func[i].id,text:func[i].function}
+         localSludgeFun.push(sludgeFunc);
+       }
+       that.setData({
+         sludgeFuncArray: localSludgeFun
+       })
+      }
+    })
   },
 
   showWareHouse: function() {
@@ -144,11 +181,22 @@ Page({
         success: function(res) {
           var content = "";
           console.log(res.data)
-          var minorWareHouse = res.data
+          var minorWareHouse = res.data;
+          
           for (let index = 0; index < minorWareHouse.length; index++) {
             let house = minorWareHouse[index];
             content += house.serialNumber + "号仓库:" + house.remainCapacity + "/" + house.capacity + "\n";
+            var houseInfo = { id: house.id, text: house.serialNumber +"号仓库"}
+            if(wareHouseFirst){
+              var localWareHouse = that.data.wareHouseArray;
+              localWareHouse.push(houseInfo);
+              that.setData({
+                wareHouseArray: localWareHouse
+              });
+            }
           }
+          wareHouseFirst=false;
+          console.log(JSON.stringify(that.data.wareHouseArray))
           var localMarkers = that.data.markers;
           for (let i = 0; i < localMarkers.length; i++) {
             if (localMarkers[i].title == "warehouse") {
@@ -194,7 +242,6 @@ Page({
         if (app.globalData.userData[0].carId == null) {
           app.globalData.userData[0].carId = roadCar[0].id;
         }
-        console.log(app.globalData.userData[0].carId)
         roadCarOld = roadCar;
         var localMarkers = that.data.markers;
         for (var i = 0; i < roadCar.length; i++) {
@@ -320,6 +367,136 @@ Page({
     })
   },
 
+  getDesType:function(e){
+    var that=this;
+    desType=e.detail.id;
+    console.log(e.detail)
+    if (e.detail.id == 1 && e.detail.text=="泥仓"){
+      that.setData({
+        wareHouseSelectVisible:true,
+        functionSelectVisible:false
+      })
+    }
+    else if (e.detail.id == 2 && e.detail.text == "直接前往目的地"){
+      that.setData({
+        wareHouseSelectVisible: false,
+        functionSelectVisible: true
+      })
+      this.setData({
+        address: ""
+      })
+    }
+  },
+
+  setId:function(e){
+    console.log(e.detail)
+    if(desType==1){ //目的地
+      selectWarehouseId=e.detail.id;
+      this.setData({
+        address:e.detail.text
+      })
+    }
+    else{
+      selectSludgeFunction = e.detail.text;
+    }
+  },
+
+  inputRFID:function(e){
+    console.log(e.detail.value)
+    this.setData({
+      rfid: e.detail.value
+    })
+  },
+
+  inputWeight:function(e){
+    this.setData({
+      weight: e.detail.value
+    })
+  },
+  inputAddress:function(e){
+    this.setData({
+      address: e.detail.value
+    })
+  },
+  confirm:function(e){
+    var that=this;
+    var postData = {
+      id: this.data.sludgeId,
+      rfidString: this.data.rfid,
+      weight: this.data.weight,
+      minorMudWareHouseId: selectWarehouseId,
+      destinationAddress: this.data.address
+    }
+    if(desType==1){ 
+      postData.minorMudWareHouseId = selectWarehouseId;
+    }
+    else{
+      var sludgeFunction = {
+        function: selectSludgeFunction
+      }
+      postData.sludgeFunction = sludgeFunction;
+    }
+    wx.request({
+      url: app.globalData.UPDATE_updateSludgeVirtualToRealByDriver_URL,
+      method:"POST",
+      data:JSON.stringify(postData),
+      header:{
+        contentType: "application/json",
+      },
+      success:function(res){
+        if(res.data=="SUCCESS"){
+          console.log(res.data)
+          wx.showToast({
+            title: '添加成功',
+            icon:'success',
+            success:function(){
+              that.setData({
+                sludgeModalVisible:true
+              })
+            }
+          })
+          that.updateCarStatus()
+        }
+      }
+    })
+  },
+  cancel:function(){
+    this.setData({
+      sludgeModalVisible: true
+    })
+  },
+
+  updateStatusButton(){
+    console.log(this.data.siteName+" "+nowStatus)
+    var that=this;
+    if(nowStatus==2 && that.data.siteName!="无"){
+      that.queryVirtualSludge();
+      that.setData({
+        sludgeModalVisible:false 
+      })
+    }
+    else{
+      that.updateCarStatus();
+    }
+  },
+
+  queryVirtualSludge:function(){
+    var that=this;
+    wx.request({
+      url: app.globalData.QUERY_querySludgeByUserIdAndStatus_URL,
+      method:"GET",
+      data:{
+        driverId:app.globalData.userData[0].id,
+        status:"(6)",
+      },
+      success:function(res){
+        that.setData({
+          sludgeId:res.data[0].id
+        })
+      }
+    })
+  },
+
   updateCarStatus:function(){
     var that=this;
     wx.request({
@@ -360,7 +537,7 @@ Page({
           } else if (car.carType == 1) { //如果是运输车
             if (car.siteId != 0) { //!=0
               that.setData({
-                statusDes: "运往目的地",
+                statusDes: "添加装箱记录",
               })
             } else {
               that.setData({
@@ -420,7 +597,7 @@ Page({
       } else if (car.carType == 1) { //如果是运输车
         if (car.siteId != 0) { //!=0
           that.setData({
-            statusDes: "运往目的地",
+            statusDes: "添加装箱记录",
           })
         } else {
           that.setData({
@@ -560,7 +737,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    app.showTransDriverTabBar();     //显示自定义的底部导航
 
   },
   regionchange(e) {
@@ -600,4 +777,5 @@ Page({
   onShareAppMessage: function() {
 
   }
+  
 })

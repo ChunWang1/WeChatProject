@@ -1,0 +1,17 @@
+.divLine{
+ background: #E0E3DA;
+ width: 100%;
+ height: 5rpx;
+}
+.siteName{
+  font-weight: 900;
+  font-size: 38rpx;
+  font-family: "宋体";
+}
+.time{
+  font-size: 33rpx;
+  color:#8B8682;
+}
+.content{
+  margin-bottom: 9vh;
+}

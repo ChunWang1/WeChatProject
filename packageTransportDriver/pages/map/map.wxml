@@ -61,11 +61,11 @@
     </cover-view>
 
     <cover-view class='operation'>
-    <i-card title="目的地" extra="{{siteName}}" >
-    <view slot="content">
-    <i-button bind:click="updateCarStatus" type="success" shape="circle">{{statusDes}}</i-button>
-    </view>
-</i-card>
+      <i-card title="目的地" extra="{{siteName}}">
+        <view slot="content">
+          <i-button bind:click="updateStatusButton" type="success" shape="circle">{{statusDes}}</i-button>
+        </view>
+      </i-card>
     </cover-view>
     <!--站点弹窗-->
 
@@ -104,7 +104,39 @@
     </cover-view>
     <!--------------------------------------------------------->
 
+<!-- modal -->
+<modal hidden="{{sludgeModalVisible}}" title="污泥块记录" confirm-text="出发" class='modalClass' cancel-text="取消" bindcancel="cancel" bindconfirm="confirm" no-cancel="{{nocancel}}">
+<form bindsubmit="formSubmit">
+    <i-input value="{{ siteName }}" title="工厂名" disabled='true' name="siteName"/>
+    <i-input value="{{rfid}}" type='text'   placeholder="污泥块编号" name="rfid" bindinput='inputRFID'/>
+    <i-input value='{{weight}}' type='text'  title="重量" placeholder="污泥块重量(吨)" name="weight" bindinput='inputWeight'/>
+    <i-row>
+      <i-col span="8" i-class="col-class">目的地</i-col>
+      <i-col span="16" i-class="col-class">
+        <select prop-array='{{selectArray}}' bind:myget='getDesType'></select>
+      </i-col>
+    </i-row>
+    <i-row wx:if="{{wareHouseSelectVisible}}">
+      <i-col span="8" i-class="col-class">仓号</i-col>
+      <i-col span="16" i-class="col-class">
+        <select prop-array='{{wareHouseArray}}' bind:myget='setId'></select>
+      </i-col>
+    </i-row>
+
+     <i-row wx:if="{{functionSelectVisible}}">
+      <i-col span="8" i-class="col-class">用途</i-col>
+      <i-col span="16" i-class="col-class">
+        <select prop-array='{{sludgeFuncArray}}' bind:myget='setId'></select>
+      </i-col>
+      <i-col span='24'>
+         <i-input value='{{address}}' type='text'  placeholder="请输入地址" bindinput='inputAddress' />
+      </i-col>
+    </i-row>
+    </form>
+</modal>
+
 
 
   </view>
 </view>
+

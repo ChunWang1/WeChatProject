@@ -2,6 +2,13 @@
   "usingComponents": {
     "i-card": "../../../dist/card/index",
     "i-button": "../../../dist/button/index",
-    "i-notice-bar": "../../../dist/notice-bar/index"
+    "i-notice-bar": "../../../dist/notice-bar/index",
+    "i-modal": "../../../dist/modal/index",
+    "i-input": "../../../dist/input/index",
+    "i-action-sheet": "../../../dist/action-sheet/index",
+    "select": "../../../dist/select/select",
+    "i-row": "../../../dist/row/index",
+    "i-col": "../../../dist/col/index",
+    "i-toast": "../../../dist/toast/index"
     }
 }
