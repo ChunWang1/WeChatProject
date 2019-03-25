@@ -108,7 +108,7 @@ App({
         "active": false,
       },
       {
-        "pagePath": "../allcardetail/allcardetail",
+        "pagePath": "/packageTreatmentDriver/pages/treatmentRecord/treatmentRecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -133,7 +133,7 @@ App({
         "active": true,
       },
       {
-        "pagePath": "../allcardetail/allcardetail",
+        "pagePath": "/packageTransportDriver/pages/transportRecord/transportRecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -324,6 +324,12 @@ App({
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
     UPDATE_updateCarStatus_URL:URL+"/car/updateCarStatusByButton",
+    //处理车司机链接
+    QUERY_queryRecordByStatus_URL: URL +"/record/queryRecordByDriverIdAndStatus",
+    //运输车司机链接
+    QUERY_querySludgeFunction_URL: URL + "/sludge/queryAllFunc",
+    QUERY_querySludgeByUserIdAndStatus_URL: URL +"/sludge/querysludgebydriverIdAndStatus",
+    UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
 
   }
 })
