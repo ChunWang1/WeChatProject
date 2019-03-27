@@ -167,7 +167,9 @@ Page({
       })
     thit.queryassignCarTransportDriver();
     thit.querryallsite();
-
+    thit.querryallwarehouse();
+    thit.queryCarrierUnassign();
+    thit.queryassignCarTreatDriver()
     //获取设备可视窗口高度
     wx.getSystemInfo({
       success: function (res) {
@@ -734,6 +736,7 @@ Page({
   //按司机查询污泥处理记录
   queryRecordByDriverId: function (callback) {
     var thit = this
+    console.log(thit.data.assigntreatscar_id)
     wx.request({
       url: app.globalData.QUERY_queryRecordByDriverId_URL,
       data:{
