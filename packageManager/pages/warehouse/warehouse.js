@@ -738,7 +738,7 @@ Page({
     var thit = this
     console.log(thit.data.assigntreatscar_id)
     wx.request({
-      url: app.globalData.QUERY_queryRecordByDriverId_URL,
+      url: app.globalData.QUERY_RecordByDriverId_URL,
       data:{
         driverId: parseInt(thit.data.assigntreatscar_id),
       },
