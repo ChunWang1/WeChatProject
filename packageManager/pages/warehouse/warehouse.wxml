@@ -248,41 +248,37 @@
     </i-cell> 
     </view>
 </i-collapse-item>
+<view>
 <!--编辑处理记录-->
-<view >
-<i-button bind:click="editRecordBtn" type="info" size="small"  shape="circle" data-recordid='{{recordList[record_current-1].id}}' data-siteid='{recordList[record_current-1].siteId}' data-driverid='{recordList[record_current-1].driverId}'>编辑</i-button>
-
+<i-button bind:click="editRecordBtn" type="info" size="small"  shape="circle" data-recordid='{{recordList[record_current-1].id}}' data-siteid='{{recordList[record_current-1].siteId}}'>分配处理人</i-button>
 <!--自定义编辑按钮弹窗-->
-<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditRecordModal}}"></view>
+<view class="modal-mask" bindtap="hideRecordModal" catchtouchmove="preventTouchMove" wx:if="{{showEditRecordModal}}"></view>
 <view class="modal-dialog" wx:if="{{showEditRecordModal}}">
-  <view class="modal-title">污泥块信息</view>
-   <form bindsubmit="saveRecordEdit">
-   <view >
-    <view class="modal-input" wx:for="{{recordList}}" wx:if="{{item.id===recordId}}" wx:key="id">
+<view class="modal-content">
+  <view class="modal-title">修改处理人</view>
+       <view class="modal-input">
+       <picker bindchange="bindTreatcarPickerChange" range="{{assignTreatcarlist}}" value='{{assignTreatcarlist[carIndex].id}}' class='regSelect' range-key="{{'realname'}}" >
+        <input class='selectInp'  bindinput="treatcarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{assignTreatcarlist[carIndex].id}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+    </picker>
+      </view>
+</view>
      
-    <i-input  value="{{item.driver.id}}" title="分配司机:" name="driverId" />
-    </view>
-  </view>
-
   <view class="modal-footer">
-    <view class="btn-cancel"  >
-    <button class="cancel" bindtap="onCancel">取消</button>
+     <view class="btn-cancel"  >
+    <button class="cancel" bindtap="onrecordCancel">取消</button>
     </view>
     <view class="btn-confirm" >
-    <button class="confirm" form-type='submit' >保存</button>   
+    <button class="confirm" bindtap='modifysubmit' >保存</button>   
     </view>
-
   </view>
-   </form>
   </view>
-
-<i-button bind:click="delRecordBtn" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
-<i-modal title="删除确认" visible="{{ delRecordVisible }}" actions="{{ delRecordactions }}" bind:click="delRecordModal">
-    <view>删除后无法恢复,是否确认删除这条记录？</view>
-</i-modal>
-<i-message id="message" />
-
+<!--删除处理记录-->
+	<i-button bind:click="delRecord" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
 </view>
+
  <i-cell >
  </i-cell>
 </block>

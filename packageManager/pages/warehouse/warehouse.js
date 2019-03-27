@@ -388,8 +388,8 @@ Page({
         } 
       }
     })
-    this.hideModal();
-    this.querysludge();
+    that.hideModal();
+    that.querysludge();
   },
   //下拉选择框数据获取
   bindwarehousePickerChange: function (e) {
@@ -833,45 +833,112 @@ Page({
 
 
   },
-  //编辑运输车记录按钮
-  editRecordBtn: function (e) {
-    console.log(e.currentTarget.dataset.recorid);
-    this.setData({
-      showEditRecordModal: true,
-      recordId: e.currentTarget.dataset.recorid
+
+  //删除处理记录按钮
+  delRecord: function (e) {
+    var that = this;
+    console.log(e.currentTarget.dataset.recordid);
+    that.setData({
+      recordId: e.currentTarget.dataset.recordid
+    });
+    wx.showModal({
+      title: '提示',
+      content: '删除后无法恢复，是否确认删除这条记录',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          wx.request({
+            url: app.globalData.DELETE_Record_URL,
+            data: { recordId: parseInt(that.data.recordId) },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              console.log(res.data)
+              if (res.data === "SUCCESS") {
+                setTimeout(() => {
+                  $Message({
+                    content: '删除成功！',
+                    type: 'success'
+                  });
+                }, 2000);
+
+                that.queryrecord();//刷新运输车记录页面
+              }
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   },
+  //编辑处理记录按钮
+  editRecordBtn: function (e) {
+    console.log(e.currentTarget.dataset.recordid);
+    this.queryassignCarTreatDriver();
+    this.setData({
+      showEditRecordModal: true,
+      recordId: e.currentTarget.dataset.recordid,
+      siteId: e.currentTarget.dataset.siteid
+    })
+  },
+  //下拉框获取数据
+  bindTreatcarPickerChange: function (e) {
+    console.log(this.data.assignTreatcarlist[e.detail.value].id)
+    console.log(this.data.assignTreatcarlist[e.detail.value].realname)
+    this.setData({
+      treatCarId: this.data.assignTreatcarlist[e.detail.value].id,
+      treatCardrivername: this.data.assignTreatcarlist[e.detail.value].realname
+    })
+    if (e.detail.value == 4) {
+      this.setData({ reply: true })
+    } else {
+      this.setData({ reply: false })
+    }
+    this.setData({
+      carIndex: e.detail.value
+    })
+  },
+  //获取输入框数据
+  treatcarinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      treatcarinput: e.detail.value
+    });
+  },
   /**
-     * 运输车编辑弹出框蒙层截断touchmove事件
-     */
+    * 处理记录弹出框蒙层截断touchmove事件
+    */
   preventTouchMove: function () {
   },
   /**
-   * 隐藏运输车编辑模态对话框
+   * 隐藏处理记录编辑模态对话框
    */
-  hideModal: function () {
+  hideRecordModal: function () {
     this.setData({
       showEditRecordModal: false
     });
   },
   /**
-   * 运输车编辑对话框取消按钮点击事件
+   * 处理记录编辑对话框取消按钮点击事件
    */
-  onCancel: function () {
-    this.hideModal();
+  onrecordCancel: function () {
+    this.hideRecordModal();
   },
   /**
-   * 保存运输车污泥块信息(保存报错！)
+   * 保存处理记录信息(保存报错！)
    */
-  saveRecordEdit: function (e) {
+  modifysubmit: function (e) {
     var that = this;
-    console.log(e.currentTarget.dataset.driverid);
+    console.log(that.data.recordId);
+    console.log(that.data.siteId);
     wx.request({
-      url: app.globalData.EDIT_record_URL,
+      url: app.globalData.EDIT_Record_URL,
       data: JSON.stringify({
-        recordId: e.currentTarget.dataset.recordid,
-        driverId: e.currentTarget.dataset.driverid,
-        siteId: e.currentTarget.dataset.siteid
+        recordId: that.data.recordId,
+        driverId: that.data.treatcarinput,
+        siteId: that.data.siteId
       }),
       method: 'POST',
       headers: {
@@ -879,13 +946,28 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        if (res.data === "SUCCESS") {
+        if (res.data == "SUCCESS") {
           wx.showToast({
             title: "修改成功！",
             icon: 'none',
             duration: 2000,
           })
-          this.queryrecord();//刷新运输车记录页面  
+          that.hideRecordModal();
+          that.queryrecord();//刷新记录页面  
+        } else if (res.data == "ERROR"){
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
+          that.hideRecordModal();
+        } else if (res.data == "CONFLICT") {
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
+          that.hideRecordModal();
         }
       },
       fail: function (err) {
@@ -899,61 +981,5 @@ Page({
     })
   },
 
-  //删除运输车记录按钮
-  delRecordBtn: function (e) {
-    var that = this;
-    console.log(e.currentTarget.dataset.recordid);
-    that.setData({
-      delRecordVisible: true,
-      recordId: e.currentTarget.dataset.recordid
-    });
-  },
-  //删除处理记录模态框事件
-  delRecordModal({ detail }) {
-    if (detail.index == 0) {
-      this.setData({
-        delRecordVisible: false
-      });
-    } else {
-      const action = [...this.data.delRecordactions];
-      action[1].loading = true;
-
-      this.setData({
-        delRecordactions: action
-      });
-
-      wx.request({
-        url: app.globalData.DELETE_Record_URL,
-        data: { recordId: parseInt(this.data.recordId) },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          console.log(res.data)
-          if (res.data === "SUCCESS") {
-            setTimeout(() => {
-              action[1].loading = false;
-              this.setData({
-                delRecordVisible: false,
-                delRecordactions: action
-              });
-              $Message({
-                content: '删除成功！',
-                type: 'success'
-              });
-            }, 2000);
-
-            this.queryrecord();//刷新运输车记录页面
-          }
-        },
-        fail: function (err) {
-          console.log(err)
-          $Message({
-            content: '删除失败！',
-            type: 'error'
-          });
-        }
-      })
-    }
-  },
+  
 })

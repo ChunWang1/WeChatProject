@@ -313,7 +313,7 @@ App({
     QUERY_SludgeByDriverIdAndInOutFlag_URL: URL + "/sludge/querySludgeByDriverIdAndInOutFlag",
     QUERY_SludgeBySiteIdAndInOutFlag_URL: URL + "/sludge/querySludgeBySiteIdAndInOutFlag",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-    EDIT_record_URL: URL + "/record/editRecord",
+    EDIT_Record_URL: URL + "/record/editRecord",
     DELETE_Record_URL: URL + "/record/deleteRecord",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
     QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
