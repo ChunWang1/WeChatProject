@@ -51,9 +51,11 @@ Page({
           videoData: res.data.video,
         });
         that.getRealValue();
-        setInterval(function () {
-          that.getRealValue();
-        }, 10000);
+        that.setData({
+          timer: setInterval(function () {
+            that.getRealValue();
+          }, 2000)
+        })
         //that.getRealValue();
 
       },
@@ -170,7 +172,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearInterval(this.data.timer);
   },
 
   /**

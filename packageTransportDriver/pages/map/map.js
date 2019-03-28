@@ -104,9 +104,11 @@ Page({
     that.showWareHouse();
     that.querySludgeFunction();
     that.queryCarInRoad();
-    setInterval(function() {
-      that.queryCarInRoad();
-    }, 5000)
+    that.setData({
+      timer: setInterval(function () {
+        that.queryCarInRoad();
+      }, 5000)
+    })
     console.log(that.data.userId)
   },
 
@@ -760,7 +762,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    clearInterval(this.data.timer);
   },
 
   /**
