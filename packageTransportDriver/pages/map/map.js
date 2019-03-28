@@ -47,6 +47,7 @@ Page({
     wareHouseSelectVisible:false,
     functionSelectVisible:false,
     showModalStatus: false,
+    mapVisible:false,
     selectArray: [{
       "id": "1",
       "text": "泥仓"
@@ -186,16 +187,7 @@ Page({
           for (let index = 0; index < minorWareHouse.length; index++) {
             let house = minorWareHouse[index];
             content += house.serialNumber + "号仓库:" + house.remainCapacity + "/" + house.capacity + "\n";
-            var houseInfo = { id: house.id, text: house.serialNumber +"号仓库"}
-            if(wareHouseFirst){
-              var localWareHouse = that.data.wareHouseArray;
-              localWareHouse.push(houseInfo);
-              that.setData({
-                wareHouseArray: localWareHouse
-              });
-            }
           }
-          wareHouseFirst=false;
           console.log(JSON.stringify(that.data.wareHouseArray))
           var localMarkers = that.data.markers;
           for (let i = 0; i < localMarkers.length; i++) {
@@ -248,6 +240,9 @@ Page({
           var contents = '';
           var car = roadCar[i];
           that.flushCarStatus(car);
+          that.setData({
+            siteId: car.siteId,
+          })
           var iconPath = '';
           if (car.carType == 0) {
             contents += '类型:污泥处理车\n';
@@ -332,24 +327,33 @@ Page({
                 siteInfoOld[site.id].status = site.status;
                 for (let i = 0; i < localMarkers.length; i++) {
                   if (localMarkers[i].id == "site" + site.id) {
-                    var newIconPath = "markers[" + i + "].iconPath";
-                    var newContents = "markers[" + i + "].callout.content";
-                    that.setData({
-                      [newIconPath]: iconPath,
-                      [newContents]: newContents
-                    });
+                    localMarkers[i].iconPath = iconPath;
+                    localMarkers[i].callout.content = contents;
+                    // var newIconPath = "markers[" + i + "].iconPath";
+                    // var newContents = "markers[" + i + "].callout.content";
+                    // that.setData({
+                    //   [newIconPath]: iconPath,
+                    //   [newContents]: contents
+                    // });
                     break;
                   }
                 }
               }
             }
             that.setData({
-              siteName: site.siteName
+              destination: site.siteName,
             })
           } else {
-            that.setData({
-              siteName: "无"
-            })
+            if(car.status==0){
+              that.setData({
+                destination: "无"
+              })
+            }
+            if (car.status == 4){
+              that.setData({
+                destination: "泥仓"
+              })
+            }
             if(localMarkers.length>=3){
               for (let j = 0; j < localMarkers.length; j++) {
                 if ("site" == localMarkers[j].title) {
@@ -451,7 +455,9 @@ Page({
             icon:'success',
             success:function(){
               that.setData({
-                sludgeModalVisible:true
+                sludgeModalVisible:true,
+                mapVisible: false,
+                destination:that.data.address
               })
             }
           })
@@ -462,17 +468,19 @@ Page({
   },
   cancel:function(){
     this.setData({
-      sludgeModalVisible: true
+      sludgeModalVisible: true,
+      mapVisible:false
     })
   },
 
   updateStatusButton(){
-    console.log(this.data.siteName+" "+nowStatus)
     var that=this;
-    if(nowStatus==2 && that.data.siteName!="无"){
+    if(nowStatus==2 && that.data.siteId!=0){
       that.queryVirtualSludge();
+      that.queryMinorWareHouse();
       that.setData({
-        sludgeModalVisible:false 
+        sludgeModalVisible: false, 
+        mapVisible:true
       })
     }
     else{
@@ -621,28 +629,26 @@ Page({
     
   },
 
-  startSetInter: function() {
-    var that = this;
-    setInterval(function() {
-      that.getCarData();
-    }, 5000)
-  },
   //查询子智慧泥仓信息
-  queryMinorWareHouse: function(id) {
+  queryMinorWareHouse: function() {
     var that = this;
     var mudHouse;
     wx.request({
       url: app.globalData.QUERY_MinorWareHouse_URL,
-      data: {
-        id: id
-      },
       header: {
         'content-type': 'application/json'
       },
       success: function(res) {
+        var minorList=res.data;
+        var lists=[];
+        for(let i=0;i<minorList.length;i++){
+          var minor = { id: minorList[i].id, text: minorList[i].serialNumber+"号仓库"};
+          lists.push(minor);
+        }
         that.setData({
-          minorWareHouse: res.data
+          wareHouseArray:lists
         })
+        console.log(that.data.wareHouseArray)
       }
     })
   },

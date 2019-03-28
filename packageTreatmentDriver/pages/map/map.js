@@ -143,7 +143,6 @@ Page({
         },
         success: function(res) {
           var content = "";
-          console.log(res.data)
           var minorWareHouse = res.data
           for (let index = 0; index < minorWareHouse.length; index++) {
             let house = minorWareHouse[index];
@@ -194,7 +193,6 @@ Page({
         if (app.globalData.userData[0].carId == null) {
           app.globalData.userData[0].carId = roadCar[0].id;
         }
-        console.log(app.globalData.userData[0].carId)
         roadCarOld = roadCar;
         var localMarkers = that.data.markers;
         for (var i = 0; i < roadCar.length; i++) {
@@ -242,11 +240,13 @@ Page({
           localMarkers.push(carMarker);
           if (car.siteId != 0) {
             var site = car.site;
-            if (localMarkers.length < 3) {
+            if (localMarkers.length < 3) { //只有车和泥仓
+              console.log("添加工厂前"+JSON.stringify(localMarkers))
               var contents = site.siteName + "\n" + site.telephone + "\n";
               siteInfoOld[site.id] = {}
               siteInfoOld[site.id].status = site.status;
               siteInfoOld[site.id].contents = contents;
+              console.log("哈哈" + site.siteName + "localMarkers" + localMarkers.length);
               var iconPath = '/resources/factory' + site.status + '.png';
               if (site.status == 0) {
                 contents += "状态:正常\n"
@@ -271,9 +271,13 @@ Page({
                 }
               }
               localMarkers.push(siteMark);
+              console.log("添加工厂后" + JSON.stringify(localMarkers))
             } else {
               if (site.status != siteInfoOld[site.id].status) {
+                console.log("更改site信息" + site.status + " " + siteInfoOld[site.id].status);
+                siteInfoOld[site.id].status = site.status;
                 var iconPath = '/resources/factory' + site.status + '.png';
+                console.log(iconPath)
                 var contents = siteInfoOld[site.id].contents;
                 if (site.status == 0) {
                   contents += "状态:正常\n"
@@ -282,15 +286,10 @@ Page({
                 } else {
                   contents += "状态:待处理\n"
                 }
-                siteInfoOld[site.id].status = site.status;
                 for (let i = 0; i < localMarkers.length; i++) {
                   if (localMarkers[i].id == "site" + site.id) {
-                    var newIconPath = "markers[" + i + "].iconPath";
-                    var newContents = "markers[" + i + "].callout.content";
-                    that.setData({
-                      [newIconPath]: iconPath,
-                      [newContents]: newContents
-                    });
+                    localMarkers[i].iconPath = iconPath;
+                    localMarkers[i].callout.content=contents;
                     break;
                   }
                 }
@@ -300,9 +299,16 @@ Page({
               siteName: site.siteName
             })
           } else {
-            that.setData({
-              siteName: "无"
-            })
+            if(car.status==0){
+              that.setData({
+                siteName: "无"
+              })
+            }
+            if (car.status == 4) {
+              that.setData({
+                siteName: "泥仓"
+              })
+            }
             if(localMarkers.length>=3){
               for (let j = 0; j < localMarkers.length; j++) {
                 if ("site" == localMarkers[j].title) {
@@ -310,6 +316,7 @@ Page({
                   break;
                 }
               }
+              console.log("删除工厂模块\n"+JSON.stringify(localMarkers));
             }
           }
         }
@@ -386,7 +393,6 @@ Page({
   },
 
   showdetailoftreatmentcar: function(event) {
-    console.log(event)
     var carId = app.globalData.userData[0].carId;
     wx.navigateTo({
       url: '../treatcardetail/treatcardetail?carId=' + carId
@@ -482,7 +488,6 @@ Page({
         'content-type': 'application/json'
       },
       success: function(res) {
-        console.log(res.data)
         that.setData({
           minorWareHouseList: res.data
         })
