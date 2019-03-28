@@ -61,11 +61,8 @@
     </cover-view>
 
     <cover-view class='operation'>
-    <i-card title="目的地" extra="{{siteName}}" >
-    <view slot="content">
-    <i-button bind:click="updateCarStatus" type="success" shape="circle">{{statusDes}}</i-button>
-    </view>
-</i-card>
+          <cover-view class='siteName'>目的地：{{siteName}}</cover-view>
+          <button class='i-btn i-btn-circle .i-btn-success' bindtap="updateCarStatus"><cover-view>{{statusDes}}</cover-view></button>
     </cover-view>
     <!--站点弹窗-->
 
