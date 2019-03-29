@@ -85,6 +85,7 @@ Page({
     }, 2000)
     that.setData({
       no: app.globalData.userData[0].username,
+      headImage: app.globalData.userInfo.avatarUrl
     });
     app.showManageTabBar();    //显示自定义的底部导航
   },

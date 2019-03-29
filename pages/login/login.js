@@ -38,7 +38,8 @@ Page({
       url: app.globalData.LOGIN_Validator_URL,
       data: JSON.stringify({
         username: e.detail.value.no,
-        password: e.detail.value.pwd
+        password: e.detail.value.pwd,
+        nickname:app.globalData.userInfo.nickName
       }),
       method: 'post',
       header: {

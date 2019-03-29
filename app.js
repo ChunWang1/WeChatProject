@@ -230,17 +230,22 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        console.log("res.code"+res.code)
       }
     })
     // 获取用户信息
     wx.getSetting({
       success: res => {
+        console.log(JSON.stringify(res))
         if (res.authSetting['scope.userInfo']) {
+          console.log("已授权")
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
+              console.log(JSON.stringify(res.userInfo))
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
+              this.qureyUserByNickName(res.userInfo.nickName)
 
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
@@ -250,14 +255,108 @@ App({
             }
           })
         }
+        else if (res.authSetting['scope.userInfo'] === false) { // 授权弹窗被拒绝
+          wx.redirectTo({
+            url: '/pages/authorization/authorization',
+          })
+          // wx.openSetting({
+          //   success: res => {
+          //     console.log(res)
+          //   },
+          //   fail: res => {
+          //     console.log(res)
+          //   }
+          // })
+        } else {
+           wx.redirectTo({
+             url: '/pages/authorization/authorization',
+           })
+        }
       }
     })
 
   },
 
+  qureyUserByNickName:function(nickname){
+    var that=this;
+    wx.request({
+      url: this.globalData.QUERY_qureyUserByNickName_URL,
+      data:{
+        nickname:nickname
+      },
+      success:function(res){
+        console.log(JSON.stringify(res.data));
+        if (res.data.result=="ERROR"){
+          wx.redirectTo({
+            url: '/pages/login/login',
+          })
+        }
+        else if (res.data.result == "SUCCESS") {
+          that.globalData.userData[0].id = res.data.user.id;
+          that.globalData.userData[0].idCard = res.data.user.idCard;
+          that.globalData.userData[0].realname = res.data.user.realname;
+          that.globalData.userData[0].role = res.data.user.role.role_name;
+          that.globalData.userData[0].sex = res.data.user.sex;
+          that.globalData.userData[0].email = res.data.user.email;
+          that.globalData.userData[0].username = res.data.user.username;
+          that.globalData.userData[0].telephone = res.data.user.telephone;
+          that.globalData.userData[0].password = res.data.user.password;
+          that.globalData.userData[0].siteId = res.data.user.siteId;
+          var roleId = res.data.user.roleId;
+          wx.showToast({
+            title: "登录成功",
+            icon: 'success',
+            duration: 2000,
+            success: function () {
+              setTimeout(function () {
+                if (roleId == 1) {
+                  //管理员
+                  wx.redirectTo({
+                    url: '/packageManager/pages/map/map',
+                  })
+                } else if (roleId == 2) {
+                  //工厂人员
+                  wx.redirectTo({
+
+                    url: '/packageFactory/pages/map/map',
+                  })
+
+                } else if (roleId == 3) {
+                  //处理车司机
+                  wx.redirectTo({
+                    url: '/packageTreatmentDriver/pages/map/map',
+                  })
+
+                } else if (roleId == 4) {
+                  //运输车司机
+                  wx.redirectTo({
+                    url: '/packageTransportDriver/pages/map/map',
+                  })
+
+                }
+
+              })
+            }
+          })
+        } else if (res.data.result == "AUDING") {
+          wx.showToast({
+            title: "正在审核中，请耐心等待",
+            icon: 'none',
+            duration: 2000,
+          })
+        } else if (res.data.result == "FORBID") {
+          wx.showToast({
+            title: "审核未通过,无法使用系统",
+            icon: 'none',
+            duration: 2000,
+          })
+        }
 
 
-
+      //////
+      }
+    })
+  },
 
   //全局变量
   globalData: {
@@ -330,6 +429,8 @@ App({
     QUERY_querySludgeFunction_URL: URL + "/sludge/queryAllFunc",
     QUERY_querySludgeByUserIdAndStatus_URL: URL +"/sludge/querysludgebydriverIdAndStatus",
     UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
+    //登陆使用的链接
+    QUERY_qureyUserByNickName_URL: URL +"/user/qureyUserByNickName",
 
   }
 })

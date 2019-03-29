@@ -10,7 +10,7 @@
       </navigator>
     </block>
     <block wx:else>
-      <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+      <image class='user_head' src='{{headImage}}'></image>
       <view class='user_name'>{{no}}</view>
       <view class="page-head-line"></view>
     </block>

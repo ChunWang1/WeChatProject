@@ -1,8 +1,10 @@
 {
-  "pages":[
-    "pages/login/login",  
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
     "pages/register/register",
-    "pages/personinfo/personinfo"
+    "pages/personinfo/personinfo",
+    "pages/authorization/authorization"
   ],
   "subPackages": [
     {
@@ -15,7 +17,7 @@
         "pages/cardetail/cardetail",
         "pages/allcardetail/allcardetail",
         "pages/warehouse/warehouse",
-		    "pages/modifypwd/modifypwd", 
+        "pages/modifypwd/modifypwd",
         "pages/personinfor/personinfor"
       ]
     },
@@ -28,7 +30,6 @@
         "pages/personinfor/personinfor",
         "pages/sludgerecord/sludgerecord",
         "pages/factorydetail/factorydetail"
-  
       ]
     },
     {
@@ -47,11 +48,11 @@
       ]
     }
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#70DB93",
     "navigationBarTitleText": "污泥处理系统",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "networkTimeout": {
     "request": 20000,
@@ -77,6 +78,5 @@
     "i-page": "../../../dist/page/index",
     "i-toast": "../../../dist/toast/index",
     "i-modal": "../../../dist/modal/index"
-   
   }
 }

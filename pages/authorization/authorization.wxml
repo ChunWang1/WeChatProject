@@ -1,0 +1,15 @@
+
+
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}">
+  <view class="modal-title">用户者协议</view>
+  <view class="modal-content">
+    智能污泥干化系统是面向城市生活污水处理的...智能污泥干化系统是面向城市生活污水处理的...智能污泥干化系统是面向城市生活污水处理的...智能污泥干化系统是面向城市生活污水处理的...
+
+  </view>
+  <view class="modal-footer">
+    <button class="btn-confirm"  wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">同意该条款</button>
+    <view wx:else>请升级微信版本</view>
+    
+  </view>
+</view>

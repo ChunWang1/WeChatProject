@@ -56,6 +56,7 @@ Page({
       data: JSON.stringify({
         username: e.detail.value.no,
         password: e.detail.value.pwd,
+        nickname:app.globalData.userInfo.nickName,
         telephone: "",
         idCard: "",
         realname: "",
