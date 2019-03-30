@@ -1,5 +1,6 @@
 //var URL = "https://www.teamluo.cn";
 var URL = "http://localhost:8080/DisposalSludgeSystem";
+//var URL ="http://iot.hnu.edu.cn";
 App({
   manageTabBar: {
     "color": "#9E9E9E",
@@ -320,5 +321,7 @@ App({
     QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
     QUERY_SludgeByDate_URL: URL + "/sludge/querySludgeByDate",
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
+    QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
+    UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById"
   }
 })
