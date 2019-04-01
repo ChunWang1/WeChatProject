@@ -34,6 +34,8 @@ Page({
     no: "",
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
+    timer: '',
+  
   },
   // 滑动开始
   touchstart: function (e) {
@@ -80,6 +82,38 @@ Page({
     });
     app.showFactoryTabBar();    //显示自定义的底部导航
   },
+/* 
+//查询待审核的记录
+  queryAllRecordOfOneFactory: function () {
+    var that = this;
+    //根据siteId查询所有处理车记录
+    wx.request({
+      url: app.globalData.QUERY_AllRecordOfOneFactory_URL,
+      data: JSON.stringify({
+        id: app.globalData.userData[0].siteId
+      }),
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        var num=0;
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].status==2){//！！！！！！！！！！
+            num++;
+          }
+        }
+        that.setData({
+          updateRecordNum: num
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+
+  },
+*/
 
   showSite: function () {
     var that = this
@@ -127,9 +161,12 @@ Page({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        setInterval(function () {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
+        that.setData({
+          timer: setInterval(function () {
+            that.flushSiteIconAndCallOutContent();
+          }, 10000)
+        })
+        
       }
     });
   },
@@ -365,7 +402,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearInterval(this.data.timer)
   },
 
   /**

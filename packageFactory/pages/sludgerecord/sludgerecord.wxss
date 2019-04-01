@@ -64,10 +64,7 @@ border-bottom: 4rpx solid #70DB93;
    margin-left: 10rpx;
 }
 
-.search-img{
-  width:35rpx;
-  height:35rpx;
-}
+
 /* 日期选择 */
 .picker_group {
   padding-top: 20rpx;
@@ -82,38 +79,14 @@ border-bottom: 4rpx solid #70DB93;
  border-bottom: 1rpx solid #efefef;
 }
 
-.picker_group picker {
-  /* background-color: yellow; */
-  color: #64bff1;
-  height: 55rpx;
-  line-height: 55rpx;
-  margin: 0 2%;
-  padding: 0 2%;
-  border: 1rpx solid #64bff1;
-  border-radius: 30rpx;
-}
-.search_button{
-  margin-left: 12rpx;
-  padding-bottom: 6rpx;
-  width: 50rpx;
-  height: 60rpx;
-  background-color: white;
-  color: #999999;
-  border-radius: 0rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 30rpx;
-  
-}
+
+
 
 .bottom-text
-{ 
-
- font-size: 30rpx;
+{
+ font-size: 34rpx;
  text-align: center; 
- color: #dcdcdc; 
+ color: #70DB93; 
  margin-top: 20rpx ;
  margin-bottom: 150rpx;
 }
@@ -222,4 +195,96 @@ border-bottom: 4rpx solid #70DB93;
 .block{
   margin-bottom: 240rpx;
   padding-bottom: 150rpx;
+}
+
+
+.line{
+  margin: 0 auto;
+  width: 100%;
+  height: 2rpx;
+  background-color: #BEBEBE;
+  margin-top: 20rpx;
+}
+
+
+
+/*查询框样式*/
+.sort-list{
+  justify-content: space-around;
+  display: flex;
+  background: white;
+  width: 100%;
+  height: 80rpx;
+  font-size: 27rpx;
+  color: #6A6A6A;
+  align-content: center;
+  border: 1rpx solid #ECECEC;
+}
+.sort{
+  text-align: center;
+  margin: auto 0;
+  height: 30rpx;
+  line-height: 30rpx;
+  border-right: 1rpx solid #ECECEC; 
+  flex: 1;
+}
+.sort-active{
+  color: black;
+  font-weight: 800;
+}
+.overall-sort-list{
+  flex-direction: column;
+  border-top: 1px solid rgba(0,0,0,0);
+  display: flex;
+  background: white;
+}
+.overall-sort{
+  font-size: 25rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin-left: 90rpx;
+}
+.mask{
+  width:100%;
+  height:74%;
+  position: absolute;
+  z-index:999;
+  background-color:rgba(15, 15, 26, 0.7);
+}
+.tabLayer{
+  box-shadow: 0 5px 5px rgba(0,0,0,.15);
+  width:750rpx;
+  overflow: hidden;
+  position: fixed;
+  top:190rpx;
+  z-index: 1;
+  background: white;
+  padding-bottom: 40rpx;
+  border-bottom: solid 1px #eee;
+  text-align: center;
+}
+.picker {
+  /* background-color: yellow; */
+  color: #64bff1;
+  width: 200rpx;
+  height: 55rpx;
+  font-size: 25rpx;
+  line-height: 55rpx;
+  margin: 0 2%;
+  padding: 0 2%;
+  border: 1rpx solid #64bff1;
+  border-radius: 30rpx;
+  margin-left: 255rpx;
+}
+ .search_button{
+  margin-left: 300rpx;
+  margin-top: 10rpx;
+  width: 140rpx;
+  height: 70rpx;
+  background-color: white;
+  color: #64bff1;
+  border-radius: 20rpx;
+  justify-content: center;
+  font-size: 30rpx;
+  border: 1rpx solid #64bff1;
 }

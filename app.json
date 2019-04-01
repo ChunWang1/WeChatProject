@@ -27,7 +27,9 @@
         "pages/modifypwd/modifypwd",
         "pages/personinfor/personinfor",
         "pages/sludgerecord/sludgerecord",
-        "pages/factorydetail/factorydetail"
+        "pages/factorydetail/factorydetail",
+        "pages/recorddetail/recorddetail"
+    
   
       ]
     },
@@ -76,7 +78,12 @@
     "i-button": "../../../dist/button/index",
     "i-page": "../../../dist/page/index",
     "i-toast": "../../../dist/toast/index",
-    "i-modal": "../../../dist/modal/index"
+    "i-modal": "../../../dist/modal/index",
+    "i-divider": "../../../dist/divider/index",
+    "i-panel": "../../../dist/panel/index",
+    "i-swipeout": "../../../dist/swipeout/index",
+    "i-badge": "../../../dist/badge/index",
+    "i-notice-bar": "../../../dist/notice-bar/index"
    
   }
 }
