@@ -113,7 +113,7 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <!--全部查询结果-->
 <block wx:if="{{recordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==false}}" >
 <!------------------调用处理记录卡片模板----------------->
-<view bindtap="updateRecordStatue">
+<view>
  <template is="recordcard" data="{{recordList:recordList}}"></template>
 </view>
 <!----------------------------------------------------->
