@@ -84,9 +84,11 @@ Page({
     });
     that.showWareHouse();
     that.queryCarInRoad();
-    setInterval(function() {
-      that.queryCarInRoad();
-    }, 5000)
+    that.setData({
+      timer: setInterval(function () {
+        that.queryCarInRoad();
+      }, 5000)
+    })
     console.log(that.data.userId)
     app.showTreatDriverTabBar();     //显示自定义的底部导航
   },
@@ -582,7 +584,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    clearInterval(this.data.timer);
   },
 
   /**
