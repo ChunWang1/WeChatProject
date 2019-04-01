@@ -1,0 +1,132 @@
+<!--pages/cardetail/cardetail.wxml-->
+<view class=".container">
+<block  wx:if="{{videoData!=null}}"> 
+<view class="page-head">
+<icon class="iconfont icon-truck"></icon>
+
+<view class="page-head-title">污泥处理车监控</view>
+<view class="page-head-line"></view>
+</view>
+  <view>
+   <video src="{{videoData.videoHLSid}}"></video>
+  </view>
+<view class='.button-sp-area'>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='0'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang5"></icon>
+ </button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='1'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang51"></icon>
+ </button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='2'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang"></icon>
+ </button>
+
+<button class=".mini-btn" bindtouchstart='startPtz' data-direction='3'
+ data-speed='0' data-deviceserial="{{videoData.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+ <icon class="iconfont icon-fangxiang1">
+ </icon>
+ </button>
+</view>
+</block> 
+
+<block  wx:for="{{siteData}}" wx:key="id" wx:if="{{item.id==siteId}}">
+<i-cell title="车辆当前位置>>" value="{{item.siteName}}">
+<icon class="iconfont icon-fangxiang1" slot="icon">
+ </icon>
+</i-cell>
+</block>
+</view>
+
+<!--循环json取出数据-->
+<block wx:for="{{sensorList}}" wx:key="id"  wx:if="{{item.typeId==2||item.typeId==5||item.typeId==3||item.typeId==4||item.typeId==6}}">
+
+<view class='.page-head'>
+<i-icon type="integral" size='30' color='#70DB93'/>
+<view class='.page-head-title'>{{item.sensorType.type}}</view>
+<view class=".page-head-line"></view>
+</view>
+
+<i-cell-group>
+    <i-cell title="编号:" value="{{item.serialNumber}}">
+    <icon class="iconfont icon-bianhao" slot="icon" ></icon>
+    </i-cell>
+    
+
+    <view wx:if="{{item.typeId==5}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=40&&sensorRealValueMap[item.id].value2>=30&&sensorRealValueMap[item.id].value2<=80}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="温度(℃):"  value="{{sensorRealValueMap[item.id].value1}}" > <icon class="iconfont icon-thermometer_icon" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="湿度(%):"  value="{{sensorRealValueMap[item.id].value2}}" > <icon class="iconfont icon-shidu" slot="icon" ></icon>
+    </i-cell>
+    </view>
+
+    <view wx:if="{{item.typeId==2}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=20&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="距离(mm):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+     </view>
+
+     <view wx:if="{{item.typeId==6}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1>25}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 请添加干化剂</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="距离(mm):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+     </view>
+
+    <view wx:if="{{item.typeId==3}}">
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=8&&sensorRealValueMap[item.id].value1>0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="氨气浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+    </view >
+
+    <view wx:if="{{item.typeId==4}}" >
+    <i-cell title="监测状态:" >
+    <i-tag wx:if="{{sensorRealValueMap[item.id].value1<=10&&sensorRealValueMap[item.id].value1>0}}"  slot="footer" class="i-tags" color="green"> 正常</i-tag>
+    <i-tag wx:else slot="footer" class="i-tags"   color="red"> 异常</i-tag>
+    <icon class="iconfont icon-jiance1" slot="icon" ></icon>
+    </i-cell>
+    <i-cell  title="硫化氢浓度(PPM):"  value="{{sensorRealValueMap[item.id].value1}}" > 
+    <icon class="iconfont icon-shuju" slot="icon" ></icon>
+    </i-cell>
+  </view>
+    <i-cell title="历史数据:" bindtap="showHistoryData" data-sensorid='{{item.id}}' data-sensortype='{{item.sensorType.type}}'  is-link >
+    <icon class="iconfont icon-lishishuju-" slot="icon" ></icon>
+    </i-cell>
+</i-cell-group>
+
+</block>
+
+<import src="../../../template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:treatDriverTabBar}}"></template>
+
+<view  wx:if="{{sensorList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+

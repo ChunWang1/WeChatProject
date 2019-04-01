@@ -1,7 +1,8 @@
 {
   "pages":[
     "pages/login/login",  
-    "pages/register/register"
+    "pages/register/register",
+    "pages/personinfo/personinfo"
   ],
   "subPackages": [
     {
@@ -35,13 +36,16 @@
     {
       "root": "packageTransportDriver",
       "pages": [
-        "pages/map/map"
+        "pages/map/map",
+        "pages/transportRecord/transportRecord"
       ]
     },
     {
       "root": "packageTreatmentDriver",
       "pages": [
-        "pages/map/map"
+        "pages/map/map",
+        "pages/treatcardetail/treatcardetail",
+        "pages/treatmentRecord/treatmentRecord"
       ]
     }
   ],

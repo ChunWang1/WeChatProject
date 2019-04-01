@@ -1,0 +1,107 @@
+<!--pages/map/map.wxml-->
+<view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
+  <!-- 侧滑栏 -->
+  <view class="page_tab">
+    <block wx:if="{{no ===''}}">
+      <navigator url='../login/login'>
+        <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+        <view class='user_name'>未登录</view>
+        <view class="page-head-line"></view>
+      </navigator>
+    </block>
+    <block wx:else>
+      <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
+      <view class='user_name'>{{no}}</view>
+      <view class="page-head-line"></view>
+    </block>
+    <view class="page_tab_content">
+      <navigator url='../../../pages/personinfo/personinfo'>
+        <view class="wc">
+          <image src='../../../resources/img/infor.png'></image>
+          <text>个人信息</text>
+        </view>
+      </navigator>
+      <navigator url='../modifypwd/modifypwd'>
+        <view class="wc">
+          <image src='../../../resources/img/modify.png'></image>
+          <text bindtap='tosat'>修改密码</text>
+        </view>
+      </navigator>
+
+      <navigator url='##'>
+        <view class="wc">
+          <image src='../../../resources/img/aboutUS.png'></image>
+          <text>关于我们</text>
+        </view>
+      </navigator>
+      <navigator url='../../../pages/login/login' open-type="redirect">
+        <view class="wc">
+          <image src='../../../resources/img/loginOut.png'></image>
+          <text>退出</text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+  <!-- 主页 -->
+  <view class="home" style="{{translate}}">
+    <!----------------------原地图代码------------>
+    <import src="../../../template/tabbar.wxml" />
+    <template is="tabBar" data="{{tabBar:treatDriverTabBar}}"></template>
+    <view>
+      <map id="map" longitude="113.83106" latitude="22.65932" scale="12" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" bindcallouttap='showdetailoftreatmentcar'
+        show-location style="width: 100%; height: 90vh;">
+      </map>
+    </view>
+    <cover-view class='top'>
+      <cover-image class='top_Image' src='../../../resources/img/center.png' bindtap="showview"></cover-image>
+    </cover-view>
+    <cover-view class='bottom_Image'>
+      <cover-image class='Image' src='../../../resources/img/warehousemap.png' bindtap="showwarehouse"></cover-image>
+    </cover-view>
+
+    <cover-view class='operation'>
+          <cover-view class='siteName'>目的地：{{siteName}}</cover-view>
+          <button class='i-btn i-btn-circle .i-btn-success' bindtap="updateCarStatus"><cover-view>{{statusDes}}</cover-view></button>
+    </cover-view>
+    <!--站点弹窗-->
+
+
+    <!--处理车弹窗-->
+
+
+
+
+    <!--智慧泥仓弹窗-->
+    <cover-view class="modal-mask" bindtap="hidewarehouseModal" catchtouchmove="preventTouchMove" wx:if="{{showwarehouse}}"></cover-view>
+    <cover-view class="modal-dialog" wx:if="{{showwarehouse}}">
+      <cover-view class="modal-title">智慧泥仓信息</cover-view>
+      <cover-view class="modal-content">
+        <cover-view class="table">
+          <cover-view class="tr">
+            <cover-view class="th">子仓</cover-view>
+            <cover-view class="th">存储量</cover-view>
+            <cover-view class="th ">剩余容量</cover-view>
+            <cover-view class="th ">总容量</cover-view>
+          </cover-view>
+          <block wx:for="{{minorWareHouseList}}" wx:for-item="minorWareHouse">
+            <cover-view class="tr">
+              <cover-view class="td">{{minorWareHouse.serialNumber}}</cover-view>
+              <cover-view class="td">{{minorWareHouse.moistrueDegree*100}}%</cover-view>
+              <cover-view class="td">{{minorWareHouse.remainCapacity}}</cover-view>
+              <cover-view class="td">{{minorWareHouse.capacity}}</cover-view>
+            </cover-view>
+          </block>
+        </cover-view>
+      </cover-view>
+      <cover-view class="modal-footer">
+        <cover-view class="btn-cancel" bindtap="onwarehouseCancel" data-status="cancel">取消</cover-view>
+        <cover-view class="btn-confirm" bindtap="onwarehouseConfirm" data-status="confirm">确定</cover-view>
+      </cover-view>
+    </cover-view>
+    <!--------------------------------------------------------->
+
+
+
+  </view>
+</view>

@@ -93,7 +93,7 @@ App({
     "position": "bottom",
     "list": [
       {
-        "pagePath": "../map/map",
+        "pagePath": "/packageTreatmentDriver/pages/map/map",
         "text": "首页",
         "iconPath": "../../../resources/img/map.png",
         "selectedIconPath": "../../../resources/img/map2.png",
@@ -101,7 +101,7 @@ App({
         "active": true,
       },
       {
-        "pagePath": "../../../allcardetail/allcardetail",
+        "pagePath": "/packageTreatmentDriver/pages/treatcardetail/treatcardetail",
         "text": "监控",
         "iconPath": "../../../resources/img/monitor.png",
         "selectedIconPath": "../../../resources/img/monitor2.png",
@@ -109,7 +109,7 @@ App({
         "active": false,
       },
       {
-        "pagePath": "../allcardetail/allcardetail",
+        "pagePath": "/packageTreatmentDriver/pages/treatmentRecord/treatmentRecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -126,7 +126,7 @@ App({
     "position": "bottom",
     "list": [
       {
-        "pagePath": "../map/map",
+        "pagePath": "/packageTransportDriver/pages/map/map",
         "text": "首页",
         "iconPath": "../../../resources/img/map.png",
         "selectedIconPath": "../../../resources/img/map2.png",
@@ -134,7 +134,7 @@ App({
         "active": true,
       },
       {
-        "pagePath": "../allcardetail/allcardetail",
+        "pagePath": "/packageTransportDriver/pages/transportRecord/transportRecord",
         "text": "处理记录",
         "iconPath": "../../../resources/img/record.png",
         "selectedIconPath": "../../../resources/img/record2.png",
@@ -314,7 +314,7 @@ App({
     QUERY_SludgeByDriverIdAndInOutFlag_URL: URL + "/sludge/querySludgeByDriverIdAndInOutFlag",
     QUERY_SludgeBySiteIdAndInOutFlag_URL: URL + "/sludge/querySludgeBySiteIdAndInOutFlag",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-    EDIT_record_URL: URL + "/record/editRecord",
+    EDIT_Record_URL: URL + "/record/editRecord",
     DELETE_Record_URL: URL + "/record/deleteRecord",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
     QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
@@ -323,5 +323,16 @@ App({
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
     UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById"
+    //司机公用链接
+    QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
+    QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
+    UPDATE_updateCarStatus_URL:URL+"/car/updateCarStatusByButton",
+    //处理车司机链接
+    QUERY_queryRecordByStatus_URL: URL +"/record/queryRecordByDriverIdAndStatus",
+    //运输车司机链接
+    QUERY_querySludgeFunction_URL: URL + "/sludge/queryAllFunc",
+    QUERY_querySludgeByUserIdAndStatus_URL: URL +"/sludge/querysludgebydriverIdAndStatus",
+    UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
+
   }
 })
