@@ -322,7 +322,7 @@ App({
     QUERY_SludgeByDate_URL: URL + "/sludge/querySludgeByDate",
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
-    UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById"
+    UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById",
     //司机公用链接
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
