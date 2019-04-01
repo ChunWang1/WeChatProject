@@ -1,0 +1,42 @@
+<scroll-view class="content">
+  <i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="tab1" title="未完成" count="{{count}}">
+    </i-tab>
+    <i-tab key="tab2" title="已完成"></i-tab>
+  </i-tabs>
+
+  <view wx:if="{{tab1}}" class='tab1'>
+    <view wx:for="{{recordList}}" wx:key="record" wx:for-item="record">
+      <i-panel>
+        <view style="padding: 15px;">
+          <i-row>
+            <i-col span="12" i-class="col-class siteName">{{record.site.siteName}}</i-col>
+            <i-col offset="4" span="4" i-class="col-class">
+              <i-tag class="i-tags" name="单个标签" color="default">{{record.sludgesWeight}}吨</i-tag>
+            </i-col>
+            <i-col span="4" i-class="col-class" wx:if="{{record.status==0}}">
+              <i-tag class="i-tags" name="单个标签" color="blue">已完成</i-tag>
+            </i-col>
+            <i-col span="4" i-class="col-class" wx:if="{{record.status==1}}">
+              <i-tag class="i-tags" name="单个标签" color="yellow">处理中</i-tag>
+            </i-col>
+            <i-col span="4" i-class="col-class" wx:if="{{record.status==2}}">
+              <i-tag class="i-tags" name="单个标签" color="red">待处理</i-tag>
+            </i-col>
+            <i-col span="4" i-class="col-class" wx:if="{{record.status==3}}">
+              <i-tag class="i-tags" name="单个标签" color="green">待审核</i-tag>
+            </i-col>
+          </i-row>
+          <i-col span="24" i-class="time">接单时间:{{record.allocationTime}}</i-col>
+          <i-col span="24" i-class="time">处理时间:{{record.disposalTime}}</i-col>
+          <i-col span="24" i-class="time">完成时间:{{record.finishTime}}</i-col>
+          <i-row>
+
+          </i-row>
+        </view>
+      </i-panel>
+    </view>
+  </view>
+</scroll-view>
+<import src="../../../template/tabbar.wxml" />
+<template is="tabBar" data="{{tabBar:treatDriverTabBar}}"></template>
