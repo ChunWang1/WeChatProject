@@ -7,6 +7,9 @@ var temp = {
   },
   editSludgeBtn: function (event) {
     console.log("编辑" + event.currentTarget.dataset.sludgeid)
+  },
+  test:function(event){
+    console.log("haha")
   }
 }
 //导出，供外部使用

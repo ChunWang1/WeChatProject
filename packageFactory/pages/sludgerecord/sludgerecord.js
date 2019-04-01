@@ -28,8 +28,9 @@ Page({
   },
 
 //响应模板中的审核方法
-  updateRecordStatue: function (e){
-    /*
+  updateRecordStatus: function (event){
+    console.log(event)
+    var recordId = event.currentTarget.dataset.recordid
     wx.request({
       url: app.globalData.UPDATE_RecordStatusById,
       data: {
@@ -40,13 +41,25 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
+        if(res.data=="SUCCESS"){
+          wx.showToast({
+            title: "审核通过",
+            icon: 'success',
+            duration: 2000,
+          })
+        }
+        else{
+          wx.showToast({
+            title: "失败",
+            icon: 'none',
+            duration: 2000,
+          })
+        }
       },
       fail: function (err) {
         console.log(err)
       }
-    })*/
-    template.updateRecordStatue(e);
-    console.log("您点击了")
+    })
   },
   //查询弹出下拉选项
   onOverallTag: function (e) {
@@ -294,7 +307,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.queryAllRecordOfOneFactory();
-    that.queryAllSludgeOfOneFactory();
+    //that.queryAllSludgeOfOneFactory();
     //获取设备可视窗口高度
     wx.getSystemInfo({
       success: function (res) {
@@ -340,7 +353,7 @@ Page({
         var temp=[];
         var num=0;
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].status == 2) {//不是2，应该为3！
+          if (res.data[i].status == 3) {//不是2，应该为3！
             num++;
             temp.push(res.data[i]);
           }
