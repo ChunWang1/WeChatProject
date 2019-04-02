@@ -25,11 +25,11 @@
         <image src="../../../resources/img/search.png" 
       style="width:22rpx;height:22rpx;"></image>
       </view>
-      <view data-index="2"
-      bindtap="showWaitingToUpdate" 
+      <view 
       class="sort {{selected == 2?'sort-active':''}}">
       <i-badge  count="{{updateRecordNum}}" >
-      <view class="demo-badge">待审核</view>
+      <view class="demo-badge" data-index="2"
+      bindtap="showWaitingToUpdate" >待审核</view>
       </i-badge>
       </view>
       
@@ -96,14 +96,14 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 </view>
 </block>
 
-<!--查询待审核结果-->
+<!--查询待审核记录-->
 <block >
 <view  wx:if="{{updateRecordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==true}}" >
 <!------------------待审核记录卡片----------------->
- <template is="recordcard" data="{{recordList:updateRecordList}}"></template>
+ <template is="recordcard" data="{{recordList:updateRecordList}}" data-id="2"></template>
 <!----------------------------------------------------->
 </view>
-
+<view wx:if="{{updateRecordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==true}}" class='bottom-text'>-------共查到{{updateRecordList.length}}条待审核记录-------</view>
 <view wx:if="{{updateRecordList.length==0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==true}}" >
 <i-load-more tip="暂无待审核记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
@@ -114,7 +114,7 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <block wx:if="{{recordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==false}}" >
 <!------------------调用处理记录卡片模板----------------->
 <view>
- <template is="recordcard" data="{{recordList:recordList}}"></template>
+ <template is="recordcard" data="{{recordList:recordList}}" data-id="1"></template>
 </view>
 <!----------------------------------------------------->
 

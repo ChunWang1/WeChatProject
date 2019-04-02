@@ -323,6 +323,7 @@ App({
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
     UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById",
+    //工厂链接
     //司机公用链接
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
@@ -333,6 +334,8 @@ App({
     QUERY_querySludgeFunction_URL: URL + "/sludge/queryAllFunc",
     QUERY_querySludgeByUserIdAndStatus_URL: URL +"/sludge/querysludgebydriverIdAndStatus",
     UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
-
+    EDIT_Sludge_URL: URL + "/sludge/editSludge",
+    DELETE_Sludge_URL: URL +"/sludge/deleteSludge",
+    QUERY_AllFunc:URL+"/sludge/queryAllFunc"
   }
 })

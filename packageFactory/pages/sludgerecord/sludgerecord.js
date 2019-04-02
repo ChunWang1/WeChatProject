@@ -1,7 +1,5 @@
-import template from '../../../template/template'
 const app = getApp();
 var recordList=[];
-var sludgeList=[];
 Page({
 
   /**
@@ -14,7 +12,7 @@ Page({
     index: -1,
     startDate: '2019-03-10',//处理车默认起始时间  
     endDate: '2019-03-13',//处理车默认结束时间 
-    sludgeId:"",
+    
     sortSelected: "责任人",
     mask1Hidden: true,
     mask2Hidden: true,
@@ -23,13 +21,13 @@ Page({
     showquerybyWaitingUpdate: false,
     selected: 1,
     updateRecordNum:0,
-
-    pageData:"",
   },
 
 //响应模板中的审核方法
-  updateRecordStatue: function (e){
-    /*
+  updateRecordStatus: function (event){
+    var that=this;
+    console.log(event)
+    var recordId = event.currentTarget.dataset.recordid
     wx.request({
       url: app.globalData.UPDATE_RecordStatusById,
       data: {
@@ -40,13 +38,32 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
+        if(res.data=="SUCCESS"){
+          wx.showToast({
+            title: "审核通过",
+            icon: 'success',
+            duration: 2000,
+          })
+          that.queryAllRecordOfOneFactory();
+          if (that.data.showquerybyWaitingUpdate == true) {
+            that.showWaitingToUpdate();
+          } else if (that.data.showquerybyWaitingUpdate == false) {
+            that.showAllrecord();
+          }
+        }
+        else{
+          wx.showToast({
+            title: "失败",
+            icon: 'none',
+            duration: 2000,
+          })
+        }
       },
       fail: function (err) {
         console.log(err)
       }
-    })*/
-    template.updateRecordStatue(e);
-    console.log("您点击了")
+    })
+   
   },
   //查询弹出下拉选项
   onOverallTag: function (e) {
@@ -78,7 +95,8 @@ Page({
  
   //全部
   showAllrecord: function (e) {
-    this.setData({
+    var that=this;
+    that.setData({
       selected: e.currentTarget.dataset.index,
       sortSelected:"责任人",
       mask2Hidden: true,
@@ -194,24 +212,7 @@ Page({
       }
     })
   },
-  //展示所有处理车记录
-  /*
-  showAllrecord:function(){
-    var that=this;
-    that.setData({
-      showquerybyDriver: false,
-      showquerybydate: false,
-    })
-  },
-  //展示所有运输车记录
-  showAllsludge: function () {
-    var that = this;
-    that.setData({
-      showquerySludgebyDriver: false,
-      showquerySludgebydate: false,
-    })
-  },
-  */
+ 
   //根据时间查询处理车记录
   queryRecordByDate:function(){
      var that=this;
@@ -294,12 +295,12 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.queryAllRecordOfOneFactory();
-    that.queryAllSludgeOfOneFactory();
+    
     //获取设备可视窗口高度
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
-          clientHeight: res.windowHeight -81
+          clientHeight: res.windowHeight -72
         });
       }
     })
@@ -340,7 +341,7 @@ Page({
         var temp=[];
         var num=0;
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].status == 2) {//不是2，应该为3！
+          if (res.data[i].status == 3) {
             num++;
             temp.push(res.data[i]);
           }
@@ -381,39 +382,7 @@ Page({
    return removeDupDriver;
  },
 
-  queryAllSludgeOfOneFactory: function () {
-    var that = this;
-    //根据siteId查询所有运输车污泥记录
-    wx.request({
-      url: app.globalData.QUERY_AllSludgeOfOneFactory_URL,
-      data: JSON.stringify({
-        id: app.globalData.userData[0].siteId
-      }),
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data)
-        that.setData({
-          sludgeList: res.data
-        })
-        sludgeList=res.data;
-        var driver = [];
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].car.driver.realname != null) {
-            driver.push(res.data[i].car.driver.realname);
-          }
-        }
-        that.setData({
-          sludgeDrivers: that.removeDup(driver),
-        })
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-  },
+  
   /*
   swiperChange: function (e) {
     console.log(e);

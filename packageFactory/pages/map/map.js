@@ -35,7 +35,7 @@ Page({
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
     timer: '',
-  
+  //  siteInfoOld : {},
   },
   // 滑动开始
   touchstart: function (e) {
@@ -82,38 +82,7 @@ Page({
     });
     app.showFactoryTabBar();    //显示自定义的底部导航
   },
-/* 
-//查询待审核的记录
-  queryAllRecordOfOneFactory: function () {
-    var that = this;
-    //根据siteId查询所有处理车记录
-    wx.request({
-      url: app.globalData.QUERY_AllRecordOfOneFactory_URL,
-      data: JSON.stringify({
-        id: app.globalData.userData[0].siteId
-      }),
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        var num=0;
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].status==2){//！！！！！！！！！！
-            num++;
-          }
-        }
-        that.setData({
-          updateRecordNum: num
-        })
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
 
-  },
-*/
 
   showSite: function () {
     var that = this
@@ -195,53 +164,56 @@ Page({
           for (let i = 0; i < siteStatusNow.length; i++) {
             var site = siteStatusNow[i];
             var siteId = parseInt(site.id);
-            var iconPath = '';
-            if (siteInfoOld[siteId].status != site.status) {
-              iconPath = '/resources/factory' + site.status + '.png';
-            }
-            var content = siteInfoOld[siteId].content;
-            if (site.status == 0) {
-              content += "状态:正常\n"
-            }
-            else if (site.status == 1) {
-              content += "状态:处理中\n"
-            }
-            else {
-              content += "状态:待处理\n"
-            }
-            var carrierNum = carInSiteInfo[siteId].carrier.length;
-            var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-            if (treatmentCarNum != 0) {
-              content += treatmentCarNum + "辆处理车\n";
-              for (let i = 0; i < treatmentCarNum; i++) {
-                content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
+            if (siteId==app.globalData.userData[0].siteId){
+              var iconPath = '';
+              if (siteInfoOld[siteId].status !== site.status) {
+                iconPath = '/resources/factory' + site.status + '.png';
               }
-              content += "\n";
-            }
-            if (carrierNum != 0) {
-              content += carrierNum + "辆运输车\n";
-              for (let i = 0; i < carrierNum; i++) {
-                content += carInSiteInfo[siteId].carrier[i].license + "  ";
+              var content = siteInfoOld[siteId].content;
+              if (site.status == 0) {
+                content += "状态:正常\n"
               }
-              content += "\n";
-            }
-            siteInfoOld[siteId].status = site.status; //更新status
-            var localMarkers = that.data.markers;
-            for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].id == "site" + siteId) {
-                var nowContent = "markers[" + i + "].callout.content";
-                that.setData({
-                  [nowContent]: content
-                });
-                if (iconPath != '') {
-                  var newIconPath = "markers[" + i + "].iconPath";
-                  that.setData({
-                    [newIconPath]: iconPath
-                  });
+              else if (site.status == 1) {
+                content += "状态:处理中\n"
+              }
+              else {
+                content += "状态:待处理\n"
+              }
+              var carrierNum = carInSiteInfo[siteId].carrier.length;
+              var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
+              if (treatmentCarNum != 0) {
+                content += treatmentCarNum + "辆处理车\n";
+                for (let i = 0; i < treatmentCarNum; i++) {
+                  content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
                 }
-                break;
+                content += "\n";
+              }
+              if (carrierNum != 0) {
+                content += carrierNum + "辆运输车\n";
+                for (let i = 0; i < carrierNum; i++) {
+                  content += carInSiteInfo[siteId].carrier[i].license + "  ";
+                }
+                content += "\n";
+              }
+              siteInfoOld[siteId].status = site.status; //更新status
+              var localMarkers = that.data.markers;
+              for (let i = 0; i < localMarkers.length; i++) {
+                if (localMarkers[i].id == "site" + siteId) {
+                  var nowContent = "markers[" + i + "].callout.content";
+                  that.setData({
+                    [nowContent]: content
+                  });
+                  if (iconPath != '') {
+                    var newIconPath = "markers[" + i + "].iconPath";
+                    that.setData({
+                      [newIconPath]: iconPath
+                    });
+                  }
+                  break;
+                }
               }
             }
+            
           }
         }, 2000)
       }
