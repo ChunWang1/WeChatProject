@@ -85,6 +85,8 @@
     "i-panel": "../../../dist/panel/index",
     "i-swipeout": "../../../dist/swipeout/index",
     "i-badge": "../../../dist/badge/index",
+    "i-notice-bar": "../../../dist/notice-bar/index",
+    "i-select":"../../../dist/select/select"
     "i-page": "../../../dist/page/index",
     "i-notice-bar": "../../../dist/notice-bar/index"
    
