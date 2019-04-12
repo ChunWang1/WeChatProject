@@ -347,6 +347,10 @@ App({
     UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
     EDIT_Sludge_URL: URL + "/sludge/editSludge",
     DELETE_Sludge_URL: URL +"/sludge/deleteSludge",
-    QUERY_AllFunc:URL+"/sludge/queryAllFunc"
+    QUERY_AllFunc:URL+"/sludge/queryAllFunc",
+    DELETE_User:URL+"/system/deleteUserByUserId",
+    RESET_PassWord:URL+"/system/resetPassWord",
+    QUERY_CarWhichNotAssignDriver:URL+"/car/queryCarWhichNotAssignDriver",
+    EDIT_UserByUserId_URL:URL+"/system/editUserByUserId",
   }
 })
