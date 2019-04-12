@@ -1,5 +1,6 @@
-import template from '../../../template/template'
+
 const app = getApp();
+var sludgeList = [];
 Page({
 
   /**
@@ -7,6 +8,7 @@ Page({
    */
   data: {
     recordId:"",
+    sludgeId: "",
     delSludgeVisible: false,
     showEditSludgeModal: false,
     delSludgeactions: [
@@ -19,6 +21,8 @@ Page({
         loading: false
       }
     ],
+    selectArray: {},
+    selectFunc:[]
   },
 
   /**
@@ -31,16 +35,59 @@ Page({
     })
     that.queryRecordByRecordId();
     that.querySludgeByRecordId();
+    that.queryAllSludgeOfOneFactory();
+    that.queryAllFunc();
   },
-
-  editAndDel:function(e){
-  template.delSludgeBtn(e),
-  template.editSludgeBtn(e)
+  getDate: function (e) {
+    this.setData({
+      selectFunc: e.detail
+    });
+    console.log(e.detail)
   },
+  //查询所有污泥功能
+  queryAllFunc:function(){
+    var that=this;
+    wx.request({
+      url: app.globalData.QUERY_AllFunc,
+      data: {},
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+        var num=0;
+        for(var i=0;i<res.data.length;i++){
+          if (res.data[i].function != null && res.data[i].function!=""){
+            var id = "selectArray[" + num + "].id";
+            var text = "selectArray[" + num + "].text";
+            that.setData({
+              [id]: res.data[i].id,
+              [text]: res.data[i].function,
+            })
+            num++;
+          }
+          
+        }
+    //    console.log(that.data.selectArray);
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
+  //删除运输车记录按钮
+  delSludgeBtn: function (e) {
+    var that = this;
+  //  console.log("sludgeid:"+e.currentTarget.dataset.sludgeid);
+    that.setData({
+      delSludgeVisible: true,
+      sludgeId: e.currentTarget.dataset.sludgeid
+    });
+  }, 
 
   //编辑运输车记录按钮
   editSludgeBtn: function (e) {
-    console.log(e.currentTarget.dataset.sludgeid);
+   // console.log("sludgeid"+e.currentTarget.dataset.sludgeid);
     this.setData({
       showEditSludgeModal: true,
       sludgeId: e.currentTarget.dataset.sludgeid
@@ -70,16 +117,28 @@ Page({
    */
   saveSludgeEdit: function (e) {
     var that = this;
-    console.log(e.detail.value.RFID);
+    var RFID = e.detail.value.RFID;
+    var desAddr = e.detail.value.desAddr;
+    var sludgeFunction = {
+      function: that.data.selectFunc.text
+    }
+    console.log("RFID:" + e.detail.value.RFID + e.detail.value.desAddr + that.data.selectFunc.text + e.detail.value.weight);
+    if (RFID == '' || RFID == null) {
+      RFID = 'none'
+    }
+    if (desAddr == '' || desAddr == null) {
+      desAddr = 'none'
+    }
     wx.request({
       url: app.globalData.EDIT_Sludge_URL,
       data: JSON.stringify({
-        id: that.data.sludgeId,
-        rfidString: e.detail.value.RFID,
-        destinationAddress: e.detail.value.desAddr,
-        sludgeFunction: e.detail.value.sludgeFunction,
-        weight: e.detail.value.weight
+        id: parseInt(that.data.sludgeId),
+        rfidString: RFID,
+        destinationAddress: desAddr,
+        sludgeFunction: sludgeFunction,
+        weight: parseFloat(e.detail.value.weight)
       }),
+    
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -89,49 +148,49 @@ Page({
         if (res.data === "SUCCESS") {
           wx.showToast({
             title: "修改成功！",
+            icon: 'success',
+            duration: 2000,
+          })
+         
+          that.querySludgeByRecordId();//刷新运输车记录页面  
+        }else{
+          wx.showToast({
+            title: "修改失败！",
             icon: 'none',
             duration: 2000,
           })
-          this.queryAllSludgeOfOneFactory();//刷新运输车记录页面  
         }
+        that.setData({
+          selectFunc: [],
+          showEditSludgeModal: false,
+        })
       },
       fail: function (err) {
         console.log(err)
-        wx.showToast({
-          title: "修改失败！",
-          icon: 'none',
-          duration: 2000,
-        })
+       
       }
     })
   },
 
-  //删除运输车记录按钮
-  delSludgeBtn: function (e) {
-    var that = this;
-    console.log(e.currentTarget.dataset.sludgeid);
-    that.setData({
-      delSludgeVisible: true,
-      sludgeId: e.currentTarget.dataset.sludgeid
-    });
-  },
-  //删除运输车记录模态框事件（未测试）
+
+  //删除运输车记录模态框事件
   delSludgeModal({ detail }) {
+    var that=this;
     if (detail.index === 0) {
-      this.setData({
+      that.setData({
         delSludgeVisible: false
       });
     } else {
-      const action = [...this.data.delSludgeactions];
+      const action = [...that.data.delSludgeactions];
       action[1].loading = true;
 
-      this.setData({
+      that.setData({
         delSludgeactions: action
       });
 
       wx.request({
         url: app.globalData.DELETE_Sludge_URL,
-        data: { sludgeId: parseInt(this.data.sludgeId) },
+        data: { sludgeId: parseInt(that.data.sludgeId) },
         header: {
           'content-type': 'application/json'
         },
@@ -140,25 +199,27 @@ Page({
           if (res.data === "SUCCESS") {
             setTimeout(() => {
               action[1].loading = false;
-              this.setData({
+              that.setData({
                 delSludgeVisible: false,
                 delSludgeactions: action
               });
-              $Message({
-                content: '删除成功！',
-                type: 'success'
-              });
+              wx.showToast({
+                title: "删除成功!",
+                icon: 'success',
+                duration: 2000,
+              })
             }, 2000);
 
-            this.queryAllSludgeOfOneFactory();//刷新运输车记录页面
+            that.querySludgeByRecordId();//刷新运输车记录页面
           }
         },
         fail: function (err) {
           console.log(err)
-          $Message({
-            content: '删除失败！',
-            type: 'error'
-          });
+          wx.showToast({
+            title: "删除失败!",
+            icon: 'error',
+            duration: 2000,
+          })
         }
       })
     }
@@ -201,6 +262,40 @@ Page({
           sludgeByRecordIdList: res.data
         })
         return
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
+  queryAllSludgeOfOneFactory: function () {
+    var that = this;
+    //根据siteId查询所有运输车污泥记录
+    wx.request({
+      url: app.globalData.QUERY_AllSludgeOfOneFactory_URL,
+      data: JSON.stringify({
+        id: app.globalData.userData[0].siteId
+      }),
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          sludgeList: res.data
+        })
+        /*
+        sludgeList = res.data;
+        var driver = [];
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].car.driver.realname != null) {
+            driver.push(res.data[i].car.driver.realname);
+          }
+        }
+        that.setData({
+         // sludgeDrivers: that.removeDup(driver),
+        })*/
       },
       fail: function (err) {
         console.log(err)

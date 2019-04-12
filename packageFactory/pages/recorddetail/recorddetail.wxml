@@ -3,9 +3,7 @@
 <template is="record" data="{{record:recordByRecordId}}"></template>
 
 <!------------------运输记录卡片----------------->
-<view bindtap='editAndDel'>
 <template is="sludgecard" data="{{sludgeByRecordIdList:sludgeByRecordIdList}}"></template>
-</view>
 <!-----------------------------------------------------> 
 
 <i-modal title="删除确认" visible="{{ delSludgeVisible }}" actions="{{ delSludgeactions }}" bind:click="delSludgeModal">
@@ -21,10 +19,20 @@
    <view >
     <view class="modal-input" wx:for="{{sludgeList}}" wx:if="{{item.id===sludgeId}}" wx:key="id">
      
-    <i-input  value="{{item.rfidString}}" title="RFID:" name="RFID" />
-    <i-input  value="{{item.weight}}" type='number' title="重量(吨)：" name="weight" maxLength="10" />
-    <i-input value="{{item.destinationAddress}}"  title="目的地：" name="desAddr" />
-    <i-input  value="{{item.sludgeFunction.function}}"  title="用途：" name="sludgeFunction"/>
+    <i-input  value="{{item.rfidString}}" placeholder="请输入RFID" title="RFID:" name="RFID" />
+    <i-input  value="{{item.weight}}" type='number' placeholder="以吨计数" title="重量(吨)：" name="weight" maxLength="10" />
+    <i-input value="{{item.destinationAddress}}" placeholder="请输入目的地" title="目的地：" name="desAddr" />
+
+    <view style='display: flex;flex-direction: row;background-color:white;'> 
+    <i-cell title="用途：" style="width:230rpx;"></i-cell>
+    <view style='margin-top:23rpx;'>
+    <i-select  prop-array='{{selectArray}}'  bind:myget='getDate' ></i-select>
+    </view>
+    </view>
+<!--
+    <i-input  value="{{item.sludgeFunction.function}}" placeholder="请输入污泥块功能" title="用途：" name="sludgeFunction"/>
+    <i-select prop-array='{{selectArray}}' slot="footer" bind:myget='getDate' ></i-select>
+-->
     </view>
   </view>
 

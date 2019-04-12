@@ -34,7 +34,7 @@ const { $Message } = require('../../../dist/base/index');
 
           </view>
         </navigator>
-        <view class="record-distribution">
+        <view class="record-distribution">   
           <view>
             <i-tag wx:if="{{item.status==0}}" color="green"> 已完成</i-tag>
             <i-tag wx:elif="{{item.status==1}}" color="blue"> 处理中</i-tag>
@@ -42,9 +42,10 @@ const { $Message } = require('../../../dist/base/index');
             <i-tag wx:elif="{{item.status==3}}" color="yellow"> 待审核</i-tag>
           </view>
           <view wx:if="{{item.status==3}}" bindtap='updateRecordStatus' data-recordid='{{item.id}}'>
-            <button bind:click="updateRecordStatue" data-recordid='{{id}}' style='width:145rpx;height:75rpx;background-color: #32CD32;margin-top:72rpx;font-size:32rpx;color:white;border: 1rpx solid #ECECEC;text-align: center;box-shadow: 0 2px 2px rgba(0,0,0,.15);'>
+            <button bind:click="updateRecordStatue" data-recordid='{{item.id}}' style='width:145rpx;height:75rpx;background-color: #32CD32;margin-top:72rpx;font-size:32rpx;color:white;border: 1rpx solid #ECECEC;text-align: center;box-shadow: 0 2px 2px rgba(0,0,0,.15);'>
               审核
             </button>
+
           </view>
         </view>
       </view>

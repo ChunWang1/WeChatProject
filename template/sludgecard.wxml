@@ -3,7 +3,7 @@ const { $Message } = require('../../../dist/base/index');
 <block>
 <view class="sludgeList">
     <block wx:for="{{sludgeByRecordIdList}}" wx:key="">
-<i-swipeout i-class="i-swipeout-demo-item" operate-width="{{180}}" unclosable="{{true}}" toggle="{{toggle}}">
+<i-swipeout i-class="i-swipeout-demo-item" operate-width="{{180}}" unclosable="{{false}}" toggle="{{toggle}}">
 <view slot="content">
         <view class="record-list">
           <view class="record-info-image">
@@ -48,11 +48,11 @@ const { $Message } = require('../../../dist/base/index');
 </view>
 <view slot="button" class="i-swipeout-demo-button-group" >
 
-<view >
-<button bind:click="delSludgeBtn" style='margin-top:60rpx;background-color: red;color:white;width:40%;height:20%;border-radius: 30rpx;' data-sludgeid='{{item.id}}'>删除</button>
+<view bindtap="delSludgeBtn" data-sludgeid='{{item.id}}'>
+<button bind:click="delSludgeBtn" style='margin-top:60rpx;background-color: red;color:white;width:40%;height:20%;border-radius: 30rpx;' >删除</button>
 </view>
-<view >
-<button bind:click="editSludgeBtn" style='margin-top:20rpx;background-color: #70DB93;color:white;width:40%;height:20%;border-radius: 30rpx;' data-sludgeid='{{item.id}}'>编辑</button>
+<view bindtap="editSludgeBtn" data-sludgeid='{{item.id}}'>
+<button bind:click="editSludgeBtn" style='margin-top:20rpx;background-color: #70DB93;color:white;width:40%;height:20%;border-radius: 30rpx;' >编辑</button>
 </view>
 </view>
 </i-swipeout>

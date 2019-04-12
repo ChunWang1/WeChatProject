@@ -345,6 +345,8 @@ App({
     QUERY_querySludgeFunction_URL: URL + "/sludge/queryAllFunc",
     QUERY_querySludgeByUserIdAndStatus_URL: URL +"/sludge/querysludgebydriverIdAndStatus",
     UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
-
+    EDIT_Sludge_URL: URL + "/sludge/editSludge",
+    DELETE_Sludge_URL: URL +"/sludge/deleteSludge",
+    QUERY_AllFunc:URL+"/sludge/queryAllFunc"
   }
 })
