@@ -7,9 +7,8 @@
   </view>
   <!-- 查询框 -->
 <view class="tabTit box">
-  <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab">
+  <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab" >
     <text>{{item}}</text>
-    <image src="/resources/down.png"></image>
   </view>
 </view>
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
@@ -28,7 +27,7 @@
       </view>
       <view class="modal-input">
         <picker bindchange="bindsensorTypePickerChange" range="{{sensorTypeList}}" value='{{sensorTypeList[sensorTypeIndex].type}}' class='regSelect' range-key="{{'type'}}">
-        <input class='selectInp'  bindinput="sensortypeinputChange" placeholder="类型" name='sensorTypeList' disabled='false' value='{{sensorTypeList[sensorTypeIndex].type}}'/> 
+        <input class='selectInp'  bindinput="sensortypeinputChange" placeholder="类型" name='sensorTypeList' disabled='false' value='{{sensorTypeName}}'/> 
       <view class='select'> 
         <image class='select-img'src="/resources/down.png"></image>
       </view>
@@ -39,7 +38,7 @@
       </view>
       <view class="modal-input">
         <picker bindchange="bindlocationPickerChange" range="{{locationList}}" value='{{locationList[locationIndex].name}}' class='regSelect' range-key="{{'name'}}">
-        <input class='selectInp'  bindinput="locationinputChange" placeholder="位置" name='locationList' disabled='false' value='{{locationList[locationIndex].name}}'/> 
+        <input class='selectInp'  bindinput="locationinputChange" placeholder="位置" name='locationList' disabled='false' value='{{locationName}}'/> 
       <view class='select'> 
         <image class='select-img'src="/resources/down.png"></image>
       </view>
@@ -47,7 +46,7 @@
       </view>
       <view class="modal-input" wx:if="{{locationList[locationIndex].id == 0}}">
         <picker bindchange="bindsitePickerChange" range="{{siteList}}" value='{{siteList[siteIndex].siteName}}' class='regSelect' range-key="{{'siteName'}}">
-        <input class='selectInp'  bindinput="placeinputChange" placeholder="工厂名称" name='siteList' disabled='false' value='{{siteList[siteIndex].siteName}}'/> 
+        <input class='selectInp'  bindinput="placeinputChange" placeholder="工厂名称" name='siteList' disabled='false' value='{{siteName}}'/> 
       <view class='select'> 
         <image class='select-img'src="/resources/down.png"></image>
       </view>
@@ -55,7 +54,7 @@
       </view>
       <view class="modal-input" wx:elif="{{locationList[locationIndex].id == 1}}">
         <picker bindchange="bindcarPickerChange" range="{{carList}}" value="{{carList[carIndex].license}}" class='regSelect' range-key="{{'license'}}">
-        <input class='selectInp' bindinput="placeinputChange" placeholder="车牌号" name='carList' disabled='false' value='{{carList[carIndex].license}}'></input>
+        <input class='selectInp' bindinput="placeinputChange" placeholder="车牌号" name='carList' disabled='false' value='{{selectedLicense}}'></input>
         <view class='select'>
           <image class='select-img' src="/resources/down.png"></image>
         </view>
@@ -64,7 +63,7 @@
    </view>
     <view class="modal-footer">
       <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">保存</view>
+      <view class="btn-confirm" bindtap="onSensorConfirm" data-status="confirm">保存</view>
     </view>
  </view>
  <!-- 传感器记录 -->
