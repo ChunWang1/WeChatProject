@@ -1,0 +1,162 @@
+/* packageManager/pages/equipmanager.wxss */
+.page-head{
+  padding: 10rpx 10rpx 30rpx;
+  text-align: center;
+}
+.page-head-title{
+  display: inline-block;
+  padding: 0 40rpx 20rpx 40rpx;
+  font-size: 39rpx;
+  color: #1c2438;
+}
+.page-head-line{
+  margin: 0 auto;
+  width: 100%;
+  height: 2rpx;
+  background-color: #BEBEBE;
+}
+
+.tabTit{
+  height:90rpx;
+  line-height: 80rpx;
+  border-bottom: solid 1px #eee;
+  position:fixed;
+  top:40px;
+  width: 750rpx;
+  z-index: 1;
+  background: #fff;
+  font-size:14px;
+  text-align: center;
+}
+
+.tabTit .active{
+  color:#e64340;
+  background: #fff;
+}
+
+.flex1 {
+    flex: 1;
+    overflow: hidden;
+    display: block;
+}
+
+.box {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.add_text{
+  width: 50%;
+  font-size: 36rpx;
+  text-align: center;
+  margin-left:110px;
+}
+.add_icon{
+  width:30px;
+  height:30px;
+  bottom:10rpx;
+  margin-left:20px;
+}
+.add_iconview{
+  margin-top: 50px;
+}
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 20%;
+  height: 65%;
+  left: 0;
+  z-index: 9999;
+  background: rgb(246, 250, 247) ;
+  margin: -240rpx 105rpx;
+  border-radius: 36rpx;
+  font-size: 20rpx
+}
+.modal-title {
+  padding-top: 50rpx;
+  font-size: 36rpx;
+  color: #030303;
+  text-align: center;
+}
+.modal-content {
+  padding: 50rpx 32rpx;
+}
+.modal-input {
+  display: flex;
+  background: #fff;
+  border-bottom: 2rpx solid #ddd;
+  border-radius: 4rpx;
+  font-size: 28rpx;
+}
+input-holder {
+  color: #666;
+  font-size: 28rpx;
+}
+.input {
+  width: 100%;
+  height: 82rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  color: #333;
+}
+.regSelect{
+  font-size: 28rpx;
+  position: relative;
+  padding-top: 18rpx;
+  height: 100%;
+}
+
+.select{ 
+  font-size: 30rpx;
+  padding:10rpx 0 10rpx 30rpx;
+  color: #000;
+}
+.select-img{
+   width:30rpx;
+   height:30rpx;
+   margin-left:160px;
+}
+.selectInp{
+  width:100%;
+  font-size: 28rpx;
+  position: absolute;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 86rpx;
+  border-top: 1px solid #dedede;
+  font-size: 34rpx;
+  line-height: 86rpx;
+}
+.btn-cancel {
+  width: 50%;
+  color: #666;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+.btn-confirm {
+  width: 50%;
+  color: #ec5300;
+  text-align: center;
+}

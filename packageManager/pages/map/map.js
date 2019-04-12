@@ -79,9 +79,9 @@ Page({
     that.showWareHouse();
     that.showSite();
     that.queryCarInRoad();
-    setInterval(function () {
-      that.queryCarInRoad();
-    }, 2000)
+    // setInterval(function () {
+    //   that.queryCarInRoad();
+    // }, 2000)
     that.setData({
       no: app.globalData.userData[0].username,
     });
@@ -122,9 +122,9 @@ Page({
         });
         //console.log(85+":"+JSON.stringify(that.data.markers))
         that.flushWareHouseColloutContent()
-        setInterval(function () {
-          that.flushWareHouseColloutContent()
-        }, 10000)
+        // setInterval(function () {
+        //   that.flushWareHouseColloutContent()
+        // }, 10000)
       }
     });
   },
@@ -235,9 +235,9 @@ Page({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        setInterval(function () {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
+        // setInterval(function () {
+        //   that.flushSiteIconAndCallOutContent();
+        // }, 10000)
       }
     });
   },
@@ -432,9 +432,9 @@ Page({
 
   startSetInter: function () {
     var that = this;
-    setInterval(function () {
-      that.getCarData();
-    }, 5000)
+    // setInterval(function () {
+    //   that.getCarData();
+    // }, 5000)
   },
   //查询子智慧泥仓信息
   queryMinorWareHouse: function (id) {

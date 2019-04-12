@@ -1,0 +1,104 @@
+<!--packageManager/pages/equipmanager.wxml-->
+<view>
+  <view class="page-head">
+  <icon class="iconfont icon-shebei1"></icon>
+  <view class="page-head-title">设备信息</view>
+  <view class="page-head-line"></view>
+  </view>
+  <!-- 查询框 -->
+<view class="tabTit box">
+  <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab">
+    <text>{{item}}</text>
+    <image src="/resources/down.png"></image>
+  </view>
+</view>
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+   <!--增加框-->
+<view bindtap='adddevice' class="add_iconview">
+      <text class="add_text">新增传感器:</text>
+      <image class="add_icon" src="/resources/adddevice.png"></image>
+</view>
+<!-- 添加传感器信息弹框 -->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+ <view class="modal-dialog" wx:if="{{showModal}}">
+   <view class="modal-title">新增传感器</view>
+   <view class="modal-content">
+      <view class="modal-input">
+          <input placeholder-class="input-holder"  bindinput="sensorserialnumberinputChange" class="input" placeholder="设备号"></input>
+      </view>
+      <view class="modal-input">
+        <picker bindchange="bindsensorTypePickerChange" range="{{sensorTypeList}}" value='{{sensorTypeList[sensorTypeIndex].type}}' class='regSelect' range-key="{{'type'}}">
+        <input class='selectInp'  bindinput="sensortypeinputChange" placeholder="类型" name='sensorTypeList' disabled='false' value='{{sensorTypeList[sensorTypeIndex].type}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:if="{{sensorTypeList[sensorTypeIndex].id == 1}}">
+          <input placeholder-class="input-holder"  bindinput="gPSIDinputChange" class="input" placeholder="GPS设备ID"/>
+      </view>
+      <view class="modal-input">
+        <picker bindchange="bindlocationPickerChange" range="{{locationList}}" value='{{locationList[locationIndex].name}}' class='regSelect' range-key="{{'name'}}">
+        <input class='selectInp'  bindinput="locationinputChange" placeholder="位置" name='locationList' disabled='false' value='{{locationList[locationIndex].name}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:if="{{locationList[locationIndex].id == 0}}">
+        <picker bindchange="bindsitePickerChange" range="{{siteList}}" value='{{siteList[siteIndex].siteName}}' class='regSelect' range-key="{{'siteName'}}">
+        <input class='selectInp'  bindinput="placeinputChange" placeholder="工厂名称" name='siteList' disabled='false' value='{{siteList[siteIndex].siteName}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:elif="{{locationList[locationIndex].id == 1}}">
+        <picker bindchange="bindcarPickerChange" range="{{carList}}" value="{{carList[carIndex].license}}" class='regSelect' range-key="{{'license'}}">
+        <input class='selectInp' bindinput="placeinputChange" placeholder="车牌号" name='carList' disabled='false' value='{{carList[carIndex].license}}'></input>
+        <view class='select'>
+          <image class='select-img' src="/resources/down.png"></image>
+        </view>
+        </picker>
+      </view>
+   </view>
+    <view class="modal-footer">
+      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">保存</view>
+    </view>
+ </view>
+ <!-- 传感器记录 -->
+ <block wx:if="{{sensorList.length != 0}}">
+ <i-cell-group>
+   <i-cell title="设备号:" value="{{sensorList[sensor_current-1].serialNumber}}">
+   </i-cell>
+   <i-cell title="类型:" value="{{sensorList[sensor_current-1].sensorType.type}}">
+   </i-cell>
+   <i-cell title="位置:">
+        <i-tag wx:if="{{sensorList[sensor_current-1].carId == -1}}" slot="footer" class="i-tags" >{{sensorList[sensor_current-1].site.siteName}}</i-tag>
+        <i-tag wx:elif="{{sensorList[sensor_current-1].siteId == -1}}" slot="footer" class="i-tags" >{{sensorList[sensor_current-1].car.license}}</i-tag>
+   </i-cell>
+   <i-cell title="状态">
+     <i-tag wx:if="{{sensorList[sensor_current-1].status==0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+     <i-tag wx:elif="{{sensorList[sensor_current-1].status==1}}" slot="footer" class="i-tags" color="red"> 异常</i-tag>
+   </i-cell>
+ </i-cell-group>
+  <view>
+    <i-button bind:click="delSensor" type="error" size="small" shape="circle" data-sensorid='{{sensorList[sensor_current-1].id}}'>删除</i-button>
+  </view>
+  <i-cell>
+  </i-cell>
+ </block>
+  <!--分页--->
+<i-page current="{{ sensor_current }}" total="{{sensorList.length}}" bind:change="sensorhandleChange">
+    <view slot="prev">上一条记录</view>
+    <view slot="next">下一条记录</view>
+</i-page>
+<!--暂无数据--->
+<view  wx:if="{{sensorList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+</scroll-view>
+</view>
+
