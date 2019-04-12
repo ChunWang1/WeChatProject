@@ -1,7 +1,7 @@
 
 .swiper {
  
-height: 1100px;
+height:1100px;
 }
 .swiper-tab {
  
@@ -30,4 +30,261 @@ color: #777;
 color: #70DB93;
 border-bottom: 4rpx solid #70DB93;
  
+}
+.center{
+    text-align: center;
+}
+
+.input{
+    height: 20px;
+    width: 90px;
+    margin-left: 30rpx;
+    text-align: center;
+    border:  1px solid #64bff1;
+     border-radius: 30px;
+     color: #64bff1
+}
+
+.select-box{
+ display: flex;
+ flex-direction: row;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+}
+.select{ 
+  font-size: 30rpx;
+  color: #888;
+  display: flex;
+ flex-direction: row;
+
+}
+.select-img{
+   width:40rpx;
+   height:40rpx;
+   margin-left: 10rpx;
+}
+
+
+/* 日期选择 */
+.picker_group {
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  height: 85rpx;
+  line-height: 85rpx;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  color: #888;
+ border-bottom: 1rpx solid #efefef;
+}
+
+
+
+
+.bottom-text
+{
+ font-size: 34rpx;
+ text-align: center; 
+ color: #70DB93; 
+ margin-top: 20rpx ;
+ margin-bottom: 150rpx;
+}
+.showAllrecordbutton{
+  width: 140rpx;
+  height: 60rpx;
+  background-color: white;
+  color: #64bff1;
+  border-radius: 30rpx;
+  border: 1rpx solid #64bff1;
+  font-size: 30rpx;
+  margin-left: 25rpx;
+  text-align: center;
+  
+}
+
+
+/*自定义编辑弹窗样式*/
+.show-btn {
+  margin-top: 100rpx;
+  color: #22cc22;
+}
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+
+.modal-dialog {
+  width: 580rpx;
+  height: 65%;
+  overflow: hidden;
+  position: fixed;
+  top: 5%;
+  z-index: 9999;
+  background: #F0FFFF;
+  margin: -60rpx 85rpx;
+  border-radius: 36rpx;
+}
+
+.modal-title {
+  padding-top: 50rpx;
+  padding-bottom: 30rpx;
+  font-size: 36rpx;
+  color: #030303;
+  text-align: center;
+}
+
+
+
+.modal-input {
+  flex-direction: column;
+  height: 420rpx;
+  background: #EBEBEB;
+  border: 2rpx solid #70DB93;
+  font-size: 28rpx;
+  margin-top: 5rpx;
+}
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 86rpx;
+  border-top: 1px solid #dedede;
+  font-size: 34rpx;
+  line-height: 86rpx;
+  padding-top: 20rpx;
+}
+
+.btn-cancel {
+  width: 50%;
+  color: #666;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+
+.btn-confirm {
+  width: 50%;
+  color: #00CD00;
+  text-align: center;
+}
+.cancel {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  font-size: 34rpx;
+  color: #666;
+ 
+}
+.confirm {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  font-size: 34rpx;
+  color: #FFFFFF;
+  background-color: #70DB93
+}
+
+.block{
+  margin-bottom: 240rpx;
+  padding-bottom: 150rpx;
+}
+
+
+.line{
+  margin: 0 auto;
+  width: 100%;
+  height: 2rpx;
+  background-color: #BEBEBE;
+  margin-top: 20rpx;
+}
+
+
+
+/*查询框样式*/
+.sort-list{
+  justify-content: space-around;
+  display: flex;
+  background: white;
+  width: 100%;
+  height: 80rpx;
+  font-size: 27rpx;
+  color: #6A6A6A;
+  align-content: center;
+  border: 1rpx solid #ECECEC;
+}
+.sort{
+  text-align: center;
+  margin: auto 0;
+  height: 30rpx;
+  line-height: 30rpx;
+  border-right: 1rpx solid #ECECEC; 
+  flex: 1;
+}
+.sort-active{
+  color: black;
+  font-weight: 800;
+}
+.overall-sort-list{
+  flex-direction: column;
+  border-top: 1px solid rgba(0,0,0,0);
+  display: flex;
+  background: white;
+}
+.overall-sort{
+  font-size: 25rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin-left: 90rpx;
+}
+.mask{
+  width:100%;
+  height:74%;
+  position: absolute;
+  z-index:999;
+  background-color:rgba(15, 15, 26, 0.7);
+}
+.tabLayer{
+  box-shadow: 0 5px 5px rgba(0,0,0,.15);
+  width:750rpx;
+  overflow: hidden;
+  position: fixed;
+  top:190rpx;
+  z-index: 1;
+  background: white;
+  padding-bottom: 40rpx;
+  border-bottom: solid 1px #eee;
+  text-align: center;
+}
+.picker {
+  /* background-color: yellow; */
+  color: #64bff1;
+  width: 200rpx;
+  height: 55rpx;
+  font-size: 25rpx;
+  line-height: 55rpx;
+  margin: 0 2%;
+  padding: 0 2%;
+  border: 1rpx solid #64bff1;
+  border-radius: 30rpx;
+  margin-left: 255rpx;
+}
+ .search_button{
+  margin-left: 300rpx;
+  margin-top: 10rpx;
+  width: 140rpx;
+  height: 70rpx;
+  background-color: white;
+  color: #64bff1;
+  border-radius: 20rpx;
+  justify-content: center;
+  font-size: 30rpx;
+  border: 1rpx solid #64bff1;
 }

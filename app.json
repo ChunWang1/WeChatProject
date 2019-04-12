@@ -1,7 +1,8 @@
 {
-  "pages": [
-    "pages/login/login",
-    "pages/register/register"
+  "pages":[
+    "pages/login/login",  
+    "pages/register/register",
+    "pages/personinfo/personinfo"
   ],
   "subPackages": [
     {
@@ -14,10 +15,10 @@
         "pages/cardetail/cardetail",
         "pages/allcardetail/allcardetail",
         "pages/warehouse/warehouse",
-        "pages/modifypwd/modifypwd",
-        "pages/personinfor/personinfor",
+        "pages/equipmanager/equipmanager", 
+		    "pages/modifypwd/modifypwd",
         "pages/sysmanage/sysmanage",
-        "pages/equipmanager/equipmanager"
+        "pages/personinfor/personinfor"
       ]
     },
     {
@@ -27,27 +28,34 @@
         "pages/sludgeapply/sludgeapply",
         "pages/modifypwd/modifypwd",
         "pages/personinfor/personinfor",
-        "pages/sludgerecord/sludgerecord"
+        "pages/sludgerecord/sludgerecord",
+        "pages/factorydetail/factorydetail",
+        "pages/recorddetail/recorddetail"
+    
+  
       ]
     },
     {
       "root": "packageTransportDriver",
       "pages": [
-        "pages/map/map"
+        "pages/map/map",
+        "pages/transportRecord/transportRecord"
       ]
     },
     {
       "root": "packageTreatmentDriver",
       "pages": [
-        "pages/map/map"
+        "pages/map/map",
+        "pages/treatcardetail/treatcardetail",
+        "pages/treatmentRecord/treatmentRecord"
       ]
     }
   ],
-  "window": {
-    "backgroundTextStyle": "light",
+  "window":{
+    "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#70DB93",
     "navigationBarTitleText": "污泥处理系统",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle":"black"
   },
   "networkTimeout": {
     "request": 20000,
@@ -71,6 +79,14 @@
     "i-input": "../../../dist/input/index",
     "i-button": "../../../dist/button/index",
     "i-card": "../../../dist/card/index",
-    "i-page": "../../../dist/page/index"
+    "i-toast": "../../../dist/toast/index",
+    "i-modal": "../../../dist/modal/index",
+    "i-divider": "../../../dist/divider/index",
+    "i-panel": "../../../dist/panel/index",
+    "i-swipeout": "../../../dist/swipeout/index",
+    "i-badge": "../../../dist/badge/index",
+    "i-page": "../../../dist/page/index",
+    "i-notice-bar": "../../../dist/notice-bar/index"
+   
   }
 }
