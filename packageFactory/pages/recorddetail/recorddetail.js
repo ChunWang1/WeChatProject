@@ -217,7 +217,7 @@ Page({
           console.log(err)
           wx.showToast({
             title: "删除失败!",
-            icon: 'error',
+            icon: 'none',
             duration: 2000,
           })
         }
