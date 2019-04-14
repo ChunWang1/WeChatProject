@@ -1,0 +1,5 @@
+/* pages/sensorhistorydata/sensorhistorydata.wxss */
+.chart{
+  height: 100%;
+  width: 100%
+}
