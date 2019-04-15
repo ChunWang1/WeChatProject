@@ -7,8 +7,8 @@ Page({
    */
   data: {
     clientHeight: "",
-    tabTxt: ['设备号', '设备位置', '设备类型', '状态'],//设备信息查询条件分类
-    tab: [true, true, true, true],
+    tabTxt: ['设备号', '设备位置','具体位置' ,'设备类型', '状态'],//设备信息查询条件分类
+    tab: [true, true, true,true, true],
     locationList: [
       { id:0,name: '工厂' },
       { id:1,name: '车辆' }
@@ -119,6 +119,7 @@ Page({
   // },
   // 下拉选择框数据获取
   bindsensorTypePickerChange: function (e) {
+    var sensortypename = this.data.sensorTypeList[e.detail.value].type;
     console.log(this.data.sensorTypeList[e.detail.value].type)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -126,10 +127,12 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      sensorTypeIndex: e.detail.value
+      sensorTypeIndex: e.detail.value,
+      sensorTypeName: sensortypename
     })
   },
   bindlocationPickerChange:function(e){
+    var locationname = this.data.locationList[e.detail.value].name;
     console.log(this.data.locationList[e.detail.value].name)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -137,10 +140,12 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      locationIndex: e.detail.value
+      locationIndex: e.detail.value,
+      locationName: locationname
     })
   },
   bindsitePickerChange: function (e) {
+    var sitename = this.data.siteList[e.detail.value].siteName;
     console.log(this.data.siteList[e.detail.value].siteName)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -148,10 +153,12 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      siteIndex: e.detail.value
+      siteIndex: e.detail.value,
+      siteName: sitename
     })
   },
   bindcarPickerChange: function (e) {
+    var license = this.data.carList[e.detail.value].license;
     console.log(this.data.carList[e.detail.value].license)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -159,7 +166,8 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      carIndex: e.detail.value
+      carIndex: e.detail.value,
+      selectedLicense: license
     })
   },
   // 查询所有传感器类型
@@ -243,13 +251,18 @@ Page({
     })
   },
   //增加传感器
-  onConfirm: function () {
+  onSensorConfirm: function () {
     var that = this;
     var sensorSerialNumber = that.data.sensorSerialNumberinput;
-    var sensorType = that.data.sensorTypeinput;
-    var GPSID= that.data.gPSIDinput;
-    var placeSelect = that.data.placeSelectinput;
-    var place = that.data.placeinput;
+    var sensorType = that.data.sensorTypeName;
+    var gPSID= that.data.gPSIDinput;
+    var placeSelect = that.data.locationName;
+    if(placeSelect == "工厂"){
+      var place = that.data.siteName;
+    }else{
+      placeSelect="slugeCar";
+      var place = that.data.selectedLicense;
+    }
     var sensorInfo;
     if(sensorType == "GPS传感器"){
       sensorInfo = JSON.stringify({

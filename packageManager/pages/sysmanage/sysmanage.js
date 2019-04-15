@@ -11,10 +11,10 @@ Page({
     partCurrentTab:3,
     placeholderText:"请输入用户姓名/登录名/手机号码/身份证/邮箱",
     userName:[
-     {name:'管理员'},
-     {name:'工作人员'},
-     {name:'司机'},
-     {name:'运输车司机'} 
+     {id:1,name:'管理员'},
+     {id:2,name:'工作人员'},
+     {id:3,name:'司机'},
+     {id:4,name:'运输车司机'} 
     ],
     carType:[
      {id:0,name:'污泥处理'},
@@ -494,6 +494,36 @@ Page({
     this.hideModal();
   },
   // 获取输入框数据
+  logininputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      logininput: e.detail.value
+    });
+  },
+  pwdinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      pwdinput: e.detail.value
+    });
+  },
+  telinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      telinput: e.detail.value
+    });
+  },
+  nameinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      nameinput: e.detail.value
+    });
+  },
+  emailinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      emailinput: e.detail.value
+    });
+  },
   serialNumberinputChange: function (e) {
     console.log(e.detail.value);
     this.setData({
@@ -556,6 +586,7 @@ Page({
   },
   // 下拉框用户角色数据获取
   binduserPickerChange: function (e) {
+    var roleid = this.data.userName[e.detail.value].id;
     console.log(this.data.userName[e.detail.value].name)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -563,7 +594,8 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      userIndex: e.detail.value
+      userIndex: e.detail.value,
+      roleId: roleid
     })
   },
   // 下拉框车辆类型数据获取
@@ -580,6 +612,8 @@ Page({
   },
   // 下拉框没有分配车辆的司机数据获取
   bindnocarassigndriverPickerChange: function (e) {
+    var realname=this.data.noCarAssignedDriverList[e.detail.value].realname;
+    var driverid = this.data.noCarAssignedDriverList[e.detail.value].id;
     console.log(this.data.noCarAssignedDriverList[e.detail.value].realname)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
@@ -587,7 +621,9 @@ Page({
       this.setData({ reply: false })
     }
     this.setData({
-      driverIndex: e.detail.value
+      driverIndex: e.detail.value,
+      selectedRealname:realname,
+      driverId:driverid
     })
   },
   
@@ -674,7 +710,50 @@ Page({
   changeRegin(e) {
     this.setData({ region: e.detail.value });
   },
-
+  // 新增用户
+  onUserConfirm: function () {
+    var that = this;
+    var username = that.data.logininput;
+    var password = that.data.pwdinput;
+    var telephone = that.data.telinput;
+    var realname = that.data.nameinput;
+    var roleId = that.data.roleId;
+    var email = that.data.emailinput;
+    wx.request({
+      url: app.globalData.ADD_User_URL,
+      data: JSON.stringify({
+        realname: realname,
+        username: username,
+        password: password,
+        email: email,
+        telephone: telephone,
+        roleId: roleId,
+      }),
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        if (res.data == "SUCCESS") {
+          wx.showToast({
+            title: "注册成功",
+            icon: 'success',
+            duration: 20000,
+            success: function () {
+              wx.showToast({
+                title: '提交成功',
+                icon: 'success',
+                duration: 2000
+              })
+            }
+          })
+        }
+      }
+    })
+    that.hideModal();
+    that.queryAllUser();
+  },
   //编辑站点记录按钮
   editSiteBtn: function (e) {
     console.log(e.currentTarget.dataset.siteid);
@@ -839,7 +918,7 @@ Page({
     }else{
       var carType = 1;
     } 
-    var driverId = that.data.nocarassigndriverinput;
+    var driverId = parseInt(that.data.driverId);
     wx.request({
       url: app.globalData.ADD_Car_URL,
       data: JSON.stringify({
@@ -880,6 +959,11 @@ Page({
     var license = that.data.licenseinput;
     var brand = that.data.brandinput;
     var driverId = parseInt(that.data.driverId);
+    var driverName = that.data.selectedRealname;
+    var driver = {
+      id: driverId,
+      realname:driverName
+    }
     wx.request({
       url: app.globalData.EDIT_Car_URL,
       data: JSON.stringify({
@@ -887,6 +971,7 @@ Page({
         license: license,
         brand: brand,
         driverId: driverId,
+        driver: driver
       }),
       method: "POST",
       headers: {
@@ -900,7 +985,7 @@ Page({
             icon: 'none',
             duration: 2000,
           })
-          that.hideModal
+          that.hideModal();
           that.queryAllCar();//刷新记录页面  
         } else if (res.data == "ERROR") {
           wx.showToast({

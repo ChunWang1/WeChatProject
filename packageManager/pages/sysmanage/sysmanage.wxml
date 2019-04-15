@@ -47,7 +47,7 @@
     </view>
      <view class="modal-footer">
       <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">保存</view>
+      <view class="btn-confirm" bindtap="onUserConfirm" data-status="confirm">保存</view>
      </view>
   </view>
    <button class='button-view' bindtap='bindShowMsg'>
@@ -77,11 +77,13 @@
    <button class="button-view-one">查询</button>
 </view>
 
+
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
 <view class="user-box">用户</view>
 <block wx:for="{{userList}}" wx:for-item="user" wx:key="id">
 <view class="card-style">
+
  <i-card title="{{user.username}}">
     <view slot="content">角色:{{user.role.role_name}}</view>
     <view slot="content" wx:if="{{user.roleId==1}}">性别:{{user.sex}}</view>
@@ -211,7 +213,7 @@
       </view>
       <view class="modal-input">
          <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
-         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="请选择司机" name='nocarassigndriver' disabled='false' value='{{noCarAssignedDriverList[driverIndex].id}}'/> 
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="请选择司机" name='nocarassigndriver' disabled='false' value="{{selectedRealname}}"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
@@ -269,7 +271,7 @@
         <i-tag wx:elif="{{carList[car_current-1].status==1}}" slot="footer" class="i-tags" color="red"> 在途中</i-tag>
         <i-tag wx:elif="{{carList[car_current-1].status==2}}" slot="footer" class="i-tags" color="red"> 已到达</i-tag>
         <i-tag wx:elif="{{carList[car_current-1].status==3}}" slot="footer" class="i-tags" color="red"> 已派单</i-tag>
-        <i-tag wx:elif="{{carList[car_current-1].status==4}}" slot="footer" class="i-tags" color="red"> 返程中</i-tag>
+        <i-tag wx:elif="{{carList[car_current-1].status==4}}" slot="foote r" class="i-tags" color="red"> 返程中</i-tag>
       </i-cell>
     </i-cell-group>
       <!-- 编辑车辆信息 -->
@@ -280,11 +282,11 @@
       <view class="modal-dialog" wx:if="{{showEditCarModal}}">
       <view class="modal-title">车辆信息</view>
       <view class="modal-content"> 
-        <i-input i-class="modal-input" bindinput="licenseinputChange" value="{{carList[car_current-1].license}}" title="车牌号"/>
-        <i-input i-class="modal-input" bindinput="brandinputChange" value="{{carList[car_current-1].brand}}" title="品牌"/>
+        <input class="modal-input" bindinput="licenseinputChange" value="{{carList[car_current-1].license}}" placeholder="车牌号"/>
+        <input class="modal-input" bindinput="brandinputChange" value="{{carList[car_current-1].brand}}" placeholder="品牌"/>
         <view class="modal-input">
          <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
-         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value='{{noCarAssignedDriverList[driverIndex].id}}'/> 
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value="{{selectedRealname}}"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
