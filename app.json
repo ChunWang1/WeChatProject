@@ -49,6 +49,20 @@
         "pages/treatcardetail/treatcardetail",
         "pages/treatmentRecord/treatmentRecord"
       ]
+    },
+    {
+      "root": "packageGuest",
+      "pages": [
+        "pages/map/map",
+        "pages/sensorhistorydata/sensorhistorydata",
+        "pages/factory/factory",
+        "pages/factorydetail/factorydetail",
+        "pages/cardetail/cardetail",
+        "pages/allcardetail/allcardetail",
+        "pages/warehouse/warehouse",
+        "pages/modifypwd/modifypwd",
+        "pages/personinfor/personinfor"
+      ]
     }
   ],
   "window":{
@@ -86,7 +100,7 @@
     "i-swipeout": "../../../dist/swipeout/index",
     "i-badge": "../../../dist/badge/index",
     "i-notice-bar": "../../../dist/notice-bar/index",
-    "i-select":"../../../dist/select/select"
+    "i-select":"../../../dist/select/select",
     "i-page": "../../../dist/page/index",
     "i-notice-bar": "../../../dist/notice-bar/index"
    

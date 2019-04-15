@@ -10,9 +10,9 @@
 </view>
 
 <!-- 内容主体 -->
-<swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+<swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}"   current="{{currentTab}}" duration="200" bindchange="swiperChange">
 <!-- 人员信息 -->
-<swiper-item>
+<swiper-item >
 <view class="view">
   <button class="button-view" bindtap="addUser">+新增用户</button>
   <!-- 增加弹窗 -->
@@ -76,22 +76,60 @@
    <input class="inputStyle" type="text" placeholder="{{placeholderText}}"/>
    <button class="button-view-one">查询</button>
 </view>
-  <view class="user-box">用户</view> 
-<block wx:for="{{userList}}" wx:for-item="user" wx:key="user">
-<view class="card-style" wx:if="{{user.roleId==1}}">
+
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
+<view class="user-box">用户</view>
+<block wx:for="{{userList}}" wx:for-item="user" wx:key="id">
+<view class="card-style">
+
  <i-card title="{{user.username}}">
     <view slot="content">角色:{{user.role.role_name}}</view>
-    <view slot="content">性别:{{user.sex}}</view>
+    <view slot="content" wx:if="{{user.roleId==1}}">性别:{{user.sex}}</view>
     <view slot="content">E-mail:{{user.email}}</view>
     <view slot="content">身份证:{{user.idCard}}</view>
     <view slot="content">Tel:{{user.telephone}}</view>
+    <view slot="content"  wx:if="{{user.roleId==2}}">工厂:{{user.site.siteName}}</view>
+    <view slot="content" wx:if="{{user.roleId==3 || user.roleId==4}}">
+    车牌号:{{user.car.license}}</view>
     <view slot="footer" class="view">
-       <button class="button-view-two">删除</button>
-       <button class="button-view-two">通过审核</button>
-       <button class="button-view-two">重置密码</button>
+       <button class="button-view-two" wx:if="{{user.roleId!=1}}" bindtap='showEditModal' data-roleid='{{user.roleId}}' data-userid='{{user.id}}' >编辑</button>
+       <button class="button-view-two" bindtap='deleteUser' data-userid='{{user.id}}'>删除</button>
+       <!--
+       <button class="button-view-two" bindtap='checkUser' data-userid='{{user.id}}'>通过审核</button>
+       -->
+       <button class="button-view-two" bindtap='showResetModal' data-username='{{user.username}}' data-userid='{{user.id}}'>重置密码</button>
+       <i-tag wx:if="{{user.checkStatus == 0}}" class="button-view-two"  color="red">未通过审核</i-tag>
+       <i-tag wx:if="{{user.checkStatus == 1}}" class="button-view-two"  color="green">通过审核</i-tag>
+       <i-tag wx:if="{{user.checkStatus == 2}}" class="button-view-two"  color="yellow">待审核</i-tag>
+<!--编辑用户模态框-->
+<i-modal visible="{{ editUserVisible }}" bind:ok="editUser" bind:cancel="cancelEditUser" >
+   <view style='margin-top:23rpx;flex-direction: row;display: flex;' wx:if="{{roleId==3 || roleId==4}}">
+   <view style='margin-left:40px;margin-top:5px;'>车辆：</view>
+   <view style='margin-bottom:60rpx;margin-right:45rpx;'>
+    <i-select  prop-array='{{editCarSelectArray}}'  bind:myget='getCarDate' ></i-select>
+    </view>
+    </view>
+    <view style='margin-top:23rpx;flex-direction: row;display: flex;' wx:if="{{roleId==2}}">
+    <view style='margin-left:40px;margin-top:5px;'>工厂：</view>
+    <view style='margin-bottom:60rpx;margin-right:45rpx;'>
+    <i-select  prop-array='{{editSiteSelectArray}}'  bind:myget='getSiteDate' ></i-select>
+    </view>
+    </view>
+</i-modal>
+<!---------------->
+
+<!--重置密码提示模态框-->
+<i-modal visible="{{ resetPassVisible }}" bind:ok="resetPass" bind:cancel="cancelResetPass" >
+    <view>确定为用户：{{username}}  重置密码？重置密码为66668888</view>
+</i-modal>
+<!------------------>
+
     </view>
 </i-card>
 </view>
+<!--
 <view class="card-style" wx:if="{{user.roleId==2}}">
 <i-card title="{{user.username}}">
     <view slot="content">角色:{{user.role.role_name}}</view>
@@ -121,23 +159,31 @@
        <button class="button-view-two">重置密码</button>
     </view>
 </i-card>
+
 </view>
+-->
 </block>
+
 <!-- 分页 -->
 <i-page current="{{user_current}}" total="10" bind:change="userhandleChange">
     <view slot="prev">上一页</view>
     <view slot="next">下一页</view>
 </i-page>
 <!--无数据-->
-<view  wx:if="{{userList.length==0}}">
+<view  wx:if="{{userList.length==0}}" >
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+<view style='padding-bottom:200rpx;'></view>
+</scroll-view>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
-<!-- 车队管理 -->
+
+
+<!-------------------车队管理--------------------------------->
 <swiper-item>
-  <view class="swiper-tab">
+
+<view class="swiper-tab">
   <view class="tab-item-one {{partCurrentTab==3 ? 'on-one' : ''}}" data-current="3" bindtap="partswichNav">车队信息</view>
    <view class="tab-item-one {{partCurrentTab==4 ? 'on-one' : ''}}" data-current="4" bindtap="partswichNav"><navigator url="/packageManager/pages/equipmanager/equipmanager">设备管理</navigator></view>
   </view>
@@ -193,6 +239,9 @@
       <input class="inputStyle" type="text" placeholder="请输入车牌号/车型/司机/司机号码/查询所有车辆"/>
       <button class="button-view-one">查询</button>
     </view>
+
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
     <!-- 车队信息 -->
     <view>
         <view class="page-head">
@@ -264,16 +313,19 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>    
+<view style='padding-bottom:300rpx;'></view>
+</scroll-view>
+ <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>     
 </swiper-item>
 
 <!-- 站点管理 -->
 <swiper-item>
-  <view class="view-one">
+<view class="view-one">
    <input class="inputStyle" type="text" placeholder="请输入编号/厂名/地址/电话"  bindinput="searchValueInput"/>
    <button class="button-view-one">查询</button>
   </view>
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
    <!-- 增加框 -->
    <view bindtap='addSite' class="add_iconview">
       <text class="add_text">+新增站点</text>
@@ -365,6 +417,7 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+<view style='padding-bottom:300rpx;'></view>
 </scroll-view>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>   
 </swiper-item>

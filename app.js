@@ -44,6 +44,39 @@ App({
 
     ]
   },
+  guestTabBar: {
+    "color": "#9E9E9E",
+    "selectedColor": "#70DB93",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "position": "bottom",
+    "list": [
+      {
+        pagePath: "/packageGuest/pages/map/map",
+        text: "首页",
+        iconPath: "../../../resources/img/map.png",
+        selectedIconPath: "../../../resources/img/map2.png",
+        clas: "menu-item",
+        active: true,
+      },
+      {
+        pagePath: "/packageGuest/pages/allcardetail/allcardetail",
+        text: "监控",
+        iconPath: "../../../resources/img/monitor.png",
+        selectedIconPath: "../../../resources/img/monitor2.png",
+        clas: "menu-item",
+        active: false,
+      },
+      {
+        pagePath: "/packageGuest/pages/warehouse/warehouse",
+        text: "智慧泥仓",
+        iconPath: "../../../resources/img/warehouse.png",
+        selectedIconPath: "../../../resources/img/warehouse2.png",
+        clas: "menu-item",
+        active: false,
+      },
+    ]
+  },
   factoryTabBar: {
     "color": "#9E9E9E",
     "selectedColor": "#70DB93",
@@ -164,6 +197,28 @@ App({
     }
     _curPage.setData({
       manageTabBar: tabBar
+    });
+  },
+  showGuestTabBar: function () {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+      _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.guestTabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+
+      tabBar.list[i].active = false;
+      //console.log(tabBar.list[i].pagePath)
+      // console.log(_pagePath)
+      if (tabBar.list[i].pagePath == _pagePath) {
+
+        tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+      }
+    }
+    _curPage.setData({
+      guestTabBar: tabBar
     });
   },
   showFactoryTabBar: function () {
@@ -350,6 +405,10 @@ App({
     UPDATE_updateSludgeVirtualToRealByDriver_URL: URL +"/sludge/updateSludgeVirtualToRealByDriver",
     EDIT_Sludge_URL: URL + "/sludge/editSludge",
     DELETE_Sludge_URL: URL +"/sludge/deleteSludge",
-    QUERY_AllFunc:URL+"/sludge/queryAllFunc"
+    QUERY_AllFunc:URL+"/sludge/queryAllFunc",
+    DELETE_User:URL+"/system/deleteUserByUserId",
+    RESET_PassWord:URL+"/system/resetPassWord",
+    QUERY_CarWhichNotAssignDriver:URL+"/car/queryCarWhichNotAssignDriver",
+    EDIT_UserByUserId_URL:URL+"/system/editUserByUserId",
   }
 })

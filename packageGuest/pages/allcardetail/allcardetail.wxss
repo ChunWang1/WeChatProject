@@ -1,0 +1,121 @@
+/* pages/allcardetail/allcardetail.wxss */
+.button-sp-area{
+  margin-top:40rpx;
+  width: 80%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.mini-btn{
+  margin-right: 20rpx;
+  align-items: center;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  justify-content: space-between;
+  font-size: 32rpx;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.page-head{
+  padding: 10rpx 10rpx 30rpx;
+  text-align: center;
+}
+.page-head-title{
+  display: inline-block;
+  padding: 0 40rpx 20rpx 40rpx;
+  font-size: 36rpx;
+  color: #1c2438;
+}
+.page-head-line{
+  margin: 0 auto;
+  width: 500rpx;
+  height: 2rpx;
+  background-color: #BEBEBE;
+}
+.swiper-tab {
+ 
+display: flex;
+ 
+flex-direction: row;
+ 
+line-height: 100rpx;
+}
+ 
+ 
+.tab-item {
+ 
+width: 50%;
+
+border-bottom: 2rpx solid #ccc;
+
+text-align: center;
+ 
+font-size: 15px;
+ 
+color: #777;
+
+}
+ 
+ 
+
+ 
+ 
+.on {
+ 
+color: #F65959;
+border-bottom: 4rpx solid #F65959;
+ 
+}
+
+/*单元行*/
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 30rpx;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.row image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+    margin: 20rpx;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 76%;
+    padding-left: 20rpx;
+}
+
+.top, .bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.license {
+    color: #4d4d4d;
+    font-size: 30rpx;
+}
+
+.status {
+    padding: 10rpx;
+    font-size: 26rpx;
+    color: #b2b2b2;
+}
+
+.sentence {
+    color: #ccc;
+    font-size: 28rpx;
+    margin-top: 6rpx;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
