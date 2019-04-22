@@ -95,6 +95,17 @@ color: #777;
     overflow: hidden;
     animation: myfirst 0.5s;
 }
+.select_box_one {
+    background-color: #eee;
+    padding: 0 10rpx;
+    width: 23%;
+    height: 90px;
+    position: relative;
+    top: 90rpx;
+    z-index: 1;
+    overflow: hidden;
+    animation: myfirst 0.5s;
+}
 
 .select_one {
     font-size: 10px;
@@ -103,6 +114,8 @@ color: #777;
     border-bottom: 1px solid #ccc;
     position: relative;
 }
+
+
 
 .inputStyle{
   width: 77%;
@@ -134,7 +147,7 @@ color: #777;
   overflow: hidden;
   position: fixed;
   top: 20%;
-  height: 35%;
+  height: 70%;
   left: 0;
   z-index: 9999;
   background: rgb(246, 250, 247) ;
