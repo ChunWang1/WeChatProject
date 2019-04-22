@@ -173,7 +173,7 @@ line-height:80rpx;
   overflow: hidden;
   position: fixed;
   top: 20%;
-  height: 65%;
+  height: 70%;
   left: 0;
   z-index: 9999;
   background: rgb(246, 250, 247) ;

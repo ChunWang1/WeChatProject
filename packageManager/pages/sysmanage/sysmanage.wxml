@@ -55,17 +55,17 @@
     <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
    </button> 
     <!-- 下拉的列表 -->
-    <view class="select_box" wx:if="{{select}}">
+    <view class="select_box_one" wx:if="{{select}}">
         <view class="select_one" bindtap="mySelect" data-name="全部">全部</view>
         <view class="select_one" bindtap="mySelect" data-name="待审核">待审核</view>
         <view class="select_one" bindtap="mySelect" data-name="审核不通过">审核不通过</view>
-        <view class="select_one" bindtap="mySelect" data-name="审核不通过">审核通过</view>
+        <view class="select_one" bindtap="mySelect" data-name="审核通过">审核通过</view>
     </view>
    <button class='button-view' bindtap='bindShowMsgUser'>
    <text>{{selectuser}}</text>
    <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
    </button> 
-   <view class="select_box" wx:if="{{selectOne}}">
+   <view class="select_box_one" wx:if="{{selectOne}}">
         <view class="select_one" bindtap="mySelectUser" data-name="管理员">管理员</view>
         <view class="select_one" bindtap="mySelectUser" data-name="工厂人员">工厂人员</view>
         <view class="select_one" bindtap="mySelectUser" data-name="处理车司机">处理车司机</view>
@@ -73,8 +73,8 @@
     </view>
 </view>
 <view class="view">
-   <input class="inputStyle" type="text" placeholder="{{placeholderText}}"/>
-   <button class="button-view-one">查询</button>
+   <input class="inputStyle" type="text" placeholder="{{placeholderText}}" bindinput="searchUserValueInputChange"/>
+   <button class="button-view-one" bindtap="queryUserByCondotion">查询</button>
 </view>
 
 
@@ -165,10 +165,10 @@
 </block>
 
 <!-- 分页 -->
-<i-page current="{{user_current}}" total="10" bind:change="userhandleChange">
+<!-- <i-page current="{{user_current}}" total="10" bind:change="userhandleChange">
     <view slot="prev">上一页</view>
     <view slot="next">下一页</view>
-</i-page>
+</i-page> -->
 <!--无数据-->
 <view  wx:if="{{userList.length==0}}" >
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
@@ -236,8 +236,9 @@
       </view>
     </view>
     <view class="view">
-      <input class="inputStyle" type="text" placeholder="请输入车牌号/车型/司机/司机号码/查询所有车辆"/>
-      <button class="button-view-one">查询</button>
+      <input class="inputStyle" type="text" placeholder="请输入车牌号/车型/司机/司机号码/查询所有车辆"
+      bindinput="searchCarValueInputChange"/>
+      <button class="button-view-one" bindtap="queryCarByCondotion">查询</button>
     </view>
 
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
@@ -313,7 +314,7 @@
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-<view style='padding-bottom:300rpx;'></view>
+<view style='padding-bottom:450rpx;'></view>
 </scroll-view>
  <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>     
 </swiper-item>
@@ -321,8 +322,8 @@
 <!-- 站点管理 -->
 <swiper-item>
 <view class="view-one">
-   <input class="inputStyle" type="text" placeholder="请输入编号/厂名/地址/电话"  bindinput="searchValueInput"/>
-   <button class="button-view-one">查询</button>
+   <input class="inputStyle" type="text" placeholder="请输入编号/厂名/地址/电话"  bindinput="searchValueInputChange"/>
+   <button class="button-view-one" bindtap="querySite">查询</button>
   </view>
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
@@ -374,7 +375,7 @@
     </i-cell>
     <i-cell title="电话:" value="{{siteList[site_current-1].telephone}}">
     </i-cell>
-    <i-cell title="负责人:" value="{{siteList[site_current-1].manage}}">
+    <i-cell title="负责人:" value="{{siteList[site_current-1].manage.realname}}">
     </i-cell>
     <i-cell title="状态:" >
       <i-tag wx:if="{{siteList[site_current-1].status==0}}" slot="footer" class="i-tags"   color="green">正常</i-tag>
@@ -386,18 +387,25 @@
 <view>
   <i-button bind:click="editSiteBtn" type="info" size="small"  shape="circle" data-siteid='{{siteList[site_current-1].id}}'>编辑</i-button>
   <!-- 自定义编辑按钮弹窗 -->
-  <view class="modal-mask" bindtap="hideSiteModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
+  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
   <view class="modal-dialog" wx:if="{{showEditSiteModal}}">
   <view class="modal-title">编辑站点</view>
     <view class="modal-content">
        <input class="modal-input" bindinput="serialNumberinputChange" value="{{siteList[site_current-1].serialNumber}}" placeholder="编号" disabled/>
        <input class="modal-input" bindinput="siteNameinputChange" value="{{siteList[site_current-1].siteName}}" placeholder="站点名" />
-       <input class="modal-input" bindinput="managerChange" value="{{siteList[site_current-1].manage}}" placeholder="负责人" />
+       <view class="modal-input">
+         <picker bindchange="bindAllManagerBySitePickerChange" range="{{editManagerList}}" value='{{editManagerList[managerIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
+         <input class='selectInp'  bindinput="editManagerinputChange" placeholder="负责人" name='editManager' disabled='false' value="{{selectedRealname}}"/> 
+         <view class='select'> 
+           <image class='select-img'src="/resources/down.png"></image>
+         </view>
+        </picker>
+      </view>
        <input class="modal-input" bindinput="telephoneinputChange" value="{{siteList[site_current-1].telephone}}" type="number" placeholder="电话" />
        <input class="modal-input"  bindinput="addressinputChange" value="{{siteList[site_current-1].address}}" type="textarea" placeholder="详细地址" maxlength="50" />
     </view>
       <view class="modal-footer">
-      <view class="btn-cancel" bindtap="onsiteCancel" data-status="cancel">取消</view>
+      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
       <view class="btn-confirm" bindtap="editSite" data-status="confirm">保存</view>
       </view>
   </view>
@@ -408,7 +416,7 @@
  </i-cell>
 </block>
 <!--分页--->
-<i-page current="{{ site_current }}" total="{{siteList.length}}" bind:change="sitehandleChange">
+<i-page current="{{site_current}}" total="{{siteList.length}}" bind:change="sitehandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
 </i-page>
