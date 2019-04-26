@@ -349,7 +349,7 @@ App({
     EDIT_Site_URL: URL + "/system/editSite",
     FUZZYQUERY_Site_URL: URL +"/system/fuzzyQuerySite",
     QUERY_AllManagerBySite_URL: URL +"/system/queryAllManagerBySite",
-    // QUERY_SiteSerialNumberAndName_URL: URL + "/system/querySiteSerialNumberAndName",
+    QUERY_SiteSerialNumberAndName_URL: URL + "/system/querySiteSerialNumberAndName",
     QUERY_AllCar_URL: URL + "/car/queryAllCar",
     DELETE_Car_URL: URL + "/car/deleteCar",
     ADD_Car_URL: URL + "/car/addCar",

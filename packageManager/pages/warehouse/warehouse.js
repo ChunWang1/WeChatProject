@@ -856,13 +856,11 @@ Page({
             success: function (res) {
               console.log(res.data)
               if (res.data === "SUCCESS") {
-                setTimeout(() => {
-                  $Message({
-                    content: '删除成功！',
-                    type: 'success'
-                  });
-                }, 2000);
-
+                wx.showToast({
+                  title: '删除成功!',
+                  icon:'success',
+                  duration: 2000,
+                })
                 that.queryrecord();//刷新运输车记录页面
               }
             }
