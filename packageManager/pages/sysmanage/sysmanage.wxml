@@ -51,7 +51,7 @@
      </view>
   </view>
    <button class='button-view' bindtap='bindShowMsg'>
-    <text>{{selectstatus}}</text>
+    <text>选择状态</text>
     <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
    </button> 
     <!-- 下拉的列表 -->
@@ -62,7 +62,7 @@
         <view class="select_one" bindtap="mySelect" data-name="审核通过">审核通过</view>
     </view>
    <button class='button-view' bindtap='bindShowMsgUser'>
-   <text>{{selectuser}}</text>
+   <text>选择角色</text>
    <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
    </button> 
    <view class="select_box_one" wx:if="{{selectOne}}">
@@ -84,7 +84,7 @@
 <block wx:for="{{userList}}" wx:for-item="user" wx:key="id">
 <view class="card-style">
 
- <i-card title="{{user.username}}">
+ <i-card title="{{user.realname}}">
     <view slot="content">角色:{{user.role.role_name}}</view>
     <view slot="content" wx:if="{{user.roleId==1}}">性别:{{user.sex}}</view>
     <view slot="content">E-mail:{{user.email}}</view>
@@ -93,7 +93,7 @@
     <view slot="content"  wx:if="{{user.roleId==2}}">工厂:{{user.site.siteName}}</view>
     <view slot="content" wx:if="{{user.roleId==3 || user.roleId==4}}">
     车牌号:{{user.car.license}}</view>
-    <view slot="footer" class="view">
+    <view slot="footer" class="view-two">
        <button class="button-view-two" wx:if="{{user.roleId!=1}}" bindtap='showEditModal' data-roleid='{{user.roleId}}' data-userid='{{user.id}}' >编辑</button>
        <button class="button-view-two" bindtap='deleteUser' data-userid='{{user.id}}'>删除</button>
        <!--
@@ -212,8 +212,8 @@
            </picker>
       </view>
       <view class="modal-input">
-         <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
-         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="请选择司机" name='nocarassigndriver' disabled='false' value="{{selectedRealname}}"/> 
+         <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].text}}' class='regSelect' range-key="{{'text'}}" >
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="请选择司机" name='nocarassigndriver' disabled='false' value="{{selectedCarRealname}}"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
@@ -226,7 +226,7 @@
       </view>
       </view>
       <button class='button-view-three' bindtap='bindShowMsgCar'>
-        <text>{{selectcar}}</text>
+        <text>车类型查询</text>
         <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
       </button>
       <!-- 下拉列表  -->
@@ -282,12 +282,13 @@
       <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditCarModal}}"></view>
       <view class="modal-dialog" wx:if="{{showEditCarModal}}">
       <view class="modal-title">车辆信息</view>
-      <view class="modal-content"> 
-        <input class="modal-input" bindinput="licenseinputChange" value="{{carList[car_current-1].license}}" placeholder="车牌号"/>
-        <input class="modal-input" bindinput="brandinputChange" value="{{carList[car_current-1].brand}}" placeholder="品牌"/>
+    <form bindsubmit = "editCar">
+      <view class="modal-content">
+        <input class="modal-input" bindinput="licenseinputChange" value="{{carList[car_current-1].license}}" placeholder="车牌号" name = "license"/>
+        <input class="modal-input" bindinput="brandinputChange" value="{{carList[car_current-1].brand}}" placeholder="品牌" name= "brand"/>
         <view class="modal-input">
-         <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
-         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value="{{selectedRealname}}"/> 
+         <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].text}}' class='regSelect' range-key="{{'text'}}" >
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value="{{selectedCarRealname}}" name="selectedCarRealname"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
@@ -295,9 +296,10 @@
       </view>
       </view>
       <view class="modal-footer">
-        <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-        <view class="btn-confirm" bindtap="editCar" data-status="confirm">保存</view>
+        <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
+        <button class="btn-confirm" form-type='submit' data-status="confirm">保存</button>
       </view>
+      </form> 
       </view>
      <i-button bind:click="delCar" type="error" size="small" shape="circle" data-carid='{{carList[car_current-1].id}}'>删除</i-button>
   </view>
@@ -338,13 +340,13 @@
       <view class="modal-title">新增站点</view>
       <view class="modal-content">
         <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="serialNumberinputChange" class="input" placeholder="编号"></input>
+        <input placeholder-class="input-holder"  bindinput="serialNumberinputChange" class="input" placeholder="编号（必填项）"></input>
         </view>
         <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="siteNameinputChange" class="input" placeholder="站点名"></input>
+        <input placeholder-class="input-holder"  bindinput="siteNameinputChange" class="input" placeholder="站点名（必填项）"></input>
         </view>
         <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="telephoneinputChange" class="input" placeholder="电话"></input>
+        <input placeholder-class="input-holder"  bindinput="telephoneinputChange" class="input" placeholder="电话（必填项）"></input>
         </view>
         <view class="modal-input">
          <picker bindchange="changeRegin" mode = "region" value="{{region}}">
@@ -356,7 +358,7 @@
         </picker>
         </view>
         <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="addressinputChange" class="input" placeholder="详细地址"></input>
+        <input placeholder-class="input-holder"  bindinput="addressinputChange" class="input" placeholder="详细地址（必填项）"></input>
         </view>
       </view>
       <view class="modal-footer">
@@ -387,27 +389,29 @@
 <view>
   <i-button bind:click="editSiteBtn" type="info" size="small"  shape="circle" data-siteid='{{siteList[site_current-1].id}}'>编辑</i-button>
   <!-- 自定义编辑按钮弹窗 -->
-  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
+  <view class="modal" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
   <view class="modal-dialog" wx:if="{{showEditSiteModal}}">
   <view class="modal-title">编辑站点</view>
+  <form bindsubmit="editSite">
     <view class="modal-content">
-       <input class="modal-input" bindinput="serialNumberinputChange" value="{{siteList[site_current-1].serialNumber}}" placeholder="编号" disabled/>
-       <input class="modal-input" bindinput="siteNameinputChange" value="{{siteList[site_current-1].siteName}}" placeholder="站点名" />
+       <input class="modal-input" bindinput="serialNumberinputChange" value="{{siteList[site_current-1].serialNumber}}" placeholder="编号" name="serialNumber" disabled/>
+       <input class="modal-input" bindinput="siteNameinputChange" value="{{siteList[site_current-1].siteName}}" placeholder="站点名" name="siteName"/>
        <view class="modal-input">
          <picker bindchange="bindAllManagerBySitePickerChange" range="{{editManagerList}}" value='{{editManagerList[managerIndex].realname}}' class='regSelect' range-key="{{'realname'}}" >
-         <input class='selectInp'  bindinput="editManagerinputChange" placeholder="负责人" name='editManager' disabled='false' value="{{selectedRealname}}"/> 
+         <input class='selectInp'  bindinput="editManagerinputChange" placeholder="负责人" disabled='false' value="{{editManagerList[managerIndex].realname}}" name="realname"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
         </picker>
       </view>
-       <input class="modal-input" bindinput="telephoneinputChange" value="{{siteList[site_current-1].telephone}}" type="number" placeholder="电话" />
-       <input class="modal-input"  bindinput="addressinputChange" value="{{siteList[site_current-1].address}}" type="textarea" placeholder="详细地址" maxlength="50" />
+       <input class="modal-input" bindinput="telephoneinputChange" value="{{siteList[site_current-1].telephone}}" type="number" placeholder="电话" name="telephone"/>
+       <input class="modal-input"  bindinput="addressinputChange" value="{{siteList[site_current-1].address}}" type="textarea" placeholder="详细地址" maxlength="50" name="address"/>
     </view>
       <view class="modal-footer">
-      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-      <view class="btn-confirm" bindtap="editSite" data-status="confirm">保存</view>
+      <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
+      <button class="btn-confirm" form-type="submit" data-status="confirm">保存</button>
       </view>
+      </form>
   </view>
   <!-- 删除站点 -->
   <i-button bind:click="delSite" type="error" size="small" shape="circle" data-siteid='{{siteList[site_current-1].id}}'>删除</i-button>

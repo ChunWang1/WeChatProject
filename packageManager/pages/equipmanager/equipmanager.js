@@ -398,26 +398,67 @@ Page({
         place: place
       })
     }
-    wx.request({
-      url: app.globalData.ADD_Sensor_URL,
-      data: sensorInfo,
-      method: 'post',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        if (res.data.result == "SUCCESS") {
+    var reg = /^[A-Z][0-9]{5}$/; //设备号的正则表达式
+    if(sensorSerialNumber == " " || placeSelect == null || place == null){
+       wx.showToast({
+         title: '设备信息不完善',
+         icon:'none',
+         duration:2000
+       })
+    }else if(!(reg.test(sensorSerialNumber))){
+       wx.showToast({
+         title: '请输入正确的设备号',
+         icon:'none',
+         duration:2000
+       })
+    }else{
+      wx.request({
+        url: app.globalData.ADD_Sensor_URL,
+        data: sensorInfo,
+        method: 'post',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+          if (res.data.result == "SUCCESS") {
+            wx.showToast({
+              title: "新增成功",
+              icon: 'success',
+              duration: 2000,
+            })
+            that.hideModal();
+            that.queryAllSensor();
+          } else if (res.data.result == "DUPLICATE"){
+            wx.showToast({
+              title: "设备号冲突",
+              icon: 'success',
+              duration: 2000,
+            })
+          } else if (res.data.result == "INPUT"){
+            wx.showToast({
+              title: "请检查输入数据",
+              icon: 'success',
+              duration: 2000,
+            })
+          }else{
+            wx.showToast({
+              title: "添加失败",
+              icon: 'success',
+              duration: 2000,
+            })
+          }
+        },
+        fail:function(err){
+          console.log(err);
           wx.showToast({
-            title: "新增成功",
+            title: "添加失败",
             icon: 'success',
             duration: 2000,
           })
         }
-        that.hideModal();
-        that.queryAllSensor();
-      }
-    })
+      })
+    }
   },
   //删除传感器记录
   delSensor: function (e) {

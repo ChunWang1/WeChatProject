@@ -61,7 +61,7 @@
 <!--按仓库筛选-->
 <view class="tabLayer" hidden="{{tab[0]}}">
     <text class="{{warehouse_id==0?'active':''}}" data-id="0" data-index="0" data-txt="仓库" bindtap="filter">不限</text>
-    <text class="{{warehouse_id==warehouse.id?'active':''}}" wx:for="{{warehouseList}}" wx:key="pp" wx:for-item="warehouse" data-id="{{warehouse.id}}" data-index="0" data-txt="{{warehouse.id}}" bindtap="filter">{{warehouse.id}}号仓</text>
+    <text class="{{warehouse_id==warehouse.id?'active':''}}" wx:for="{{warehouseList}}" wx:key="pp" wx:for-item="warehouse" data-id="{{warehouse.id}}" data-index="0" data-txt="{{warehouse.id}}号仓" bindtap="filter">{{warehouse.id}}号仓</text>
 </view>
 <!--按工厂筛选-->
 <view class="tabLayer" hidden="{{tab[1]}}">
