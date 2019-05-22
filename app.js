@@ -1,6 +1,7 @@
-//var URL = "https://www.teamluo.cn";
-var URL = "http://localhost:8080/DisposalSludgeSystem";
+var URL = "https://www.teamluo.cn";
+//var URL = "http://localhost:8080/DisposalSludgeSystem";
 //var URL ="http://iot.hnu.edu.cn";
+//var URL ="http://114.115.212.204/DisposalSludgeSystem";
 App({
   manageTabBar: {
     "color": "#9E9E9E",
