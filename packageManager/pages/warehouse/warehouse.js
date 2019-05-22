@@ -256,7 +256,8 @@ Page({
       success: function (res) {
         console.log(res.data[0].driver.realname)
         for(var i=0;i<res.data.length;i++){
-          carList[i] = {id: res.data[i].driverId, name: res.data[i].driver.realname};
+          carList[i] = {id: res.data[i].id, name: res.data[i].driver.realname};
+          var carjson = [{id: res.data[i].driver.realname, name: res.data[i].id}]
         }
         console.log(carList)
         thit.setData({
@@ -315,7 +316,7 @@ Page({
   transCarinputChange: function (e) {
     console.log(e.detail.value);
     this.setData({
-      transCarinput: e.detail.value
+      transCarinput: e.detail.value.id
     });
   },
   rfidinputChange:function(e) {

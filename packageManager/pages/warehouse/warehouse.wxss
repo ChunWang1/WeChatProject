@@ -294,19 +294,19 @@ input-holder {
 }
  
 .tabLayer{
-  box-shadow: 0 5px 5px rgba(0,0,0,.15);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
   width:750rpx;
   overflow: hidden;
   position: fixed;
   top:90rpx;
   z-index: 1;
   background: #fff;
-  padding-bottom: 40rpx;
+  padding-bottom: 120rpx;
   border-bottom: solid 1px #eee;
   text-align: center;
 }
 .tabLayer text{
-  width:210rpx;
+  width:700rpx;
   height:60rpx;
   line-height:60rpx;
   float:left;
@@ -320,9 +320,13 @@ input-holder {
   }
  
 .flex1 {
-    flex: 1;
-    overflow: hidden;
-    display: block;
+-webkit-box-flex: 1;
+-webkit-flex: 1;
+-ms-flex: 1;
+box-flex: 1;
+flex: 1;
+overflow: hidden;
+display: block;
 }
  
 /*弹性盒模型*/
