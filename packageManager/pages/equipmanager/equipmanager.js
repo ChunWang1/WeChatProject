@@ -7,13 +7,21 @@ Page({
    */
   data: {
     clientHeight: "",
-    tabTxt: ['设备号', '设备位置','具体位置' ,'设备类型', '状态'],//设备信息查询条件分类
-    tab: [true, true, true,true, true],
+    tabTxt: ['设备位置','具体位置' ,'设备类型', '状态'],//设备信息查询条件分类
+    tab: [true, true,true, true],
     locationList: [
       { id:0,name: '工厂' },
       { id:1,name: '车辆' }
     ],
+    sensorStatusList: [
+      {id:0,name:'正常'},
+      {id:1,name:'异常'}
+    ],
     sensor_current: 1,
+    sensor_id: -1,
+    sensorStatus_id: -1,
+    searchSerialNumberValueInput: '',
+    txt: ''
   },
 
   /**
@@ -29,7 +37,7 @@ Page({
     wx.getSystemInfo({
       success: function (res) {
         thit.setData({
-          clientHeight: res.windowHeight - 40
+          clientHeight: res.windowHeight-100
         });
       }
     })
@@ -42,6 +50,57 @@ Page({
     this.setData({
       tab: data
     })
+  },
+  //设备信息筛选项点击操作
+  filter: function (e) {
+    var self = this, id = e.currentTarget.dataset.id, txt = e.currentTarget.dataset.txt, tabTxt = this.data.tabTxt;
+    switch (e.currentTarget.dataset.index) {
+      case '0':
+        tabTxt[0] = txt;
+        self.setData({
+          tab: [true, true, true, true],
+          tabTxt: tabTxt,
+          location_id: id,
+          location_txt: txt
+        });
+        break;
+      case '1':
+        tabTxt[1] = txt;
+        self.setData({
+          tab: [true, true, true, true],
+          tabTxt: tabTxt,
+          id: id,
+          txt: txt
+        });
+        break;
+      case '2':
+        tabTxt[2] = txt;
+        self.setData({
+          tab: [true, true, true, true],
+          tabTxt: tabTxt,
+          sensor_id: id,
+          sensor_txt: txt
+        });
+        break;
+      case '3':
+        tabTxt[3] = txt;
+        self.setData({
+          tab: [true, true, true, true],
+          tabTxt: tabTxt,
+          sensorStatus_id: id,
+          sensorStatus_txt: txt
+        });
+        break;
+    }
+    //数据筛选
+    self.getDataList();
+  },
+
+  //加载数据
+  getDataList: function () {
+    //调用数据接口，获取数据
+
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -104,6 +163,13 @@ Page({
     this.setData({
       placeinput: e.detail.value
     });
+  },
+  // 设备信息里的查询值获取
+  searchSerialNumberValueInputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      searchSerialNumberValueInput: e.detail.value
+    })
   },
   // siteinputChange: function (e) {
   //   console.log(e.detail.value);
@@ -250,6 +316,58 @@ Page({
       }
     })
   },
+  // 设备查询
+  querySensorByCondition:function(){
+    var that = this;
+    if (that.data.searchSerialNumberValueInput == ''){
+      var sensorSerialNumber = "none";
+    }else{
+      var sensorSerialNumber = that.data.searchSerialNumberValueInput;
+    }
+    var placeSelectId = that.data.location_id;
+    if(placeSelectId == 0){
+        var placeSelect = "site";
+    } else if (placeSelectId == 1){
+      var placeSelect = "slugeCar";
+    }else{
+      var placeSelect = "none";
+    }
+    if (that.data.txt == ''){
+      var place = "none";
+    }else{
+      var place = that.data.txt;
+    }
+    if (that.data.sensor_id == -1){
+      var sensorTypeId = -1;
+    }else{
+      var sensorTypeId = parseInt(that.data.sensor_id);
+    }
+    if(that.data.sensorStatus_id == -1){
+      var status = -1;
+    }else{
+      var status = that.data.sensorStatus_id;
+    }
+    wx.request({
+      url: app.globalData.QUERY_SensorByCondition_URL,
+      data: JSON.stringify({
+        sensorSerialNumber: sensorSerialNumber,
+        sensorTypeId: sensorTypeId,
+        placeSelect: placeSelect,
+        place: place,
+        status: status
+      }),
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          sensorList: res.data
+        })
+      }
+    })
+  },
   //增加传感器
   onSensorConfirm: function () {
     var that = this;
@@ -280,33 +398,67 @@ Page({
         place: place
       })
     }
-    wx.request({
-      url: app.globalData.ADD_Sensor_URL,
-      data: sensorInfo,
-      method: 'post',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        if (res.data == "SUCCESS") {
+    var reg = /^[A-Z][0-9]{5}$/; //设备号的正则表达式
+    if(sensorSerialNumber == " " || placeSelect == null || place == null){
+       wx.showToast({
+         title: '设备信息不完善',
+         icon:'none',
+         duration:2000
+       })
+    }else if(!(reg.test(sensorSerialNumber))){
+       wx.showToast({
+         title: '请输入正确的设备号',
+         icon:'none',
+         duration:2000
+       })
+    }else{
+      wx.request({
+        url: app.globalData.ADD_Sensor_URL,
+        data: sensorInfo,
+        method: 'post',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+          if (res.data.result == "SUCCESS") {
+            wx.showToast({
+              title: "新增成功",
+              icon: 'success',
+              duration: 2000,
+            })
+            that.hideModal();
+            that.queryAllSensor();
+          } else if (res.data.result == "DUPLICATE"){
+            wx.showToast({
+              title: "设备号冲突",
+              icon: 'success',
+              duration: 2000,
+            })
+          } else if (res.data.result == "INPUT"){
+            wx.showToast({
+              title: "请检查输入数据",
+              icon: 'success',
+              duration: 2000,
+            })
+          }else{
+            wx.showToast({
+              title: "添加失败",
+              icon: 'success',
+              duration: 2000,
+            })
+          }
+        },
+        fail:function(err){
+          console.log(err);
           wx.showToast({
-            title: "注册成功",
+            title: "添加失败",
             icon: 'success',
-            duration: 20000,
-            success: function () {
-              wx.showToast({
-                title: '提交成功',
-                icon: 'success',
-                duration: 2000
-              })
-            }
+            duration: 2000,
           })
         }
-      }
-    })
-    that.hideModal();
-    that.queryAllSensor();
+      })
+    }
   },
   //删除传感器记录
   delSensor: function (e) {
@@ -331,15 +483,13 @@ Page({
             success: function (res) {
               console.log(res.data)
               if (res.data === "SUCCESS") {
-                setTimeout(() => {
-                  $Message({
-                    content: '删除成功！',
-                    type: 'success'
-                  });
-                }, 2000);
-
-                that.queryAllSensor();//刷新传感器信息
+                wx.showToast({
+                  title: "删除成功",
+                  icon: 'success',
+                  duration: 2000,
+                })  
               }
+              that.queryAllSensor();//刷新传感器信息
             }
           })
         } else if (res.cancel) {

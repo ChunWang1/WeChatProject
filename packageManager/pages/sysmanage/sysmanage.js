@@ -1,4 +1,10 @@
 // packageManager/pages/sysmanage.js
+// 引入SDK核心类
+var QQMapWX = require('../../../utils/qqmap-wx-jssdk.js')
+// 实例化API核心类
+var qqmapsdk = new QQMapWX({
+  key: 'WOTBZ-CBL3U-QYBVN-4577A-ZOAZK-ZDBWW' // 必填
+});
 const app = getApp();
 Page({
 
@@ -45,9 +51,15 @@ Page({
     editSiteSelectArray:[
       {
         id: 0,
-        text: "--暂不分配车辆--"
+        text: "--暂不分配--"
       }
       ],
+    noCarAssignedDriverList:[
+      {
+        id:0,
+        text:"暂不分配"
+      }
+    ],
     editCarSelect:[],
     editSiteSelect: [],
     username:"",
@@ -167,16 +179,24 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        thit.setData({
-          noCarAssignedDriverList: res.data
-        })
+        var num = 1;
+        for (var i = 0; i < res.data.length; i++) {
+          var id = "noCarAssignedDriverList[" + num + "].id";
+          var text = "noCarAssignedDriverList[" + num + "].text";
+          thit.setData({
+            [id]: res.data[i].id,
+            [text]: res.data[i].realname,
+          })
+          num++;
+        }
+        console.log(thit.data.noCarAssignedDriverList);
       },
       fail: function (err) {
         console.log(err)
       }
     })
   },
-
+  
   // 查询所有车辆
   queryAllCar: function (callback) {
     var thit = this
@@ -408,7 +428,7 @@ Page({
               title: "修改成功！",
               icon: 'success',
               duration: 2000,
-            })
+            }) 
             that.queryAllUser();
           } else {
             wx.showToast({
@@ -468,25 +488,25 @@ Page({
    */
   hideModal: function () {
     this.setData({
-      showModal: false,
-      
-      showEditCarModal:false
+      showModal: false,     
+      showEditCarModal:false,
+      showEditSiteModal:false
     });
   },
   /**
    * 隐藏站点记录编辑模态对话框
    */
-  hideSiteModal: function () {
-    this.setData({
-      showEditSiteModal: false,
-    });
-  },
+  // hideSiteModal: function () {
+  //   this.setData({
+  //     showEditSiteModal: false,
+  //   });
+  // },
     /**
    * 站点记录编辑对话框取消按钮点击事件
    */
-  onsiteCancel: function () {
-    this.hideSiteModal();
-  },
+  // onsiteCancel: function () {
+  //   this.hideSiteModal();
+  // },
   /**
    * 对话框取消按钮点击事件
    */
@@ -584,6 +604,33 @@ Page({
       managerinput: e.detail.value
     });
   },
+  // 站点管理里的查询值获取
+  searchValueInputChange:function(e){
+    console.log(e.detail.value);
+    this.setData({
+       searchValueInput:e.detail.value
+    })
+  },
+  // 车队信息的查询值获取
+  searchCarValueInputChange:function(e){
+    console.log(e.detail.value);
+    this.setData({
+      searchCarValueInput: e.detail.value
+    })
+  },
+  // 用户信息的查询值获取
+  searchUserValueInputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      searchUserValueInput: e.detail.value
+    })
+  },
+  editManagerinputChange:function(e){
+    console.log(e.detail.value);
+    this.setData({
+      editManagerinput: e.detail.value
+    })
+  },
   // 下拉框用户角色数据获取
   binduserPickerChange: function (e) {
     var roleid = this.data.userName[e.detail.value].id;
@@ -612,9 +659,9 @@ Page({
   },
   // 下拉框没有分配车辆的司机数据获取
   bindnocarassigndriverPickerChange: function (e) {
-    var realname=this.data.noCarAssignedDriverList[e.detail.value].realname;
+    var realname=this.data.noCarAssignedDriverList[e.detail.value].text;
     var driverid = this.data.noCarAssignedDriverList[e.detail.value].id;
-    console.log(this.data.noCarAssignedDriverList[e.detail.value].realname)
+    console.log(this.data.noCarAssignedDriverList[e.detail.value].text)
     if (e.detail.value == 4) {
       this.setData({ reply: true })
     } else {
@@ -622,9 +669,26 @@ Page({
     }
     this.setData({
       driverIndex: e.detail.value,
-      selectedRealname:realname,
+      selectedCarRealname:realname,
       driverId:driverid
     })
+  },
+  // 下拉框工厂的工作人员数据获取
+  bindAllManagerBySitePickerChange:function(e){
+     var that = this;
+    //  var realname = that.data.editManagerList[e.detail.value].realname;
+     var managerid = that.data.editManagerList[e.detail.value].id;
+     console.log(that.data.editManagerList[e.detail.value].realname)
+     if(e.detail.value == 4){
+        that.setData({reply: true})
+     }else{
+        that.setData({reply: false})
+     }
+     that.setData({
+       managerIndex: e.detail.value,
+      //  selectedRealname: realname,
+       managerId: managerid
+     }) 
   },
   
   //状态下拉框
@@ -639,6 +703,7 @@ Page({
       selectstatus: status,
       select: false
     })
+    this.queryUserByCheckStatus();
   },
   //角色下拉框
   bindShowMsgUser() {
@@ -652,6 +717,7 @@ Page({
       selectuser: user,
       selectOne: false
     })
+    this.queryUserByRoleId();
   },
   // 车辆查询下拉框
   bindShowMsgCar() {
@@ -665,6 +731,7 @@ Page({
       selectcar: car,
       selectTwo: false
     })
+    this.queryCarByCarType();
   },
   // 分页事件
   // 用户信息分页
@@ -719,96 +786,351 @@ Page({
     var realname = that.data.nameinput;
     var roleId = that.data.roleId;
     var email = that.data.emailinput;
+    var regs = /^1[3|4|5|8][0-9]\d{4,8}$/;
+    var reg = /[\u4e00-\u9fa5]+/g;
+    var pattern = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+    if(username == " " || username == null || password == " " || password == null ){
+       wx.showToast({
+         title: '登录名和密码必填',
+         icon:'none',
+         duration:2000,
+         success: () => console.log("登录名和密码必填！")
+       })
+    }else if(!(regs.test(telephone))){
+       wx.showToast({
+         title: '请输入正确的手机号码',
+         icon:'none',
+         duration:2000,
+         success: () => console.log("请输入正确的手机号码！")
+       })
+    }else if(!(reg.test(realname))){
+       wx.showToast({
+         title: '请输入汉字',
+         icon:'none',
+         duration:2000,
+         success: () => console.log("请输入汉字！")
+       })
+    }else if(!(pattern.test(email))){
+       wx.showToast({
+         title: '请输入正确的邮箱',
+         icon: 'none',
+         duration:2000,
+         success: () => console.log("请输入正确的邮箱！")
+       })
+    }else{
+      wx.request({
+        url: app.globalData.ADD_User_URL,
+        data: JSON.stringify({
+          realname: realname,
+          username: username,
+          password: password,
+          email: email,
+          telephone: telephone,
+          roleId: roleId,
+        }),
+        method: 'post',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+          if (res.data.result == "SUCCESS") {
+            wx.showToast({
+              title: "新增成功",
+              icon: 'success',
+              duration: 2000,
+            })
+            that.hideModal();
+            that.queryAllUser();
+          }else if(res.data.result == "INPUT"){
+            wx.showToast({
+              title: '登录名和密码必填',
+              icon: 'none',
+              duration: 2000,
+            })
+          } else if (res.data.result == "DUPLICATE"){
+            wx.showToast({
+              title: '该用户已被占用',
+              icon: 'none',
+              duration: 2000,
+            })
+          }else{
+            wx.showToast({
+              title: '添加失败',
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        },
+        fail: function(err){
+          console.log(err);
+          wx.showToast({
+            title: '添加失败',
+            icon:'none',
+            duration:2000
+          })
+        }
+      })
+    }
+    
+  },
+  // 通过审核状态来查询用户
+  queryUserByCheckStatus: function () {
+    var that = this;
+    var checkStatusName = that.data.selectstatus;
+    if (checkStatusName == "全部") {
+      var checkStatus = -1;
+    } else if (checkStatusName == "待审核"){
+      var checkStatus = 2;
+    } else if (checkStatusName == "审核不通过"){
+      var checkStatus = 0;
+    }else{
+      var checkStatus = 1;
+    }
     wx.request({
-      url: app.globalData.ADD_User_URL,
-      data: JSON.stringify({
-        realname: realname,
-        username: username,
-        password: password,
-        email: email,
-        telephone: telephone,
-        roleId: roleId,
-      }),
+      url: app.globalData.QUERY_UserByCheckStatus_URL + "?checkStatus=" + parseInt(checkStatus),
       method: 'post',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
         console.log(res.data);
-        if (res.data == "SUCCESS") {
-          wx.showToast({
-            title: "注册成功",
-            icon: 'success',
-            duration: 20000,
-            success: function () {
-              wx.showToast({
-                title: '提交成功',
-                icon: 'success',
-                duration: 2000
-              })
-            }
-          })
-        }
+        that.setData({
+          userList: res.data
+        })
       }
     })
-    that.hideModal();
-    that.queryAllUser();
+  },
+  // 根据用户角色查询用户
+  queryUserByRoleId: function () {
+    var that = this;
+    var roleName = that.data.selectuser;
+    if (roleName == "管理员") {
+      var roleId = 1;
+    } else if (roleName == "工厂人员") {
+      var roleId = 2;
+    } else if (roleName == "处理车司机") {
+      var roleId = 3;
+    } else {
+      var roleId = 4;
+    }
+    wx.request({
+      url: app.globalData.QUERY_UserByRoleId_URL + "?roleId=" + parseInt(roleId),
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          userList: res.data
+        })
+      }
+    })
+  },
+  // 通过搜索条件查询用户
+  queryUserByCondotion: function () {
+    var that = this;
+    var queryStr = that.data.searchUserValueInput;
+    wx.request({
+      url: app.globalData.FUZZYQUERY_User_URL + "?queryStr=" + queryStr,
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          userList: res.data
+        })
+      }
+    })
+  },
+  // 通过站点查询负责人,给下拉框赋值
+  queryAllManagerBySite: function (callback) {
+    var thit = this;
+    var id = thit.data.siteId;
+    wx.request({
+      url: app.globalData.QUERY_AllManagerBySite_URL + "?siteId=" + id,
+      method: 'POST',
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        console.log(res.data)
+        if(res.data.length!=0){
+          thit.setData({
+            editManagerList: res.data
+          })
+        }else{
+          var editManager = [{id:0,realname:"--暂无成员可设置--"}];
+          console.log(editManager);
+          thit.setData({
+            editManagerList: editManager
+          })
+        }        
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
   },
   //编辑站点记录按钮
   editSiteBtn: function (e) {
+    var thit = this;
     console.log(e.currentTarget.dataset.siteid);
     this.setData({
       showEditSiteModal: true,
       siteId: e.currentTarget.dataset.siteid
     })
+    thit.queryAllManagerBySite();
   },
   // 编辑车辆信息按钮
   editCarBtn:function(e){
      console.log(e.currentTarget.dataset.carid);
      this.setData({
        showEditCarModal:true,
-       carId:e.currentTarget.dataset.carid
+       carId:e.currentTarget.dataset.carid,
      })
   },
-  //确定站点增加
-  onSiteConfirm: function () {
+  // 通过搜索条件查询车辆
+  queryCarByCondotion:function(){
     var that = this;
-    var serialNumber = that.data.serialNumberinput;
-    var siteName = that.data.siteNameinput;
-    var telephone = that.data.telephoneinput;
-    var address = that.data.addressinput;
+    var queryCondition = that.data.searchCarValueInput;
     wx.request({
-      url: app.globalData.ADD_Site_URL,
-      data: JSON.stringify({
-        serialNumber: serialNumber,
-        siteName: siteName,
-        address: address,
-        telephone: telephone
-      }),
+      url: app.globalData.FUZZYQUERY_car_URL + "?condition=" + queryCondition,
       method: 'post',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
         console.log(res.data);
-        if (res.data == "SUCCESS") {
-          wx.showToast({
-            title: "注册成功",
-            icon: 'success',
-            duration: 20000,
-            success: function () {
-              wx.showToast({
-                title: '提交成功',
-                icon: 'success',
-                duration: 2000
+        that.setData({
+          carList: res.data
+        })
+      }
+    })
+  },
+  // 通过车辆类型来查询车辆
+  queryCarByCarType:function(){
+    var that = this;
+    var carTypeName = that.data.selectcar;
+    if (carTypeName == "污泥处理车"){
+      var carType = 0;
+    }else{
+      var carType = 1;
+    }
+    wx.request({
+      url: app.globalData.QUERY_CarByCarType_URL + "?carType=" + parseInt(carType),
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          carList: res.data
+        })
+      }
+    })
+  },
+  // 通过搜索条件查询站点
+  querySite:function(){
+    var that = this;
+    var queryStr = that.data.searchValueInput;
+    wx.request({
+      url: app.globalData.FUZZYQUERY_Site_URL +"?queryStr="+queryStr,
+      method: 'post',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success:function(res){
+        console.log(res.data);
+        that.setData({
+          siteList: res.data
+      })
+      }
+    })
+  },
+  //确定站点增加
+  onSiteConfirm: function () {
+    var that = this;
+    var addSerialNumber = that.data.serialNumberinput;
+    var addSiteName = that.data.siteNameinput;
+    wx.request({
+      url: app.globalData.QUERY_SiteSerialNumberAndName_URL+"?serialNumber=" + addSerialNumber + "&siteName=" + addSiteName,
+      method: 'post',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        var result = res.data.result;
+        console.log(result);
+        if(result == "1"){
+           wx.showToast({
+             title: '编号或站点已存在，请重新输入',
+             icon:'none',
+             duration:2000
+           })
+        }else{
+          var serialNumber = that.data.serialNumberinput;
+          var siteName = that.data.siteNameinput;
+          var telephone = that.data.telephoneinput;
+          var address = that.data.addressinput;
+          qqmapsdk.geocoder({
+            address: address,
+            success: function (res) {
+              console.log(res);
+              var res = res.result;
+              var latitude = res.location.lat;
+              var longitude = res.location.lng;
+              wx.request({
+                url: app.globalData.ADD_Site_URL,
+                data: JSON.stringify({
+                  serialNumber: serialNumber,
+                  siteName: siteName,
+                  address: address,
+                  telephone: telephone,
+                  longitude: longitude,
+                  latitude: latitude,
+                }),
+                method: 'post',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  console.log(res.data);
+                  if (res.data.result == "success") {
+                    wx.showToast({
+                      title: "新增成功",
+                      icon: 'success',
+                      duration: 2000,
+                    })
+                    that.hideModal();
+                    that.queryAllSite();
+                  }else{
+                    wx.showToast({
+                      title: "添加失败",
+                      icon: 'success',
+                      duration: 2000,
+                    })
+                  }
+                }
               })
+            },
+            fail: function (error) {
+              console.error(error);
+            },
+            complete: function (res) {
+              console.log(res);
             }
           })
         }
+      },
+      fail:function(err){
+         console.log(err);
       }
     })
-    that.hideModal();
-    that.queryAllSite();
   },
   // 删除站点信息
   delSite: function (e) {
@@ -825,22 +1147,20 @@ Page({
           console.log('用户点击确定')
           wx.request({
             url: app.globalData.DELETE_Site_URL,
-            data: { siteId: that.data.siteId },
+            data: { siteId: parseInt(that.data.siteId) },
             header: {
               'content-type': 'application/json'
             },
             success: function (res) {
               console.log(res.data)
-              if (res.data === "SUCCESS") {
-                setTimeout(() => {
-                  $Message({
-                    content: '删除成功！',
-                    type: 'success'
-                  });
-                }, 2000);
-
-                that.queryAllSite();//刷新车辆信息
+              if (res.data == "SUCCESS") {
+                wx.showToast({
+                  title: "删除成功",
+                  icon: 'success',
+                  duration: 2000,
+                })
               }
+              that.queryAllSite();//刷新站点信息
             }
           })
         } else if (res.cancel) {
@@ -849,65 +1169,84 @@ Page({
       }
     })
   },
+
+  
   // 编辑站点信息
   editSite:function(e){
     var that = this;
     var id = parseInt(that.data.siteId);
-    var serialNumber = that.data.serialNumberinput;
-    var siteName = that.data.siteNameinput;
-    var telephone = that.data.telephoneinput;
-    var managerId = parseInt(that.data.managerinput);
-    var address = that.data.addressinput;
-    wx.request({
-      url: app.globalData.EDIT_Site_URL,
-      data: JSON.stringify({
-        id:id,
-        serialNumber: serialNumber,
-        siteName: siteName,
-        address: address,
-        managerId: managerId,
-        telephone: telephone
-      }),
-      method:"POST",
-      headers: {
-        'content-type': 'application/json'
-      },
+    var serialNumber = e.detail.value.serialNumber;
+    var siteName = e.detail.value.siteName;
+    var telephone = e.detail.value.telephone;
+    var managerId = parseInt(that.data.managerId);
+    var address = e.detail.value.address;
+    qqmapsdk.geocoder({
+      address: address,
       success: function (res) {
-        console.log(res.data)
-        if (res.data == "SUCCESS") {
-          wx.showToast({
-            title: "修改成功！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideSiteModal();
-          that.queryAllSite();//刷新记录页面  
-        } else if (res.data == "ERROR") {
-          wx.showToast({
-            title: "修改失败！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideSiteModal();
-        } else if (res.data == "CONFLICT") {
-          wx.showToast({
-            title: "修改失败！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideSiteModal();
-        }
-      },
-      fail: function (err) {
-        console.log(err)
-        wx.showToast({
-          title: "修改失败！",
-          icon: 'none',
-          duration: 2000,
+        console.log(res);
+        var res = res.result;
+        var latitude = res.location.lat;
+        var longitude = res.location.lng;
+        wx.request({
+          url: app.globalData.EDIT_Site_URL,
+          data: JSON.stringify({
+            id: id,
+            serialNumber: serialNumber,
+            siteName: siteName,
+            address: address,
+            managerId: managerId,
+            telephone: telephone,
+            latitude: latitude,
+            longitude: longitude
+          }),
+          method: "POST",
+          headers: {
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            console.log(res.data)
+            if(res.data.result == "success") {
+              wx.showToast({
+                title: "修改成功！",
+                icon: 'none',
+                duration: 2000,
+              })
+              that.hideModal();
+              that.queryAllSite();//刷新记录页面  
+            }else if (res.data.result == "failure") {
+              wx.showToast({
+                title: "负责人未选，修改失败！",
+                icon: 'none',
+                duration: 2000,
+              })
+            }else if (res.data.result == "conflict") {
+              wx.showToast({
+                title: "修改失败！",
+                icon: 'none',
+                duration: 2000,
+              })
+              that.hideModal();
+            }
+          },
+          fail: function (err) {
+            console.log(err)
+            wx.showToast({
+              title: "修改失败！",
+              icon: 'none',
+              duration: 2000,
+            })
+          }
         })
+      },
+      fail: function (error) {
+        console.error(error);
+      },
+      complete: function (res) {
+        console.log(res);
       }
     })
   },
+
   // 确定车辆增加
   onCarConfirm: function () {
     var that = this;
@@ -919,99 +1258,159 @@ Page({
       var carType = 1;
     } 
     var driverId = parseInt(that.data.driverId);
-    wx.request({
-      url: app.globalData.ADD_Car_URL,
-      data: JSON.stringify({
-        license: license,
-        brand: brand,
-        driverId: driverId,
-        carType: carType
-      }),
-      method: 'post',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        if (res.data == "SUCCESS") {
-          wx.showToast({
-            title: "注册成功",
-            icon: 'success',
-            duration: 20000,
-            success: function () {
+    var driverName = that.data.selectedCarRealname;
+    if(driverName == "暂不分配"){
+      driverName = " ";
+    }
+    if(license == " " || license == null){
+       wx.showToast({
+         title: '设备信息不完善',
+         icon: 'none',
+         duration:2000
+       })
+    }else{
+      if(brand == " " || brand == null){
+          brand = "none";
+      }else{
+        wx.request({
+          url: app.globalData.ADD_Car_URL,
+          data: JSON.stringify({
+            license: license,
+            brand: brand,
+            driverId: driverId,
+            carType: carType
+          }),
+          method: 'post',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log(res.data);
+            if (res.data.result == "SUCCESS") {
               wx.showToast({
-                title: '提交成功',
+                title: "新增成功",
                 icon: 'success',
-                duration: 2000
+                duration: 2000,
               })
-            }
-          })
-        }
+              that.hideModal();
+              that.queryAllCar();
+            }else if(res.data.result == "INPUT"){
+              wx.showToast({
+                title: "请输入正确的车牌号",
+                icon: 'success',
+                duration: 2000,
+              })
+            } else if (res.data.result == "DUPLICATE"){
+              wx.showToast({
+                title: "车牌号冲突",
+                icon: 'success',
+                duration: 2000,
+              })
+            }else{
+              wx.showToast({
+                title: "添加失败",
+                icon: 'success',
+                duration: 2000,
+              })
+            }      
+          },
+          fail:function(err){
+            console.log(err);
+            wx.showToast({
+              title: "添加失败",
+              icon: 'success',
+              duration: 2000,
+            })
+          }
+        })
       }
-    })
-    that.hideModal();
-    that.queryAllCar();
+    }
+    
   },
   // 编辑车辆信息
   editCar: function (e) {
     var that = this;
     var id = parseInt(that.data.carId);
-    var license = that.data.licenseinput;
-    var brand = that.data.brandinput;
+    var license = e.detail.value.license;
+    var brand = e.detail.value.brand;
     var driverId = parseInt(that.data.driverId);
-    var driverName = that.data.selectedRealname;
-    var driver = {
-      id: driverId,
-      realname:driverName
-    }
-    wx.request({
-      url: app.globalData.EDIT_Car_URL,
-      data: JSON.stringify({
-        id: id,
-        license: license,
-        brand: brand,
-        driverId: driverId,
-        driver: driver
-      }),
-      method: "POST",
-      headers: {
-        'content-type': 'application/json'
-      },
-      success: function (res) {
-        console.log(res.data)
-        if (res.data == "SUCCESS") {
-          wx.showToast({
-            title: "修改成功！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideModal();
-          that.queryAllCar();//刷新记录页面  
-        } else if (res.data == "ERROR") {
-          wx.showToast({
-            title: "修改失败！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideModal();
-        } else if (res.data == "CONFLICT") {
-          wx.showToast({
-            title: "修改失败！",
-            icon: 'none',
-            duration: 2000,
-          })
-          that.hideModal();
-        }
-      },
-      fail: function (err) {
-        console.log(err)
-        wx.showToast({
-          title: "修改失败！",
-          icon: 'none',
-          duration: 2000,
-        })
+    var driverName = e.detail.value.selectedCarRealname;
+    if(license == " " || license == null){
+       wx.showToast({
+         title: '请输入车牌号',
+         icon:'none',
+         duration:2000
+       })
+    }else if(driverName == " " || driverName == null){
+      wx.showToast({
+        title: '司机选择不正确',
+        icon: 'none',
+        duration: 2000
+      })
+    }else{
+      if(brand == " " || brand == null){
+        brand = "none";
       }
-    })
+      var driver = {
+        id: driverId,
+        realname: driverName
+      }
+      wx.request({
+        url: app.globalData.EDIT_Car_URL,
+        data: JSON.stringify({
+          id: id,
+          license: license,
+          brand: brand,
+          driverId: driverId,
+          driver: driver
+        }),
+        method: "POST",
+        headers: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          console.log(res.data)
+          if (res.data == "SUCCESS") {
+            wx.showToast({
+              title: "修改成功！",
+              icon: 'none',
+              duration: 2000,
+            })
+            that.hideModal();
+            that.queryAllCar();//刷新记录页面  
+          } else if (res.data == "INPUT") {
+            wx.showToast({
+              title: "请输入正确的车牌号！",
+              icon: 'none',
+              duration: 2000,
+            })
+            that.hideModal();
+          } else if (res.data == "DUPLICATE") {
+            wx.showToast({
+              title: "车牌号冲突！",
+              icon: 'none',
+              duration: 2000,
+            })
+            that.hideModal();
+          }else{
+            wx.showToast({
+              title: "修改失败！",
+              icon: 'none',
+              duration: 2000,
+            })
+            that.hideModal();
+          }
+        },
+        fail: function (err) {
+          console.log(err)
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
+        }
+      })
+    }
   },
   //删除车辆信息
   delCar: function (e) {
@@ -1035,13 +1434,11 @@ Page({
             success: function (res) {
               console.log(res.data)
               if (res.data === "SUCCESS") {
-                setTimeout(() => {
-                  $Message({
-                    content: '删除成功！',
-                    type: 'success'
-                  });
-                }, 2000);
-
+                wx.showToast({
+                  title: "删除成功!",
+                  icon: 'success',
+                  duration: 2000,
+                })
                 that.queryAllCar();//刷新车辆信息
               }
             }
