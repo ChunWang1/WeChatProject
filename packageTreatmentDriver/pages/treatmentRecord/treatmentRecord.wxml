@@ -27,9 +27,9 @@
               <i-tag class="i-tags" name="单个标签" color="green">待审核</i-tag>
             </i-col>
           </i-row>
-          <i-col span="24" i-class="time">接单时间:{{record.allocationTime}}</i-col>
-          <i-col span="24" i-class="time">处理时间:{{record.disposalTime}}</i-col>
-          <i-col span="24" i-class="time">完成时间:{{record.finishTime}}</i-col>
+          <i-col span="24" i-class="time">接单时间:{{record.allocationTime==null?'':record.allocationTime}}</i-col>
+          <i-col span="24" i-class="time">处理时间:{{record.disposalTime==null?'':record.disposalTime}}</i-col>
+          <i-col span="24" i-class="time">完成时间:{{record.finishTime==null?'':record.finishTime}}</i-col>
           <i-row>
 
           </i-row>
