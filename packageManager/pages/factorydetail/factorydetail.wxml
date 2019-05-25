@@ -79,6 +79,7 @@
       <i-button bind:click="confirmAllocate" type="success" shape="circle" data-type='treatcar'>确认</i-button>
     </i-col>
   </i-row>
+  <i-row>
   <view class="row" wx:for="{{assignTreatCarList}}" wx:key="index" wx:for-item="car" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
     <i-col offset="2" span="6" i-class='col-class' style='background-color:red'>
       <image src="/resources/car.png" />
@@ -90,6 +91,7 @@
       <view class="status" wx:if="{{car.status==4}}">返程中</view>
     </i-col>
   </view>
+  </i-row>
 
   <i-row>
     <i-col offset="6" span="8" i-class="select">
@@ -104,6 +106,7 @@
       <i-button bind:click="confirmAllocate" type="success" shape="circle" data-type='transcar'>确认</i-button>
     </i-col>
   </i-row>
+  <i-row>
   <view class="row" wx:for="{{assignTransCarList}}" wx:key="index" wx:for-item="car" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
     <i-col offset="2" span="6" i-class='col-class' style='background-color:red'>
       <image src="/resources/transportcar.png" />
@@ -115,6 +118,7 @@
       <view class="status" wx:if="{{car.status==4}}">返程中</view>
     </i-col>
   </view>
+  </i-row>
 </view>
 
 
