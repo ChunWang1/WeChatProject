@@ -1,4 +1,8 @@
 /* pages/warehouse/warehouse.wxss */
+
+.content{
+  margin-bottom: 9vh;
+}
 .testText{
 
 width: 100%;
@@ -17,7 +21,7 @@ height:30px;
 
 text-align: center;
 
-font-size: 30rpx;
+font-size: 40rpx;
 
 margin-top: 20px;
 }

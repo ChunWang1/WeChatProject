@@ -10,10 +10,9 @@ Page({
   data: {
     carId: 68,
     siteId: 53,
-
     "sensorList": [],
     "sensorRealValueMap": {},
-
+     getRealDataInterval:''
   },
 
   /**
@@ -50,11 +49,11 @@ Page({
           videoData: res.data.video,
         });
         that.getRealValue();
-        setInterval(function () {
-          that.getRealValue();
-        }, 10000);
-        //that.getRealValue();
-
+        that.setData({
+          getRealDataInterval: setInterval(function () {
+            that.getRealValue();
+          }, 10000)
+        }) 
       },
       fail: function (err) {
         console.log(err)
@@ -169,7 +168,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    var that=this;
+    clearInterval(that.data.getRealDataInterval);
   },
 
   /**

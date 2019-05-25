@@ -402,7 +402,10 @@ App({
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
     UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById",
-    //工厂链接
+    //管理员
+    QUERY_TreatmentCarUnassign_URL: URL +"/car/queryTreatmentCarUnassign",
+    QUERY_CarrierUnassign_URL: URL +"/car/queryCarrierUnassign",
+    UPDATE_AssignDriverForRecord_URL: URL +"/record/assignDriverForRecord",
     //司机公用链接
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",

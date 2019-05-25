@@ -1,39 +1,129 @@
 <!--pages/factorydetail/factorydetail.wxml-->
-<import src="../template/tabbar.wxml"/>
+<import src="../template/tabbar.wxml" />
 <template is="tabBar" data="{{tabBar:tabBar}}"></template>
 <view class=".container" wx:if="{{video.site.siteName!=null}}">
-<view class="page-head">
-<icon class="iconfont icon-gongchang1">
- </icon>
+  <view class="page-head">
+    <icon class="iconfont icon-gongchang1">
+    </icon>
 
-<view class="page-head-title">{{video.site.siteName}}监控</view>
-<view class="page-head-line"></view>
-</view>
-
-  <view>
-   <video src="{{video.videoHLSid}}"></video>
+    <view class="page-head-title">{{video.site.siteName}}监控</view>
+    <view class="page-head-line"></view>
   </view>
 
-<view class='.button-sp-area'>
-<button class=".mini-btn" bindtouchstart='startPtz' data-direction='0'
- data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
-  <icon class="iconfont icon-fangxiang5"></icon>
- </button>
+  <view>
+    <video src="{{video.videoHLSid}}"></video>
+  </view>
 
-<button class=".mini-btn" bindtouchstart='startPtz' data-direction='1'
- data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
- <icon class="iconfont icon-fangxiang51"></icon></button>
+  <view class='.button-sp-area'>
+    <button class=".mini-btn" bindtouchstart='startPtz' data-direction='0' data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+      <icon class="iconfont icon-fangxiang5"></icon>
+    </button>
 
-<button class=".mini-btn" bindtouchstart='startPtz' data-direction='2'
- data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'><icon class="iconfont icon-fangxiang"></icon></button>
+    <button class=".mini-btn" bindtouchstart='startPtz' data-direction='1' data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+      <icon class="iconfont icon-fangxiang51"></icon>
+    </button>
 
-<button class=".mini-btn" bindtouchstart='startPtz' data-direction='3'
- data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'><icon class="iconfont icon-fangxiang1">
- </icon></button>
+    <button class=".mini-btn" bindtouchstart='startPtz' data-direction='2' data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+      <icon class="iconfont icon-fangxiang"></icon>
+    </button>
+
+    <button class=".mini-btn" bindtouchstart='startPtz' data-direction='3' data-speed='0' data-deviceserial="{{video.serialNumber}}" bindtouchend='stopPtz' size='mini' type='primary'>
+      <icon class="iconfont icon-fangxiang1">
+      </icon>
+    </button>
+  </view>
+
 </view>
 
+<view>
+  <i-steps current="{{current}}">
+    <i-step icon="collection">
+      <view slot="title">
+        无处理任务
+      </view>
+      <view slot="content">
+        污泥存储池状态正常
+      </view>
+    </i-step>
+    <i-step icon="barrage">
+      <view slot="title">
+        待处理
+      </view>
+      <view slot="content">
+        等待污泥处理车和污泥运输车
+      </view>
+    </i-step>
+    <i-step icon="brush">
+      <view slot="title">
+        处理中
+      </view>
+      <view slot="content">
+        污泥处理中
+      </view>
+    </i-step>
+  </i-steps>
 </view>
-<view  wx:else>
-<i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
+
+<view wx:if="{{status!=0}}">
+
+  <i-row>
+    <i-col offset="6" span="8" i-class="select">
+      <picker  bindtap="allocateTreatCar" bindchange="bindchange1" value="{{treatIndex}}" range="{{treatcarLicenseList}}">
+        <view >
+          {{treatcarLicenseList[treatIndex]}}
+          <icon class="iconfont icon-fangxiang51"></icon>
+        </view>
+      </picker>
+    </i-col>
+    <i-col span="6">
+      <i-button bind:click="confirmAllocate" type="success" shape="circle" data-type='treatcar'>确认</i-button>
+    </i-col>
+  </i-row>
+  <view class="row" wx:for="{{assignTreatCarList}}" wx:key="index" wx:for-item="car" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
+    <i-col offset="2" span="6" i-class='col-class' style='background-color:red'>
+      <image src="/resources/car.png" />
+      <view class="license">{{car.license}}</view>
+      <view class="status" wx:if="{{car.status==0}}">空闲中</view>
+      <view class="status" wx:if="{{car.status==1}}">在途中</view>
+      <view class="status" wx:if="{{car.status==2}}">已到达</view>
+      <view class="status" wx:if="{{car.status==3}}">已分配任务(未出发)</view>
+      <view class="status" wx:if="{{car.status==4}}">返程中</view>
+    </i-col>
+  </view>
+
+  <i-row>
+    <i-col offset="6" span="8" i-class="select">
+      <picker  bindtap="allocateTransCar" bindchange="bindchange2" value="{{transIndex}}" range="{{transcarLicenseList}}">
+        <view >
+          {{transcarLicenseList[transIndex]}}
+          <icon class="iconfont icon-fangxiang51"></icon>
+        </view>
+      </picker>
+    </i-col>
+    <i-col span="6">
+      <i-button bind:click="confirmAllocate" type="success" shape="circle" data-type='transcar'>确认</i-button>
+    </i-col>
+  </i-row>
+  <view class="row" wx:for="{{assignTransCarList}}" wx:key="index" wx:for-item="car" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}' data-siteid='{{car.siteId}}'>
+    <i-col offset="2" span="6" i-class='col-class' style='background-color:red'>
+      <image src="/resources/transportcar.png" />
+      <view class="license">{{car.license}}</view>
+      <view class="status" wx:if="{{car.status==0}}">空闲中</view>
+      <view class="status" wx:if="{{car.status==1}}">在途中</view>
+      <view class="status" wx:if="{{car.status==2}}">已到达</view>
+      <view class="status" wx:if="{{car.status==3}}">已分配任务(未出发)</view>
+      <view class="status" wx:if="{{car.status==4}}">返程中</view>
+    </i-col>
+  </view>
+</view>
+
+
+
+
+
+
+
+<view wx:else>
+  <i-load-more tip="暂无数据" loading="{{ false }}" />
+  <i-load-more loading="{{ false }}" />
 </view>
