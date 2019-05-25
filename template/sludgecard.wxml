@@ -1,0 +1,65 @@
+const { $Message } = require('../../../dist/base/index');
+<template name="sludgecard" >
+<block>
+<view class="sludgeList">
+    <block wx:for="{{sludgeByRecordIdList}}" wx:key="">
+<i-swipeout i-class="i-swipeout-demo-item" operate-width="{{180}}" unclosable="{{false}}" toggle="{{toggle}}">
+<view slot="content">
+        <view class="record-list">
+          <view class="record-info-image">
+            <image src="../../../resources/img/car2.png" class="record-image"/>
+          </view>
+          <view class="record-info">
+            <view class="record-info-name"
+            wx:if="{{item.rfidString==null}}">RFID:
+            <i-tag class="i-tags"   color="red"> 未绑定RFID</i-tag>
+            </view>
+
+            <view class="record-info-name" wx:if="{{item.rfidString!=null}}">
+            RFID：{{item.rfidString}}
+            </view>
+            <view class="record-info-price">
+               污泥运输车司机：{{item.car.driver.realname}}
+            </view>
+            <view class="record-info-price">
+                产生污泥块量：{{item.weight}} 吨
+            </view>
+            <view class="record-info-price">
+                目的地：{{item.destinationAddress}}
+            </view>
+            <view class="record-info-price" wx:if="{{item.sludgeFunction.function==null}}">
+              污泥功能：暂无
+            </view> 
+             <view class="record-info-price" wx:if="{{item.sludgeFunction.function!=null}}">
+              污泥功能：{{item.sludgeFunction.function}}
+            </view> 
+        </view>
+        <view class="record-distribution">
+        <view >      
+    <i-tag wx:if="{{item.status==0}}"  class="i-tags"   color="yellow"> 未到达</i-tag>
+    <i-tag wx:elif="{{item.status==1}}"  class="i-tags"   color="green"> 已到达</i-tag>
+          </view>
+          <view 
+          class="record-distribution-time">
+          {{item.car.license}}
+          </view>
+        </view>
+       </view>
+</view>
+<view slot="button" class="i-swipeout-demo-button-group" >
+
+<view bindtap="delSludgeBtn" data-sludgeid='{{item.id}}'>
+<button bind:click="delSludgeBtn" style='margin-top:60rpx;background-color: red;color:white;width:40%;height:20%;border-radius: 30rpx;' >删除</button>
+</view>
+<view bindtap="editSludgeBtn" data-sludgeid='{{item.id}}'>
+<button bind:click="editSludgeBtn" style='margin-top:20rpx;background-color: #70DB93;color:white;width:40%;height:20%;border-radius: 30rpx;' >编辑</button>
+</view>
+</view>
+</i-swipeout>
+</block>
+</view>
+  <view wx:if="{{sludgeByRecordIdList.length==0}}">
+  <i-divider content="当前处理记录暂无运输数据" color="#ed3f14" lineColor="#ed3f14"></i-divider>
+  </view>
+</block>
+</template>

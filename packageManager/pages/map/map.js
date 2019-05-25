@@ -37,6 +37,9 @@ Page({
     no: "",
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
+    flushWareHouseInterval:'',
+    flushSiteInterval:'',
+    flushCarInterval:''
   },
   // 滑动开始
   touchstart: function (e) {
@@ -80,9 +83,12 @@ Page({
     that.showWareHouse();
     that.showSite();
     that.queryCarInRoad();
-    setInterval(function () {
-      that.queryCarInRoad();
-    }, 2000)
+    that.setData({
+      flushCarInterval: setInterval(function () {
+        that.queryCarInRoad();
+      }, 2000)
+    })
+    
     that.setData({
       no: app.globalData.userData[0].username,
       headImage: app.globalData.userInfo.avatarUrl
@@ -124,9 +130,11 @@ Page({
         });
         //console.log(85+":"+JSON.stringify(that.data.markers))
         that.flushWareHouseColloutContent()
-        setInterval(function () {
-          that.flushWareHouseColloutContent()
-        }, 10000)
+        that.setData({
+          flushWareHouseInterval: setInterval(function () {
+            that.flushWareHouseColloutContent()
+          }, 10000)
+        })
       }
     });
   },
@@ -237,9 +245,12 @@ Page({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        setInterval(function () {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
+        that.setData({
+          flushSiteInterval: setInterval(function () {
+            that.flushSiteIconAndCallOutContent();
+          }, 10000)
+        })
+        
       }
     });
   },
@@ -417,10 +428,12 @@ Page({
 
 
   showdetailofsite: function (event) {
-    var id = event.currentTarget.dataset.id
-    console.log(id)
+    console.log()
+    var id = event.currentTarget.dataset.id;
+    var status = event.currentTarget.dataset.status;
+    console.log(event.currentTarget.dataset)
     wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
+      url: '../factorydetail/factorydetail?siteId=' + id+'&status='+status,
     });
   },
   showdetailoftreatmentcar: function (event) {
@@ -434,9 +447,9 @@ Page({
 
   startSetInter: function () {
     var that = this;
-    setInterval(function () {
-      that.getCarData();
-    }, 5000)
+    // setInterval(function () {
+    //   that.getCarData();
+    // }, 5000)
   },
   //查询子智慧泥仓信息
   queryMinorWareHouse: function (id) {
@@ -669,7 +682,10 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+      var that=this;
+      clearInterval(that.data.flushWareHouseInterval)
+    clearInterval(that.data.flushSiteInterval)
+    clearInterval(that.data.flushCarInterval)
   },
 
   /**

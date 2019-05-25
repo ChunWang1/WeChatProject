@@ -14,6 +14,14 @@ Page({
     sex: "",
     username: "",
     telephone: "",
+    selectArray: [{
+      "id": "1",
+      "text": "男"
+    }, {
+      "id": "2",
+      "text": "女"
+    }],
+    selectValue:[]
   },
 
   /**
@@ -33,6 +41,12 @@ Page({
     })
     
   },
+  getDate: function (e) {
+    this.setData({
+      selectValue: e.detail
+    });
+    console.log(e.detail)
+  },
   //修改个人信息
   modifyUserInfo:function(e){
     var that=this;
@@ -41,7 +55,7 @@ Page({
     var username = e.detail.value.username;
     var realname = e.detail.value.realname
     var role = e.detail.value.role;
-    var sex = e.detail.value.sex;
+    var sex = that.data.selectValue.text;
     var idCard = e.detail.value.idCard;
     var telephone = e.detail.value.telephone;
     var email = e.detail.value.email;
@@ -69,7 +83,7 @@ Page({
       return
     } if (idCard == "") {
       wx.showToast({
-        title: '身份证号码',
+        title: '身份证号码不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('身份证号码不能为空！')
@@ -77,7 +91,7 @@ Page({
       return
     } if (regidcard.test(idCard) == false) {
       wx.showToast({
-        title: '身份证号',
+        title: '不是正确的身份证号，请重新输入！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('不是正确的身份证号，请重新输入！')
@@ -85,7 +99,7 @@ Page({
       return
     } if (telephone == "") {
       wx.showToast({
-        title: '手机号码',
+        title: '手机号码不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('手机号码不能为空！')
@@ -93,7 +107,7 @@ Page({
       return
     } if (!(telephone && telephone.length == 11 && !isNaN(telephone))) {
       wx.showToast({
-        title: '手机号码',
+        title: '不是完整的11位手机号或者正确的手机号前七位！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('不是完整的11位手机号或者正确的手机号前七位！')
@@ -101,7 +115,7 @@ Page({
       return 
     } if (email == "") {
       wx.showToast({
-        title: '邮箱',
+        title: '邮箱不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('邮箱不能为空！')
@@ -109,7 +123,7 @@ Page({
       return
     } if (!(reg.test(email))) {
       wx.showToast({
-        title: '邮箱',
+        title: '邮箱格式不正确！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('邮箱格式不正确！')
@@ -138,7 +152,7 @@ Page({
         console.log(res.data)
         wx.showToast({
           title: "修改成功！",
-          icon: 'none',
+          icon: 'success',
           duration: 2000,
         })
       },

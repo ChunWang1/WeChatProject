@@ -1,50 +1,18 @@
 // pages/warehouse/warehouse.js
-const app=getApp();
+var wxCharts = require('../../../utils/wxcharts.js');
+const app = getApp();
 
 import * as echarts from '../../../ec-canvas/echarts';
-function initChart(canvas, width, height, data) {//这里多加一个参数
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  })
-  canvas.setChart(chart);
-  var option = {
-    series: [
-      {
-        name: '访问来源',
-        type: 'pie',
-        radius: ['10%', '100%'],
-        animationType: 'scale',
-        silent: true,
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: data,
-        color: ["#666", "#179B16"]
-      }
-    ]
-  }
-  chart.setOption(option);
-  return chart;
-}
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    clientHeight:"",
-    ec: {
-      onInit: initChart
-    },
+    clientHeight: "",
     //recordShow: "none",
-    itemList: [
-      { name: '1号仓', moistrueDegree: "0.8", capacity: 100, data: [{ value: 100 }, { value: 10 }] },
-      { name: '2号仓', moistrueDegree: "0.8", capacity: 200,data: [{ value: 100 }, { value: 0 }] },
-      { name: '3号仓', moistrueDegree: "0.8", capacity: 300,data: [{ value: 100 }, { value: 30 }] }
-    ],
+    itemList: [],
 
     imageSrc1: '../../pages/img/menuicon/img1.png',
     imageSrc2: '../../pages/img/menuicon/img2.png',
@@ -52,22 +20,22 @@ Page({
     currentTab: 0,
     record_current: 1,
     sludeg_current: 1,
-    carrierUnassignList:[],
-    functionList:[],
-    tabTxt: ['仓库','工厂', '负责人', '日期'],//分类
+    carrierUnassignList: [],
+    functionList: [],
+    tabTxt: ['仓库', '工厂', '负责人', '日期'],//分类
     tab: [true, true, true, true],
     tabTxtforrecord: ['工厂', '负责人', '日期'],//分类
     tabforrecord: [true, true, true],
-    assigntranscarlist:[],
-    assigntranscar_id:0,
-    assigntranscar_txt:'',
-    assignTreatcarlist:[],
+    assigntranscarlist: [],
+    assigntranscar_id: 0,
+    assigntranscar_txt: '',
+    assignTreatcarlist: [],
     assigntreatscar_id: 0,
     assigntreatscar_txt: '',
     //pinpaiList: [{ 'id': '1', 'title': '品牌1' }, { 'id': '2', 'title': '品牌2' }],
     warehouse_id: 0,//品牌
     warehouse_txt: '',
-    sitelist:[],
+    sitelist: [],
     site_id: 0,
     site_txt: '',
     date: '2019-01-01',//默认起始时间  
@@ -95,7 +63,7 @@ Page({
       })
       that.queryrecord();
       that.querysludge();
-      
+
     }
 
   },
@@ -136,49 +104,79 @@ Page({
       });
     }
   },
-  
+
+  touchHandler: function (e) {
+    
+  },  
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var thit = this
-      wx.request({
-        url: app.globalData.QUERY_MinorWareHouse_URL,  //服务器地址
-        method: 'GET',
-        header: {
-          'content-type': 'application/json' //默认值
-        },
-        success: function (res) {
-          console.log(res.data);
-          var data_0 = [{ value: res.data[0].capacity }, { value: res.data[0].capacity - res.data[0].remainCapacity }]
-          var data_1 = [{ value: res.data[1].capacity }, { value: res.data[1].capacity - res.data[1].remainCapacity }]
-          var data_2 = [{ value: res.data[2].capacity }, { value: res.data[2].capacity - res.data[2].remainCapacity }]
-          thit.setData({
-            itemList: [
-              { name: res.data[0].id+'号仓', moistrueDegree: res.data[0].moistrueDegree, capacity: res.data[0].capacity, data: data_0 },
-              { name: res.data[1].id + '号仓', moistrueDegree: res.data[1].moistrueDegree, capacity: res.data[1].capacity, data: data_1 },
-              { name: res.data[2].id + '号仓', moistrueDegree: res.data[2].moistrueDegree, capacity: res.data[2].capacity, data: data_2 }
-            ]
-          })
-        },
-        fail: function (res) {
-          console.log("失败");
+    var windowWidth = 320;
+    try {
+      var res = wx.getSystemInfoSync();
+      windowWidth = res.windowWidth;
+    } catch (e) {
+      console.error('getSystemInfoSync failed!');
+    }
+    var itemListTemp=thit.data.itemList;
+    wx.request({
+      url: app.globalData.QUERY_MinorWareHouse_URL,  //服务器地址
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' //默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        var wareHouseList=res.data 
+        for(let i=0;i<wareHouseList.length;i++){
+          var wareHouse=wareHouseList[i]
+          var pieChart = new wxCharts({
+            animation: true,
+            canvasId: wareHouse.serialNumber,
+            type: 'pie',
+            series: [{
+              name: '存储量',
+              data: wareHouse.capacity-wareHouse.remainCapacity,
+            }, {
+              name: '剩余量',
+              data: wareHouse.remainCapacity,
+            }],
+            width: windowWidth,
+            height: 250,
+            dataLabel: true,
+          });
+          var item = { name: wareHouse.id + '号仓', moistrueDegree: wareHouse.moistrueDegree*100, serialNumber: wareHouse.serialNumber, capacity:wareHouse.capacity,pieChart:pieChart };
+          itemListTemp.push(item)
         }
-      })
+        thit.setData({
+          itemList:itemListTemp
+        })
+    
+       
+      },
+      fail: function (res) {
+        console.log("失败");
+      }
+    })
     thit.queryassignCarTransportDriver();
     thit.querryallsite();
-
+    thit.querryallwarehouse();
+    thit.queryCarrierUnassign();
+    thit.queryassignCarTreatDriver()
     //获取设备可视窗口高度
     wx.getSystemInfo({
       success: function (res) {
         thit.setData({
-          clientHeight: res.windowHeight-40
+          clientHeight: res.windowHeight - 40
         });
       }
     })
   },
- //查询所有记录
-  queryrecord: function(callback) {
+  //查询所有记录
+  queryrecord: function (callback) {
     var thit = this
     wx.request({
       url: app.globalData.QUERY_AllRecord_URL,
@@ -189,7 +187,7 @@ Page({
       success: function (res) {
         console.log(res.data);
         thit.setData({
-          recordList:res.data
+          recordList: res.data
         })
       },
       fail: function (err) {
@@ -197,14 +195,14 @@ Page({
       }
     })
   },
-//查询所有污泥记录
-  querysludge:function(callback){
+  //查询所有污泥记录
+  querysludge: function (callback) {
     var thit = this
     wx.request({
       url: app.globalData.QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL,
       data: JSON.stringify({
-        inOutFlag:3,
-        minorWareHouseId:0
+        inOutFlag: 3,
+        minorWareHouseId: 0
       }),
       method: 'POST',
       header: {
@@ -221,7 +219,7 @@ Page({
       }
     })
   },
-//查询所有污泥功能，给下拉框附值
+  //查询所有污泥功能，给下拉框附值
   queryallfunction: function (callback) {
     var thit = this
     wx.request({
@@ -253,8 +251,8 @@ Page({
       },
       success: function (res) {
         console.log(res.data[0].driver.realname)
-        for(var i=0;i<res.data.length;i++){
-          carList[i] = {id: res.data[i].driverId, name: res.data[i].driver.realname};
+        for (var i = 0; i < res.data.length; i++) {
+          carList[i] = { id: res.data[i].driverId, name: res.data[i].driver.realname };
         }
         console.log(carList)
         thit.setData({
@@ -316,7 +314,7 @@ Page({
       transCarinput: e.detail.value
     });
   },
-  rfidinputChange:function(e) {
+  rfidinputChange: function (e) {
     console.log(e.detail.value);
     this.setData({
       rfidinput: e.detail.value
@@ -347,13 +345,13 @@ Page({
     var mudWareHouseId = parseInt(that.data.warehouseid);
     var rfid = that.data.rfidinput;
     var desAddr = that.data.desAddrinput;
-    var sludgeFunction = {function: that.data.sludgefunction};
+    var sludgeFunction = { function: that.data.sludgefunction };
     var weight = parseFloat(that.data.weightinput);
     console.log(transCarId)
     console.log(mudWareHouseId)
     console.log(weight)
     console.log(sludgeFunction)
-    
+
     wx.request({
       url: app.globalData.ADD_SludgeByTransCar_URL,
       data: JSON.stringify({
@@ -383,15 +381,15 @@ Page({
               })
             }
           })
-        } 
+        }
       }
     })
-    this.hideModal();
-    this.querysludge();
+    that.hideModal();
+    that.querysludge();
   },
   //下拉选择框数据获取
   bindwarehousePickerChange: function (e) {
-   console.log( this.data.itemList[e.detail.value].name)
+    console.log(this.data.itemList[e.detail.value].name)
     this.setData({
       warehouseid: this.data.itemList[e.detail.value].name
     })
@@ -464,7 +462,7 @@ Page({
     })
   },
   //查询分配任务的运输车司机，附值给负责人的选择框
-  queryassignCarTransportDriver : function(callback) {
+  queryassignCarTransportDriver: function (callback) {
     var thit = this
     wx.request({
       url: app.globalData.QUERY_queryassignCarTransportDriver_URL,
@@ -600,7 +598,7 @@ Page({
   },
   // 污泥处理记录选项卡
   filterTab: function (e) {
-    var data = [true, true, true,true], index = e.currentTarget.dataset.index;
+    var data = [true, true, true, true], index = e.currentTarget.dataset.index;
     data[index] = !this.data.tab[index];
     this.setData({
       tab: data
@@ -629,7 +627,7 @@ Page({
       case '0':
         tabTxt[0] = txt;
         self.setData({
-          tab: [true, true, true,true],
+          tab: [true, true, true, true],
           tabTxt: tabTxt,
           warehouse_id: id,
           warehouse_txt: txt
@@ -639,33 +637,33 @@ Page({
       case '1':
         tabTxt[1] = txt;
         self.setData({
-          tab: [true, true, true,true],
+          tab: [true, true, true, true],
           tabTxt: tabTxt,
           site_id: id,
           site_txt: txt
         });
         if (id == 0) {
           self.querysludge()
-        }else{
+        } else {
           self.querySludgeBySiteIdAndInOutFlag()
         }
         break;
       case '2':
         tabTxt[2] = txt;
         self.setData({
-          tab: [true, true, true,true],
+          tab: [true, true, true, true],
           tabTxt: tabTxt,
           assigntranscar_id: id,
           assigntranscar_txt: txt
         });
-        if(id==0){
+        if (id == 0) {
           self.querysludge()
-        }else{
+        } else {
           self.querySludgeByDriverIdAndInOutFlag()
         }
         break;
-        case'3':
-        tabTxt[3]=txt;
+      case '3':
+        tabTxt[3] = txt;
         self.setData({
           tab: [true, true, true, true],
           tabTxt: tabTxt,
@@ -684,7 +682,7 @@ Page({
 
 
   },
-// 按时间查询记录
+  // 按时间查询记录
   queryRecordByDate: function (callback) {
     var thit = this
     console.log(thit.data.date)
@@ -697,7 +695,7 @@ Page({
       },
       method: 'GET',
       header: {
-         "Content-Type":"application/json"
+        "Content-Type": "application/json"
       },
       success: function (res) {
         console.log(res.data)
@@ -734,9 +732,10 @@ Page({
   //按司机查询污泥处理记录
   queryRecordByDriverId: function (callback) {
     var thit = this
+    console.log(thit.data.assigntreatscar_id)
     wx.request({
-      url: app.globalData.QUERY_queryRecordByDriverId_URL,
-      data:{
+      url: app.globalData.QUERY_RecordByDriverId_URL,
+      data: {
         driverId: parseInt(thit.data.assigntreatscar_id),
       },
       method: 'GET',
@@ -830,45 +829,110 @@ Page({
 
 
   },
-  //编辑运输车记录按钮
-  editRecordBtn: function (e) {
-    console.log(e.currentTarget.dataset.recorid);
-    this.setData({
-      showEditRecordModal: true,
-      recordId: e.currentTarget.dataset.recorid
+
+  //删除处理记录按钮
+  delRecord: function (e) {
+    var that = this;
+    console.log(e.currentTarget.dataset.recordid);
+    that.setData({
+      recordId: e.currentTarget.dataset.recordid
+    });
+    wx.showModal({
+      title: '提示',
+      content: '删除后无法恢复，是否确认删除这条记录',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          wx.request({
+            url: app.globalData.DELETE_Record_URL,
+            data: { recordId: parseInt(that.data.recordId) },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              console.log(res.data)
+              if (res.data === "SUCCESS") {
+                wx.showToast({
+                  title: '删除成功!',
+                  icon: 'success',
+                  duration: 2000,
+                })
+                that.queryrecord();//刷新运输车记录页面
+              }
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   },
+  //编辑处理记录按钮
+  editRecordBtn: function (e) {
+    console.log(e.currentTarget.dataset.recordid);
+    this.queryassignCarTreatDriver();
+    this.setData({
+      showEditRecordModal: true,
+      recordId: e.currentTarget.dataset.recordid,
+      siteId: e.currentTarget.dataset.siteid
+    })
+  },
+  //下拉框获取数据
+  bindTreatcarPickerChange: function (e) {
+    console.log(this.data.assignTreatcarlist[e.detail.value].id)
+    console.log(this.data.assignTreatcarlist[e.detail.value].realname)
+    this.setData({
+      treatCarId: this.data.assignTreatcarlist[e.detail.value].id,
+      treatCardrivername: this.data.assignTreatcarlist[e.detail.value].realname
+    })
+    if (e.detail.value == 4) {
+      this.setData({ reply: true })
+    } else {
+      this.setData({ reply: false })
+    }
+    this.setData({
+      carIndex: e.detail.value
+    })
+  },
+  //获取输入框数据
+  treatcarinputChange: function (e) {
+    console.log(e.detail.value);
+    this.setData({
+      treatcarinput: e.detail.value
+    });
+  },
   /**
-     * 运输车编辑弹出框蒙层截断touchmove事件
-     */
+    * 处理记录弹出框蒙层截断touchmove事件
+    */
   preventTouchMove: function () {
   },
   /**
-   * 隐藏运输车编辑模态对话框
+   * 隐藏处理记录编辑模态对话框
    */
-  hideModal: function () {
+  hideRecordModal: function () {
     this.setData({
       showEditRecordModal: false
     });
   },
   /**
-   * 运输车编辑对话框取消按钮点击事件
+   * 处理记录编辑对话框取消按钮点击事件
    */
-  onCancel: function () {
-    this.hideModal();
+  onrecordCancel: function () {
+    this.hideRecordModal();
   },
   /**
-   * 保存运输车污泥块信息(保存报错！)
+   * 保存处理记录信息(保存报错！)
    */
-  saveRecordEdit: function (e) {
+  modifysubmit: function (e) {
     var that = this;
-    console.log(e.currentTarget.dataset.driverid);
+    console.log(that.data.recordId);
+    console.log(that.data.siteId);
     wx.request({
-      url: app.globalData.EDIT_record_URL,
+      url: app.globalData.EDIT_Record_URL,
       data: JSON.stringify({
-        recordId: e.currentTarget.dataset.recordid,
-        driverId: e.currentTarget.dataset.driverid,
-        siteId: e.currentTarget.dataset.siteid
+        recordId: that.data.recordId,
+        driverId: that.data.treatcarinput,
+        siteId: that.data.siteId
       }),
       method: 'POST',
       headers: {
@@ -876,13 +940,28 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        if (res.data === "SUCCESS") {
+        if (res.data == "SUCCESS") {
           wx.showToast({
             title: "修改成功！",
             icon: 'none',
             duration: 2000,
           })
-          this.queryrecord();//刷新运输车记录页面  
+          that.hideRecordModal();
+          that.queryrecord();//刷新记录页面  
+        } else if (res.data == "ERROR") {
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
+          that.hideRecordModal();
+        } else if (res.data == "CONFLICT") {
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
+          that.hideRecordModal();
         }
       },
       fail: function (err) {
@@ -896,61 +975,5 @@ Page({
     })
   },
 
-  //删除运输车记录按钮
-  delRecordBtn: function (e) {
-    var that = this;
-    console.log(e.currentTarget.dataset.recordid);
-    that.setData({
-      delRecordVisible: true,
-      recordId: e.currentTarget.dataset.recordid
-    });
-  },
-  //删除处理记录模态框事件
-  delRecordModal({ detail }) {
-    if (detail.index == 0) {
-      this.setData({
-        delRecordVisible: false
-      });
-    } else {
-      const action = [...this.data.delRecordactions];
-      action[1].loading = true;
 
-      this.setData({
-        delRecordactions: action
-      });
-
-      wx.request({
-        url: app.globalData.DELETE_Record_URL,
-        data: { recordId: parseInt(this.data.recordId) },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          console.log(res.data)
-          if (res.data === "SUCCESS") {
-            setTimeout(() => {
-              action[1].loading = false;
-              this.setData({
-                delRecordVisible: false,
-                delRecordactions: action
-              });
-              $Message({
-                content: '删除成功！',
-                type: 'success'
-              });
-            }, 2000);
-
-            this.queryrecord();//刷新运输车记录页面
-          }
-        },
-        fail: function (err) {
-          console.log(err)
-          $Message({
-            content: '删除失败！',
-            type: 'error'
-          });
-        }
-      })
-    }
-  },
 })

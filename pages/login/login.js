@@ -95,7 +95,11 @@ Page({
                   wx.redirectTo({
                     url: '/packageTransportDriver/pages/map/map',
                   })
-
+                } else if (roleId == 5) {
+                  //Guest
+                  wx.redirectTo({
+                    url: '/packageGuest/pages/map/map',
+                  })
                 }
                 
               })

@@ -10,8 +10,6 @@
     <i-input value="{{item.address}}"  title="污泥厂地址" name="address" />
     <i-input value="{{item.telephone}}" type="number" title="联系方式"  name="telephone" />
     <i-input value="" type="number" title="预处理量" name="pretreatAmount" />
-    
-
     <view class='button'>
       <button type='primary' form-type='submit'>确认提交</button>
     </view>

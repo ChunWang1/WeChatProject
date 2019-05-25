@@ -49,10 +49,11 @@ Page({
   },
   
   querytreatmentcar: function (callback){
+    console.log("hahahaha")
     var that = this;
     wx.request({
-      url: app.globalData.QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL,
-      data: { siteId: -1, carType: - 1, status: - 1 },
+      url: app.globalData.QUERY_CarByCarType_URL,
+      data: { carType:0},
       header: {
         'content-type': 'application/json'
       },
@@ -144,6 +145,18 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    if (ops.from === 'button') {
+      console.log(ops.target);
+    }
+    return {
+      title: '污泥处理系统',
+      path: 'packageManager/pages/allcardetail/allcardetail',
+      success: function (res) {
+        console.log("转发成功" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        console.log("转发失败" + JSON.stringify(res));
+      }
+    }
   }
 })

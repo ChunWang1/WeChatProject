@@ -10,10 +10,9 @@ Page({
   data: {
     carId: 68,
     siteId: 53,
-
     "sensorList": [],
     "sensorRealValueMap": {},
-
+     getRealDataInterval:''
   },
 
   /**
@@ -50,11 +49,11 @@ Page({
           videoData: res.data.video,
         });
         that.getRealValue();
-        setInterval(function () {
-          that.getRealValue();
-        }, 10000);
-        //that.getRealValue();
-
+        that.setData({
+          getRealDataInterval: setInterval(function () {
+            that.getRealValue();
+          }, 10000)
+        }) 
       },
       fail: function (err) {
         console.log(err)
@@ -169,7 +168,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    var that=this;
+    clearInterval(that.data.getRealDataInterval);
   },
 
   /**
@@ -190,7 +190,19 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    if (ops.from === 'button') {
+      console.log(ops.target);
+    }
+    return {
+      title: '污泥处理系统',
+      path: 'packageManager/pages/cardetail/cardetail',
+      success: function (res) {
+        console.log("转发成功" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        console.log("转发失败" + JSON.stringify(res));
+      }
+    }
   },
 
   //松开按钮停止控制监控

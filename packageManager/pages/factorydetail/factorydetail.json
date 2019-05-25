@@ -1,3 +1,11 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "i-alert": "../../../dist/alert/index",
+    "i-steps": "../../../dist/steps/index",
+    "i-step": "../../../dist/step/index",
+    "i-row": "../../../dist/row/index",
+    "i-col": "../../../dist/col/index",
+    "select": "../../../dist/select/select",
+    "i-button": "../../../dist/button/index"
+  }
 }

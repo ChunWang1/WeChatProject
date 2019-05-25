@@ -34,6 +34,8 @@ Page({
     no: "",
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
+    timer: '',
+  //  siteInfoOld : {},
   },
   // 滑动开始
   touchstart: function (e) {
@@ -81,6 +83,7 @@ Page({
     app.showFactoryTabBar();    //显示自定义的底部导航
   },
 
+
   showSite: function () {
     var that = this
     wx.request({
@@ -127,9 +130,12 @@ Page({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        setInterval(function () {
-          that.flushSiteIconAndCallOutContent();
-        }, 10000)
+        that.setData({
+          timer: setInterval(function () {
+            that.flushSiteIconAndCallOutContent();
+          }, 10000)
+        })
+        
       }
     });
   },
@@ -158,53 +164,56 @@ Page({
           for (let i = 0; i < siteStatusNow.length; i++) {
             var site = siteStatusNow[i];
             var siteId = parseInt(site.id);
-            var iconPath = '';
-            if (siteInfoOld[siteId].status != site.status) {
-              iconPath = '/resources/factory' + site.status + '.png';
-            }
-            var content = siteInfoOld[siteId].content;
-            if (site.status == 0) {
-              content += "状态:正常\n"
-            }
-            else if (site.status == 1) {
-              content += "状态:处理中\n"
-            }
-            else {
-              content += "状态:待处理\n"
-            }
-            var carrierNum = carInSiteInfo[siteId].carrier.length;
-            var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
-            if (treatmentCarNum != 0) {
-              content += treatmentCarNum + "辆处理车\n";
-              for (let i = 0; i < treatmentCarNum; i++) {
-                content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
+            if (siteId==app.globalData.userData[0].siteId){
+              var iconPath = '';
+              if (siteInfoOld[siteId].status !== site.status) {
+                iconPath = '/resources/factory' + site.status + '.png';
               }
-              content += "\n";
-            }
-            if (carrierNum != 0) {
-              content += carrierNum + "辆运输车\n";
-              for (let i = 0; i < carrierNum; i++) {
-                content += carInSiteInfo[siteId].carrier[i].license + "  ";
+              var content = siteInfoOld[siteId].content;
+              if (site.status == 0) {
+                content += "状态:正常\n"
               }
-              content += "\n";
-            }
-            siteInfoOld[siteId].status = site.status; //更新status
-            var localMarkers = that.data.markers;
-            for (let i = 0; i < localMarkers.length; i++) {
-              if (localMarkers[i].id == "site" + siteId) {
-                var nowContent = "markers[" + i + "].callout.content";
-                that.setData({
-                  [nowContent]: content
-                });
-                if (iconPath != '') {
-                  var newIconPath = "markers[" + i + "].iconPath";
-                  that.setData({
-                    [newIconPath]: iconPath
-                  });
+              else if (site.status == 1) {
+                content += "状态:处理中\n"
+              }
+              else {
+                content += "状态:待处理\n"
+              }
+              var carrierNum = carInSiteInfo[siteId].carrier.length;
+              var treatmentCarNum = carInSiteInfo[siteId].treatmentCar.length;
+              if (treatmentCarNum != 0) {
+                content += treatmentCarNum + "辆处理车\n";
+                for (let i = 0; i < treatmentCarNum; i++) {
+                  content += carInSiteInfo[siteId].treatmentCar[i].license + "  ";
                 }
-                break;
+                content += "\n";
+              }
+              if (carrierNum != 0) {
+                content += carrierNum + "辆运输车\n";
+                for (let i = 0; i < carrierNum; i++) {
+                  content += carInSiteInfo[siteId].carrier[i].license + "  ";
+                }
+                content += "\n";
+              }
+              siteInfoOld[siteId].status = site.status; //更新status
+              var localMarkers = that.data.markers;
+              for (let i = 0; i < localMarkers.length; i++) {
+                if (localMarkers[i].id == "site" + siteId) {
+                  var nowContent = "markers[" + i + "].callout.content";
+                  that.setData({
+                    [nowContent]: content
+                  });
+                  if (iconPath != '') {
+                    var newIconPath = "markers[" + i + "].iconPath";
+                    that.setData({
+                      [newIconPath]: iconPath
+                    });
+                  }
+                  break;
+                }
               }
             }
+            
           }
         }, 2000)
       }
@@ -365,7 +374,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    clearInterval(this.data.timer)
   },
 
   /**

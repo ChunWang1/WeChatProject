@@ -56,7 +56,7 @@
   bindmarkertap="markertap"
   polyline="{{polyline}}"
   bindregionchange="regionchange"
-  bindcallouttap='showDetailOfSiteOrCar'
+  bindcallouttap="showdetail"
   show-location 
   style="width: 100%; height: 90vh;">
   </map>
@@ -82,7 +82,7 @@
     <cover-view class="th ">状态</cover-view>
   </cover-view>
     <block  wx:for="{{siteList}}" wx:for-item="site" wx:key="id">
-      <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}'>
+      <cover-view class="tr" bindtap="showdetailofsite" data-id='{{site.id}}' data-status='{{site.status}}'>
         <cover-view class="td">{{site.serialNumber}}</cover-view>
         <cover-view class="td">{{site.siteName}}</cover-view>
         <cover-view class="td" wx:if="{{site.status==0}}">正常</cover-view>
@@ -135,7 +135,7 @@
   <cover-view class="modal-content">
     <cover-view class="table">
      <cover-view class="tr">
-    <cover-view class="th">处理车牌号</cover-view>
+    <cover-view class="th">运输车牌号</cover-view>
     <cover-view class="th">目的地</cover-view>
     <cover-view class="th ">状态</cover-view>
   </cover-view>

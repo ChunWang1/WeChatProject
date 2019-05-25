@@ -60,7 +60,7 @@
  justify-content: center;
  font:50px;
  font-weight:bolder;
- margin-top: 25px;
+ margin-top: 15px;
  
 }
 .page-head-line{
@@ -68,8 +68,93 @@
   width: 300rpx;
   height: 2rpx;
   background-color: #BEBEBE;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .collapse{
   margin-bottom: 130rpx;
+}
+.header-title{
+  text-align: center;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 31rpx;
+  font-weight: 600;
+}
+
+
+
+/*模板记录卡片样式*/
+.record-list{
+  font-size: 25rpx;
+  display: flex;
+  width: 100%;
+  padding: 10rpx 0;   
+  border-bottom: 1rpx solid #ECECEC;
+  color: #6D6D6D;
+  justify-content: space-between;
+}
+.record-info-name{
+  color: black;
+  font-size: 30rpx;
+  margin-bottom: 5rpx;
+}
+.record-image{
+  width: 120rpx;
+  height: 135rpx;
+  margin: 50rpx;
+}
+.record-info{
+  margin: 15rpx;
+  flex: 1;
+}
+.record-distribution{
+  display: flex;
+  width: 165rpx;
+  margin-right:25rpx; 
+}
+.record-info-rating{
+  display: flex;
+  width: 350rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.record-info-rating-stars{
+  color: #FFD161;
+  width: 130rpx;
+  height: 50rpx;
+}
+.record-info-rating-sales{
+  width: 180rpx;
+  height: 50rpx;
+}
+.record-distribution{
+  flex-direction: column;
+  text-align: right;
+  justify-content: center;
+}
+.record-driver-text{
+  width: 110rpx;
+  height: 50rpx;
+}
+.record-driver-name{
+  width: 180rpx;
+  height: 50rpx;
+  display: flex;
+}
+
+.panel-area{
+margin-top:20rpx; 
+width: 100%;
+height: 50rpx;
+font-size: 34rpx; 
+}
+
+/*自定义按钮*/
+.i-swipeout-demo-item{
+    border-bottom:#333 solid 1px;
+}
+.i-swipeout-demo-button-group{
+    height:100%;
+    width:100%;
 }

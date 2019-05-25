@@ -1,0 +1,49 @@
+<import src="../../../template/record.wxml"/>
+<import src="../../../template/sludgecard.wxml"/>
+<template is="record" data="{{record:recordByRecordId}}"></template>
+
+<!------------------运输记录卡片----------------->
+<template is="sludgecard" data="{{sludgeByRecordIdList:sludgeByRecordIdList}}"></template>
+<!-----------------------------------------------------> 
+
+<i-modal title="删除确认" visible="{{ delSludgeVisible }}" actions="{{ delSludgeactions }}" bind:click="delSludgeModal">
+    <view>删除后无法恢复,是否确认删除这条记录？</view>
+</i-modal>
+<i-message id="message" />
+
+<!--自定义编辑按钮弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSludgeModal}}"></view>
+<view class="modal-dialog" wx:if="{{showEditSludgeModal}}">
+  <view class="modal-title">污泥块信息</view>
+   <form bindsubmit="saveSludgeEdit">
+   <view >
+    <view class="modal-input" wx:for="{{sludgeList}}" wx:if="{{item.id===sludgeId}}" wx:key="id">
+     
+    <i-input  value="{{item.rfidString}}" placeholder="请输入RFID" title="RFID:" name="RFID" />
+    <i-input  value="{{item.weight}}" type='number' placeholder="以吨计数" title="重量(吨)：" name="weight" maxLength="10" />
+    <i-input value="{{item.destinationAddress}}" placeholder="请输入目的地" title="目的地：" name="desAddr" />
+
+    <view style='display: flex;flex-direction: row;background-color:white;'> 
+    <i-cell title="用途：" style="width:230rpx;"></i-cell>
+    <view style='margin-top:23rpx;'>
+    <i-select  prop-array='{{selectArray}}'  bind:myget='getDate' ></i-select>
+    </view>
+    </view>
+<!--
+    <i-input  value="{{item.sludgeFunction.function}}" placeholder="请输入污泥块功能" title="用途：" name="sludgeFunction"/>
+    <i-select prop-array='{{selectArray}}' slot="footer" bind:myget='getDate' ></i-select>
+-->
+    </view>
+  </view>
+
+  <view class="modal-footer">
+    <view class="btn-cancel"  >
+    <button class="cancel" bindtap="onCancel">取消</button>
+    </view>
+    <view class="btn-confirm" >
+    <button class="confirm" form-type='submit' >保存</button>   
+    </view>
+
+  </view>
+   </form>
+  </view>
