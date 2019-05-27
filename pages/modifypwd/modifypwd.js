@@ -15,7 +15,7 @@ Page({
   onLoad: function (options) {
   },
   modifyPwd: function (e) {
-    console.log(e.detail.value);
+    //console.log(e.detail.value);
     var userId = app.globalData.userData[0].id ;
     var password=app.globalData.userData[0].password;
     var originPwd = e.detail.value.originPwd;
@@ -71,8 +71,10 @@ Page({
       })
       return;
     }
+    console.log(typeof (userId) + " " + typeof (originPwd) + " " +
+      typeof (newPwd) + " " + typeof (checknewPwd))
     wx.request({
-      url: app.globalData.MODIFY_UserInfo_URL,
+      url: app.globalData.MODIFY_Pwd_URL,
       data: JSON.stringify({
         userId: userId,
         originPwd: originPwd,
@@ -80,41 +82,41 @@ Page({
         checknewPwd: checknewPwd,
       }),
       method: 'POST',
+      dataType: "json",
       headers: {
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log("修改成功")
         console.log(res.data)
-          if (res.data == "success") {
+        if (res.data.msg === "success") {
             wx.showToast({
               title: "密码修改成功，请重新登录!",
-              icon: 'success',
-              duration: 2000,
-            })
-            //跳转到登录页面
-           /* wx.reLanch({
-              url = '../../../pages/login/login'
-            })*/
-          }else{
-            wx.showToast({
-              title: "原始密码输入不正确，请重新输入!",
               icon: 'none',
               duration: 2000,
             })
+
+            //跳转到登录页面
+          setTimeout(function () {
+            wx.redirectTo({
+              url: '../../../pages/login/login'
+            })
+          }, 1000);
+          
+          }else{
+          wx.showToast({
+            title: "修改失败！",
+            icon: 'none',
+            duration: 2000,
+          })
           }
       },
       fail: function (res) {
-        console.log("修改失败")
-        console.log(res.data)
+        console.log(res)
         wx.showToast({
           title: "修改失败！",
           icon: 'none',
           duration: 2000,
         })
-        /*wx.reLanch({
-          url = '../../../pages/modifypwd/modifypwd'
-        })*/
       }
     })
   },

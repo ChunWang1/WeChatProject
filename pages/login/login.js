@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-
   },
   onLoad(options) {
     // 初始化提示框
@@ -52,6 +51,12 @@ Page({
             icon: 'none',
             duration: 2000,
           })
+          that.setData({
+            no:"",
+            pwd:""
+          })
+
+
         } else if (res.data.result == "SUCCESS") {
 
           app.globalData.userData[0].id = res.data.user.id;

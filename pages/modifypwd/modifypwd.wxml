@@ -3,11 +3,21 @@
 <text class='text'>修改密码</text>
 <view class="page-head-line"></view>
 <form bindsubmit="modifyPwd">
+
     <i-input value="" type="password" title="原密码" placeholder="请输入原始密码" name="originPwd" />
     <i-input value="" type="password" title="新密码" placeholder="请输入新密码" name="newPwd"  />
     <i-input value="" type="password" title="确认新密码" name="checknewPwd" placeholder="请确认新密码" />
     <view class='button'>
       <button type='primary' form-type='submit'>确认修改</button>
     </view>
+
+<!--
+ <input value="" type="password" title="原密码" placeholder="请输入原始密码" name="originPwd" />
+    <input value="" type="password" title="新密码" placeholder="请输入新密码" name="newPwd"  />
+    <input value="" type="password" title="确认新密码" name="checknewPwd" placeholder="请确认新密码" />
+    <view class='button'>
+      <button type='primary' form-type='submit'>确认修改</button>
+    </view>
+-->
 </form>
 </i-panel>

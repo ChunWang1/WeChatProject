@@ -78,9 +78,7 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <template is="recordcard" data="{{recordList:recordByDriverIdList}}"></template>
 </view>
 <view wx:if="{{recordByDriverIdList.length!=0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}" class='bottom-text'>
-<view hidden='false'>
 -------共查到{{recordByDriverIdList.length}}条记录-------
-</view>
 </view>
 <view wx:if="{{recordByDriverIdList.length==0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}">
 <i-load-more tip="责任人{{recordDriver}}暂无处理记录" loading="{{ false }}"/>
@@ -99,9 +97,7 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <i-load-more loading="{{ false }}" />
 </view>
 <view wx:if="{{recordByDateList.length!=0&&showquerybydate==true&&showquerybyWaitingUpdate==false&&showquerybyDriver==false}}" class='bottom-text'>
-<view hidden='false'>
 -------共查到{{recordByDateList.length}}条记录-------
-</view>
 </view>
 </block>
 
