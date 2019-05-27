@@ -1,5 +1,5 @@
-//var URL = "https://www.teamluo.cn";
-var URL = "http://localhost:8080/DisposalSludgeSystem";
+var URL = "https://www.teamluo.cn";
+//var URL = "http://localhost:8080/DisposalSludgeSystem";
 //var URL ="http://iot.hnu.edu.cn";
 App({
   manageTabBar: {
@@ -324,7 +324,7 @@ App({
       idCard: "",
       realname: "",
       email: "",
-      role: "",
+      role_name: "",
       sex: "",
       username: "",
       telephone: "",

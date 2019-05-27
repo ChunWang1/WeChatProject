@@ -5,7 +5,7 @@
 <form bindsubmit="modifyUserInfo">
     <i-input value="{{username}}" title="登录账号" name="username" disabled/>
     <i-input value="{{realname}}"  title="真实姓名" name="realname" disabled />
-     <i-input value="{{role}}"  title="角色" name="role" />
+     <i-input value="{{role_name}}"  title="角色" name="role_name" />
     <view style='display: flex;flex-direction: row;'> 
     <i-cell title="性别" style="width:240rpx;"></i-cell>
     <view style='margin-top:23rpx;'>

@@ -38,7 +38,7 @@ const { $Message } = require('../../../dist/base/index');
           <view>
             <i-tag wx:if="{{item.status==0}}" color="green"> 已完成</i-tag>
             <i-tag wx:elif="{{item.status==1}}" color="blue"> 处理中</i-tag>
-            <i-tag wx:elif="{{item.status==2}}" color="yellow"> 待处理</i-tag>
+            <i-tag wx:elif="{{item.status==2}}" color="red"> 待处理</i-tag>
             <i-tag wx:elif="{{item.status==3}}" color="yellow"> 待审核</i-tag>
           </view>
           <view wx:if="{{item.status==3}}" bindtap='updateRecordStatus' data-recordid='{{item.id}}'>

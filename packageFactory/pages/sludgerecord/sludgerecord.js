@@ -237,7 +237,10 @@ Page({
         console.log(err)
       }
     })
-     
+     that.setData({
+       startDate: '2019-03-10',
+       endDate: '2019-03-13',
+     })
   },
   /*
   //根据时间查询运输车记录
@@ -352,7 +355,7 @@ Page({
           }    
         }
         
-        if(num>0){
+        if(num>=0){
           that.setData({
             updateRecordNum:num
           })

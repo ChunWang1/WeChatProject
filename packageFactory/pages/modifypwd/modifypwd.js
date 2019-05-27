@@ -24,7 +24,7 @@ Page({
     var that = this;
     if (originPwd === "") {
       wx.showToast({
-        title: '密码不能为空',
+        title: '原密码不能为空',
         icon: 'none',
         duration: 2000,
         success: () => console.log('原始密码不能为空！')
@@ -32,7 +32,7 @@ Page({
       return;
     } if (originPwd !== password) {
       wx.showToast({
-        title: '密码输入错误',
+        title: '原密码输入错误',
         icon: 'none',
         duration: 2000,
         success: () => console.log('原始密码输入错误！')
@@ -40,7 +40,7 @@ Page({
       return;
     } if (newPwd === "") {
       wx.showToast({
-        title: '请输入新密码',
+        title: '新密码不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('新密码不能为空!')
@@ -48,10 +48,26 @@ Page({
       return;
     } if (newPwd !== checknewPwd) {
       wx.showToast({
-        title: '两次密码输入不一致',
+        title: '密码与确认密码不一致！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('两次密码输入不一致')
+      })
+      return;
+    } if (checknewPwd=="") {
+      wx.showToast({
+        title: '确认密码不能为空！',
+        icon: 'none',
+        duration: 2000,
+        success: () => console.log('确认密码不能为空！')
+      })
+      return;
+    } if (newPwd.length<6) {
+      wx.showToast({
+        title: '新密码不能低于6位！',
+        icon: 'none',
+        duration: 2000,
+        success: () => console.log('新密码不能低于6位')
       })
       return;
     }
@@ -68,20 +84,37 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
+        console.log("修改成功")
         console.log(res.data)
-        wx.showToast({
-          title: "修改成功！",
-          icon: 'none',
-          duration: 2000,
-        })
+          if (res.data == "success") {
+            wx.showToast({
+              title: "密码修改成功，请重新登录!",
+              icon: 'success',
+              duration: 2000,
+            })
+            //跳转到登录页面
+           /* wx.reLanch({
+              url = '../../../pages/login/login'
+            })*/
+          }else{
+            wx.showToast({
+              title: "原始密码输入不正确，请重新输入!",
+              icon: 'none',
+              duration: 2000,
+            })
+          }
       },
-      fail: function (err) {
-        console.log(err)
+      fail: function (res) {
+        console.log("修改失败")
+        console.log(res.data)
         wx.showToast({
           title: "修改失败！",
           icon: 'none',
           duration: 2000,
         })
+        /*wx.reLanch({
+          url = '../../../pages/modifypwd/modifypwd'
+        })*/
       }
     })
   },

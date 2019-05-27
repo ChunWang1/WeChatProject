@@ -10,7 +10,7 @@ Page({
     idCard: "",
     realname: "",
     email: "",
-    role: "",
+    role_name: "",
     sex: "",
     username: "",
     telephone: "",
@@ -34,7 +34,7 @@ Page({
       idCard: app.globalData.userData[0].idCard,
       realname: app.globalData.userData[0].realname,
       email: app.globalData.userData[0].email,
-      role: app.globalData.userData[0].role,
+      role_name: app.globalData.userData[0].role_name,
       sex: app.globalData.userData[0].sex,
       username: app.globalData.userData[0].username,
       telephone: app.globalData.userData[0].telephone,
@@ -45,21 +45,27 @@ Page({
     this.setData({
       selectValue: e.detail
     });
-    console.log(e.detail)
+    //console.log(e.detail)
   },
   //修改个人信息
   modifyUserInfo:function(e){
     var that=this;
-    console.log(e.detail.value);
+    
     var userId=that.data.id;
     var username = e.detail.value.username;
     var realname = e.detail.value.realname
-    var role = e.detail.value.role;
+    var role_name = e.detail.value.role_name;
     var sex = that.data.selectValue.text;
     var idCard = e.detail.value.idCard;
     var telephone = e.detail.value.telephone;
     var email = e.detail.value.email;
-
+    var roleId = app.globalData.userData[0].roleId;
+    var role={
+      id:roleId,
+      role_name:role_name
+    }
+    console.log(role)
+    console.log(userId + " " + username+" "+sex + " " + idCard + " " + telephone);
 //输入正则判断
     var reg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
     var regs = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -130,34 +136,46 @@ Page({
       })
       return
     }
-
     wx.request({
       url: app.globalData.MODIFY_UserInfo_URL,
       data: JSON.stringify({
-        userId:userId,
+        id:userId,
         username: username,
         realname: realname,
         email: email,
         sex: sex,
         role: role,
         telephone: telephone,
-        idCard: idCard,  
-        
+        idCard: idCard,   
       }),
-      method: 'POST',
       headers: {
         'content-type': 'application/json'
+       // 'content-type':'application/x-www-form-urlencoded'
       },
+      method:'POST',
+      dataType:JSON,
       success: function (res) {
+        console.log("修改成功")
         console.log(res.data)
         wx.showToast({
           title: "修改成功！",
           icon: 'success',
           duration: 2000,
         })
+      /*  that.setData({
+          id: res.data.id,
+          idCard: res.data.idCard,
+          realname: res.data.realname,
+          email: res.data.email,
+          role: res.data.role,
+          sex: res.data.sex,
+          username: res.data.username,
+          telephone: res.data.telephone,
+        })*/
       },
-      fail: function (err) {
-        console.log(err)
+      fail: function (res) {
+        console.log("修改失败")
+        console.log(res.data)
         wx.showToast({
           title: "修改失败！",
           icon: 'none',
@@ -165,6 +183,7 @@ Page({
         })
       }
     })
+    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
