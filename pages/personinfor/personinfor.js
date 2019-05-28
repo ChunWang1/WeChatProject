@@ -10,10 +10,18 @@ Page({
     idCard: "",
     realname: "",
     email: "",
-    role: "",
+    role_name: "",
     sex: "",
     username: "",
     telephone: "",
+    selectArray: [{
+      "id": "1",
+      "text": "男"
+    }, {
+      "id": "2",
+      "text": "女"
+    }],
+    selectValue:[]
   },
 
   /**
@@ -23,29 +31,54 @@ Page({
     var that=this;
     that.setData({
       id:app.globalData.userData[0].id,
-      idCard: app.globalData.userData[0].idCard,
-      realname: app.globalData.userData[0].realname,
-      email: app.globalData.userData[0].email,
-      role: app.globalData.userData[0].role,
-      sex: app.globalData.userData[0].sex,
-      username: app.globalData.userData[0].username,
-      telephone: app.globalData.userData[0].telephone,
+      role_name: app.globalData.userData[0].role_name,
+    })
+    wx.request({
+      url: app.globalData.QUERY_UserById_URL,
+      data: { userId: parseInt(app.globalData.userData[0].id) },
+      headers: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        console.log(res.data)
+        that.setData({
+          idCard: res.data.idCard,
+          realname: res.data.realname,
+          email: res.data.email,
+          sex: res.data.sex,
+          username: res.data.username,
+          telephone: res.data.telephone,
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
     })
     
+  },
+  getDate: function (e) {
+    this.setData({
+      selectValue: e.detail
+    });
+    //console.log(e.detail)
   },
   //修改个人信息
   modifyUserInfo:function(e){
     var that=this;
-    console.log(e.detail.value);
+    
     var userId=that.data.id;
     var username = e.detail.value.username;
     var realname = e.detail.value.realname
-    var role = e.detail.value.role;
-    var sex = e.detail.value.sex;
+    var role_name = e.detail.value.role_name;
+    var sex = that.data.selectValue.text;
     var idCard = e.detail.value.idCard;
     var telephone = e.detail.value.telephone;
     var email = e.detail.value.email;
-
+    var roleId = app.globalData.userData[0].roleId.toString();
+    var role={
+      id:roleId,
+      role_name:role_name
+    }
 //输入正则判断
     var reg = /^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
     var regs = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -69,7 +102,7 @@ Page({
       return
     } if (idCard == "") {
       wx.showToast({
-        title: '身份证号码',
+        title: '身份证号码不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('身份证号码不能为空！')
@@ -77,7 +110,7 @@ Page({
       return
     } if (regidcard.test(idCard) == false) {
       wx.showToast({
-        title: '身份证号',
+        title: '不是正确的身份证号，请重新输入！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('不是正确的身份证号，请重新输入！')
@@ -85,7 +118,7 @@ Page({
       return
     } if (telephone == "") {
       wx.showToast({
-        title: '手机号码',
+        title: '手机号码不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('手机号码不能为空！')
@@ -93,7 +126,7 @@ Page({
       return
     } if (!(telephone && telephone.length == 11 && !isNaN(telephone))) {
       wx.showToast({
-        title: '手机号码',
+        title: '不是完整的11位手机号或者正确的手机号前七位！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('不是完整的11位手机号或者正确的手机号前七位！')
@@ -101,7 +134,7 @@ Page({
       return 
     } if (email == "") {
       wx.showToast({
-        title: '邮箱',
+        title: '邮箱不能为空！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('邮箱不能为空！')
@@ -109,38 +142,57 @@ Page({
       return
     } if (!(reg.test(email))) {
       wx.showToast({
-        title: '邮箱',
+        title: '邮箱格式不正确！',
         icon: 'none',
         duration: 2000,
         success: () => console.log('邮箱格式不正确！')
       })
       return
     }
-
     wx.request({
       url: app.globalData.MODIFY_UserInfo_URL,
+      method: 'POST',
       data: JSON.stringify({
-        userId:userId,
+        id:userId,
         username: username,
         realname: realname,
         email: email,
         sex: sex,
         role: role,
         telephone: telephone,
-        idCard: idCard,  
-        
+        idCard: idCard,   
       }),
-      method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
+      dataType:"json",
+      cache: false,
       success: function (res) {
-        console.log(res.data)
+        console.log(res)
+
+        setTimeout(function () {
+          wx.navigateBack({
+            delta: 1  //小程序关闭当前页面返回上一页面
+          })
+        }, 1000);
+
+       
         wx.showToast({
           title: "修改成功！",
-          icon: 'none',
+          icon: 'success',
           duration: 2000,
         })
+        that.setData({
+          id: res.data.id,
+          idCard: res.data.idCard,
+          realname: res.data.realname,
+          email: res.data.email,
+          role_name: res.data.role.role_name,
+          sex: res.data.sex,
+          username: res.data.username,
+          telephone: res.data.telephone,
+        })
+        
       },
       fail: function (err) {
         console.log(err)
@@ -151,6 +203,7 @@ Page({
         })
       }
     })
+    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

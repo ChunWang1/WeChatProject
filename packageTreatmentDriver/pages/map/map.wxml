@@ -1,48 +1,6 @@
-<!--pages/map/map.wxml-->
-<view class="page" bindtouchend='touchend' bindtouchstart='touchstart'>
-  <!-- 侧滑栏 -->
-  <view class="page_tab">
-    <block wx:if="{{no ===''}}">
-      <navigator url='../login/login'>
-        <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
-        <view class='user_name'>未登录</view>
-        <view class="page-head-line"></view>
-      </navigator>
-    </block>
-    <block wx:else>
-      <image class='user_head' src='../../../resources/img/bigcenter.png'></image>
-      <view class='user_name'>{{no}}</view>
-      <view class="page-head-line"></view>
-    </block>
-    <view class="page_tab_content">
-      <navigator url='../../../pages/personinfo/personinfo'>
-        <view class="wc">
-          <image src='../../../resources/img/infor.png'></image>
-          <text>个人信息</text>
-        </view>
-      </navigator>
-      <navigator url='../modifypwd/modifypwd'>
-        <view class="wc">
-          <image src='../../../resources/img/modify.png'></image>
-          <text bindtap='tosat'>修改密码</text>
-        </view>
-      </navigator>
 
-      <navigator url='##'>
-        <view class="wc">
-          <image src='../../../resources/img/aboutUS.png'></image>
-          <text>关于我们</text>
-        </view>
-      </navigator>
-      <navigator url='../../../pages/login/login' open-type="redirect">
-        <view class="wc">
-          <image src='../../../resources/img/loginOut.png'></image>
-          <text>退出</text>
-        </view>
-      </navigator>
-    </view>
-  </view>
-  <view class="bg" bindtap='hideview' style='display:{{display}}'></view>
+<import src="../../../template/leftmenu.wxml"/>
+<template is="leftmenu" data="{{no:no,display:display}}"></template>
   <!-- 主页 -->
   <view class="home" style="{{translate}}">
     <!----------------------原地图代码------------>
@@ -100,8 +58,4 @@
       </cover-view>
     </cover-view>
     <!--------------------------------------------------------->
-
-
-
-  </view>
 </view>

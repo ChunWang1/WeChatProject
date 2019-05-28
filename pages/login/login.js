@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-
   },
   onLoad(options) {
     // 初始化提示框
@@ -52,18 +51,25 @@ Page({
             icon: 'none',
             duration: 2000,
           })
+          that.setData({
+            no:"",
+            pwd:""
+          })
+
+
         } else if (res.data.result == "SUCCESS") {
 
           app.globalData.userData[0].id = res.data.user.id;
           app.globalData.userData[0].idCard = res.data.user.idCard;
           app.globalData.userData[0].realname = res.data.user.realname;
-          app.globalData.userData[0].role = res.data.user.role.role_name;
+          app.globalData.userData[0].role_name = res.data.user.role.role_name;
           app.globalData.userData[0].sex = res.data.user.sex;
           app.globalData.userData[0].email = res.data.user.email;
           app.globalData.userData[0].username = res.data.user.username;
           app.globalData.userData[0].telephone = res.data.user.telephone;
           app.globalData.userData[0].password = res.data.user.password;
           app.globalData.userData[0].siteId = res.data.user.siteId;
+          app.globalData.userData[0].roleId = res.data.user.roleId;
           var roleId = res.data.user.roleId;
           wx.showToast({
             title: "登录成功",

@@ -2,7 +2,12 @@
   "pages": [
     "pages/login/login",
     "pages/register/register",
-    "pages/personinfo/personinfo"
+    "pages/personinfo/personinfo",
+    "pages/aboutus/aboutus",
+    "pages/personinfor/personinfor",
+    "pages/modifypwd/modifypwd",
+    "pages/advice/advice",
+    "pages/introduce/introduce"
   ],
   "subPackages": [
     {
@@ -22,6 +27,8 @@
         "pages/sitedetail/sitedetail",
         "pages/car/car",
         "pages/userdetail/userdetail"
+        "pages/equipmanager/equipmanager", 
+        "pages/sysmanage/sysmanage"
       ]
     },
     {
@@ -29,8 +36,6 @@
       "pages": [
         "pages/map/map",
         "pages/sludgeapply/sludgeapply",
-        "pages/modifypwd/modifypwd",
-        "pages/personinfor/personinfor",
         "pages/sludgerecord/sludgerecord",
         "pages/factorydetail/factorydetail",
         "pages/recorddetail/recorddetail"
@@ -60,9 +65,8 @@
         "pages/factorydetail/factorydetail",
         "pages/cardetail/cardetail",
         "pages/allcardetail/allcardetail",
-        "pages/warehouse/warehouse",
-        "pages/modifypwd/modifypwd",
-        "pages/personinfor/personinfor"
+        "pages/warehouse/warehouse"
+       
       ]
     }
   ],
@@ -97,11 +101,17 @@
     "i-toast": "../../../dist/toast/index",
     "i-modal": "../../../dist/modal/index",
     "i-divider": "../../../dist/divider/index",
-    "i-panel": "../../../dist/panel/index",
     "i-swipeout": "../../../dist/swipeout/index",
     "i-badge": "../../../dist/badge/index",
     "i-notice-bar": "../../../dist/notice-bar/index",
     "i-select": "../../../dist/select/select",
     "i-page": "../../../dist/page/index"
+    "i-select":"../../../dist/select/select",
+    "i-page": "../../../dist/page/index",
+    "i-tabs": "../../../dist/tabs/index",
+    "i-tab": "../../../dist/tab/index",
+    "i-row": "../../../dist/row/index",
+    "i-col": "../../../dist/col/index",
+    "i-panel": "../../../dist/panel/index"
   }
 }

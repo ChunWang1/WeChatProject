@@ -156,7 +156,7 @@ border-bottom: 4rpx solid #70DB93;
   width:750rpx;
   overflow: hidden;
   position: fixed;
-  top:190rpx;
+  
   z-index: 1;
   background: white;
   padding-bottom: 40rpx;
