@@ -2,11 +2,11 @@
 <view>
   <view class="page-head">
   <icon class="iconfont icon-shebei1"></icon>
-  <view class="page-head-title">设备信息</view>
+  <view class="page-head-title">设备详情</view>
   <view class="page-head-line"></view>
   </view>
   <!-- 查询框 -->
-<view class="view-one">
+<!-- <view class="view-one">
    <input class="inputStyle" type="text" placeholder="请输入设备号"
       bindinput="searchSerialNumberValueInputChange" value='{{searchSerialNumberValueInput}}'/>
       <button class="button-view-one" bindtap="querySensorByCondition">查询</button>
@@ -16,41 +16,41 @@
     <text>{{item}}</text>
     <image src="/resources/down.png"></image>
   </view>
-</view>
+</view> -->
 <!-- 按设备位置筛选 -->
-<view class="tabLayer" hidden="{{tab[0]}}">
+<!-- <view class="tabLayer" hidden="{{tab[0]}}">
     <text class="{{location_id==-1?'active':''}}" data-id="-1" data-index="0" data-txt="设备位置" bindtap="filter">不限</text>
     <text class="{{location_id==location.id?'active':''}}" wx:for="{{locationList}}" wx:key="location" wx:for-item="location" data-id="{{location.id}}" data-index="0" data-txt="{{location.name}}" bindtap="filter">{{location.name}}</text>
-</view>
+</view> -->
 <!-- 按具体位置筛选 -->
 <!-- 工厂筛选 -->
-<view class="tabLayer" hidden="{{tab[1]}}" wx:if="{{location_id==0}}">
+<!-- <view class="tabLayer" hidden="{{tab[1]}}" wx:if="{{location_id==0}}">
      <text class="{{id==-1?'active':''}}" data-id="-1" data-index="1" data-txt="具体位置" bindtap="filter">不限</text>
      <text class="{id==site.id?'active':''}}" wx:for="{{siteList}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
-</view>
+</view> -->
 <!-- 按车辆筛选 -->
-<view class="tabLayer" hidden="{{tab[1]}}" wx:elif="{{location_id==1}}">
+<!-- <view class="tabLayer" hidden="{{tab[1]}}" wx:elif="{{location_id==1}}">
      <text class="{{id==-1?'active':''}}" data-id="-1" data-index="1" data-txt="具体位置" bindtap="filter">不限</text>
      <text class="{{id==car.id?'active':''}}" wx:for="{{carList}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="1" data-txt="{{car.license}}" bindtap="filter">{{car.license}}</text>
-</view>
+</view> -->
 <!-- 按设备类型筛选 -->
-<view class="tabLayer" hidden="{{tab[2]}}">
+<!-- <view class="tabLayer" hidden="{{tab[2]}}">
      <text class="{{sensor_id==-1?'active':''}}" data-id="-1" data-index="2" data-txt="设备类型" bindtap="filter">不限</text>
      <text class="{{sensor_id==sensorType.id?'active':''}}" wx:for="{{sensorTypeList}}" wx:key="pp" wx:for-item="sensorType" data-id="{{sensorType.id}}" data-index="2" data-txt="{{sensorType.type}}" bindtap="filter">{{sensorType.type}}</text>
-</view>
+</view> -->
 <!-- 按设备状态筛选 -->
-<view class="tabLayer" hidden="{{tab[3]}}">
+<!-- <view class="tabLayer" hidden="{{tab[3]}}">
     <text class="{{sensorStatus_id==-1?'active':''}}" data-id="-1" data-index="3" data-txt="状态" bindtap="filter">不限</text>
     <text class="{{sensorStatus_id==sensorStatus.id?'active':''}}" wx:for="{{sensorStatusList}}" wx:key="sensorStatus" wx:for-item="sensorStatus" data-id="{{sensorStatus.id}}" data-index="3" data-txt="{{sensorStatus.name}}" bindtap="filter">{{sensorStatus.name}}</text>
-</view>
-<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+</view> -->
+<!-- <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot"> -->
    <!--增加框-->
-<view bindtap='adddevice' class="add_iconview">
+<!-- <view bindtap='adddevice' class="add_iconview">
       <text class="add_text">新增传感器:</text>
       <image class="add_icon" src="/resources/adddevice.png"></image>
-</view>
+</view> -->
 <!-- 添加传感器信息弹框 -->
-<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<!-- <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
  <view class="modal-dialog" wx:if="{{showModal}}">
    <view class="modal-title">新增传感器</view>
    <view class="modal-content">
@@ -97,39 +97,39 @@
       <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
       <view class="btn-confirm" bindtap="onSensorConfirm" data-status="confirm">保存</view>
     </view>
- </view>
+ </view> -->
  <!-- 传感器记录 -->
- <block wx:if="{{sensorList.length != 0}}">
+ <block>
  <i-cell-group>
-   <i-cell title="设备号:" value="{{sensorList[sensor_current-1].serialNumber}}">
+   <i-cell title="设备号:" value="{{sensor.serialNumber}}">
    </i-cell>
-   <i-cell title="类型:" value="{{sensorList[sensor_current-1].sensorType.type}}">
+   <i-cell title="类型:" value="{{sensor.sensorType.type}}">
    </i-cell>
-   <i-cell title="位置:">
-        <i-tag wx:if="{{sensorList[sensor_current-1].carId == -1}}" slot="footer" class="i-tags" >{{sensorList[sensor_current-1].site.siteName}}</i-tag>
-        <i-tag wx:elif="{{sensorList[sensor_current-1].siteId == -1}}" slot="footer" class="i-tags" >{{sensorList[sensor_current-1].car.license}}</i-tag>
-   </i-cell>
+   <!-- <i-cell title="位置:">
+        <i-tag wx:if="{{sensor.carId == -1}}" slot="footer" class="i-tags" >{{sensor.site.siteName}}</i-tag>
+        <i-tag wx:elif="{{sensor.siteId == -1}}" slot="footer" class="i-tags" >{{sensor.car.license}}</i-tag>
+   </i-cell> -->
    <i-cell title="状态">
-     <i-tag wx:if="{{sensorList[sensor_current-1].status==0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
-     <i-tag wx:elif="{{sensorList[sensor_current-1].status==1}}" slot="footer" class="i-tags" color="red"> 异常</i-tag>
+     <i-tag wx:if="{{sensor.status==0}}" slot="footer" class="i-tags" color="green">正常</i-tag>
+     <i-tag wx:elif="{{sensor.status==1}}" slot="footer" class="i-tags" color="red"> 异常</i-tag>
    </i-cell>
  </i-cell-group>
-  <view>
+  <!-- <view>
     <i-button bind:click="delSensor" type="error" size="small" shape="circle" data-sensorid='{{sensorList[sensor_current-1].id}}'>删除</i-button>
-  </view>
-  <i-cell>
-  </i-cell>
+  </view> -->
+  <!-- <i-cell>
+  </i-cell> -->
  </block>
   <!--分页--->
-<i-page current="{{sensor_current}}" total="{{sensorList.length}}" bind:change="sensorhandleChange">
+<!-- <i-page current="{{sensor_current}}" total="{{sensorList.length}}" bind:change="sensorhandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
-</i-page>
+</i-page> -->
 <!--暂无数据--->
-<view  wx:if="{{sensorList.length==0}}">
+<!-- <view  wx:if="{{sensorList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
-</view>
-</scroll-view>
+<i-load-more loading="{{ false }}" /> -->
+<!-- </view> -->
+<!-- </scroll-view> -->
 </view>
 
