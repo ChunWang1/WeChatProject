@@ -935,7 +935,7 @@ Page({
       url: app.globalData.EDIT_Record_URL,
       data: JSON.stringify({
         recordId: that.data.recordId,
-        driverId: that.data.treatcarinput,
+        driverId: that.data.treatCarId,
         siteId: that.data.siteId
       }),
       method: 'POST',
@@ -944,7 +944,7 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        if (res.data == "SUCCESS") {
+        if (res.data.result == "SUCCESS") {
           wx.showToast({
             title: "修改成功！",
             icon: 'none',
@@ -952,14 +952,14 @@ Page({
           })
           that.hideRecordModal();
           that.queryrecord();//刷新记录页面  
-        } else if (res.data == "ERROR"){
+        } else if (res.data.result == "ERROR"){
           wx.showToast({
             title: "修改失败！",
             icon: 'none',
             duration: 2000,
           })
           that.hideRecordModal();
-        } else if (res.data == "CONFLICT") {
+        } else if (res.data.result == "CONFLICT") {
           wx.showToast({
             title: "修改失败！",
             icon: 'none',

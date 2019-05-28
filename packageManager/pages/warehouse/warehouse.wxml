@@ -114,7 +114,7 @@
       <view class="modal-input">
         <!--<input placeholder-class="input-holder"  bindinput="transCarinputChange" class="input" placeholder="运输司机"></input>-->
        <picker bindchange="bindtranscarPickerChange" range="{{carrierUnassignList}}" value='{{carrierUnassignList[carIndex].id}}' class='regSelect' range-key="{{'name'}}" >
-        <input class='selectInp'  bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].id}}'/> 
+        <input class='selectInp'  bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].name}}'/> 
       <view class='select'> 
         <image class='select-img'src="/resources/down.png"></image>
       </view>
@@ -258,7 +258,7 @@
   <view class="modal-title">修改处理人</view>
        <view class="modal-input">
        <picker bindchange="bindTreatcarPickerChange" range="{{assignTreatcarlist}}" value='{{assignTreatcarlist[carIndex].id}}' class='regSelect' range-key="{{'realname'}}" >
-        <input class='selectInp'  bindinput="treatcarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{assignTreatcarlist[carIndex].id}}'/> 
+        <input class='selectInp'  bindinput="treatcarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{assignTreatcarlist[carIndex].realname}}'/> 
       <view class='select'> 
         <image class='select-img'src="/resources/down.png"></image>
       </view>
