@@ -25,8 +25,6 @@
         "pages/sitedetail/sitedetail",
         "pages/car/car",
         "pages/userdetail/userdetail"
-        "pages/equipmanager/equipmanager", 
-        "pages/sysmanage/sysmanage"
       ]
     },
     {
@@ -103,7 +101,7 @@
     "i-badge": "../../../dist/badge/index",
     "i-notice-bar": "../../../dist/notice-bar/index",
     "i-select": "../../../dist/select/select",
-    "i-page": "../../../dist/page/index"
+    "i-page": "../../../dist/page/index",
     "i-select":"../../../dist/select/select",
     "i-page": "../../../dist/page/index",
     "i-tabs": "../../../dist/tabs/index",

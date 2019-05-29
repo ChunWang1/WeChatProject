@@ -948,10 +948,6 @@ Page({
           })
           that.hideRecordModal();
           that.queryrecord();//刷新记录页面  
-<<<<<<< HEAD
-=======
-        } else if (res.data.result == "ERROR"){
->>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
         } else if (res.data == "ERROR") {
           wx.showToast({
             title: "修改失败！",

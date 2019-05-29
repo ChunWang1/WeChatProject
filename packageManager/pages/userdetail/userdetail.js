@@ -37,7 +37,7 @@ Page({
     })
     // 获取用户的所有信息
     wx.request({
-      url: app.globalData.QUERY_UserById_URL,
+      url: app.globalData.QUERY_UserByUserId_URL,
       data:{userId:that.data.userId},
       method: 'GET',
       headers: {
@@ -48,6 +48,7 @@ Page({
        that.setData({
          user:res.data,
        })
+        console.log(that.data.user.username);
       },
       fail:function(err){
         console.log(err);
