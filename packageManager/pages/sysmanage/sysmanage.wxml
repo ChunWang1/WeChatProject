@@ -53,7 +53,7 @@
   </view>
    <button class='button-view' bindtap='bindShowMsg'>
     <text>选择状态</text>
-    <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+    <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
    </button> 
     <!-- 下拉的列表 -->
     <view class="select_box_one" wx:if="{{select}}">
@@ -64,7 +64,7 @@
     </view>
    <button class='button-view' bindtap='bindShowMsgUser'>
    <text>选择角色</text>
-   <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+   <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
    </button> 
    <view class="select_box_two" wx:if="{{selectOne}}">
         <view class="select_one" bindtap="mySelectUser" data-name="管理员">管理员</view>
@@ -254,7 +254,7 @@
       </view>
       <button class='button-view-three' bindtap='bindShowMsgCar'>
         <text>车类型查询</text>
-        <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+        <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
       </button>
       <!-- 下拉列表  -->
       <view class="select_box" wx:if="{{selectTwo}}">
@@ -526,7 +526,7 @@
 </view>
 <!-- 按具体位置筛选 -->
 <!-- 工厂筛选 -->
-<view class="tabLayer" hidden="{{tab[1]}}" wx:if="{{location_id==0}}">
+<view class="tabLayer_one" hidden="{{tab[1]}}" wx:if="{{location_id==0}}">
      <text class="{{id==-1?'active':''}}" data-id="-1" data-index="1" data-txt="具体位置" bindtap="filter">不限</text>
      <text class="{id==site.id?'active':''}}" wx:for="{{siteList}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
 </view>
