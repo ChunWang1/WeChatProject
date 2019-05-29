@@ -1,5 +1,5 @@
-//var URL = "https://www.teamluo.cn";
-var URL = "http://localhost:8080/DisposalSludgeSystem";
+var URL = "https://www.teamluo.cn";
+// var URL = "http://localhost:8080/DisposalSludgeSystem";
 //var URL ="http://iot.hnu.edu.cn";
 //var URL ="http://114.115.212.204/DisposalSludgeSystem";
 App({
@@ -367,7 +367,7 @@ App({
     QUERY_UserByCheckStatus_URL: URL +"/system/queryUserByCheckStatus",
     QUERY_UserByRoleId_URL: URL + "/system/queryUserByRoleId",
     FUZZYQUERY_User_URL: URL + "/system/fuzzyQueryUser",
-    QUERY_UserById_URL: URL + "/system/queryUserById",
+    QUERY_UserByUserId_URL: URL + "/system/queryUserById",
     QUERY_AllSensoType_URL: URL + "/sensor/queryAllSensorType",
     QUERY_AllSensor_URL: URL + "/sensor/queryAllSensor",
     ADD_Sensor_URL: URL + "/sensor/addSensor",

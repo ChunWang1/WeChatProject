@@ -1,4 +1,5 @@
 <!--pages/warehouse/warehouse.wxml-->
+<import src="../../../template/tabbar.wxml" />
 <view>
   <!--顶部导航栏-->
   <view class="swiper-tab">
@@ -18,34 +19,6 @@
 
       <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
-<!--增加框-->
-<view bindtap='addsludge' class="add_iconview">
-      <text class="add_text">新增污泥块出仓记录:</text>
-      <image class="add_icon" src="/resources/addsludge.png"></image>
-</view>
-<!--增加弹窗-->
-<!--弹窗-->
-  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
-  <view class="modal-dialog" wx:if="{{showModal}}">
-    <view class="modal-title">新增污泥块出仓记录</view>
-    <view class="modal-content">
-      <view class="modal-input">
-       <!--<input placeholder-class="input-holder"  bindinput="wareHouseinputChange" class="input" placeholder="泥仓号"></input>-->
-        <picker bindchange="bindwarehousePickerChange" range="{{itemList}}" value='{{itemList[warehouseIndex].name}}' class='regSelect' range-key="{{'name'}}" >
-        <input class='selectInp'  bindinput="wareHouseinputChange" placeholder="请选择泥仓" name='itemList' disabled='false' value='{{itemList[warehouseIndex].name}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
-      </view>
-      <view class="modal-input">
-        <!--<input placeholder-class="input-holder"  bindinput="transCarinputChange" class="input" placeholder="运输司机"></input>-->
-       <picker bindchange="bindtranscarPickerChange" range="{{carrierUnassignList}}" value='{{carrierUnassignList[carIndex].id}}' class='regSelect' range-key="{{'name'}}" >
-        <input class='selectInp'  bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].name}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
         <view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
           <view style='width:100%'>
             <view class='ViewText'>{{item.name}}</view>
@@ -56,11 +29,13 @@
             <canvas canvas-id="{{item.serialNumber}}" class="canvas" style="height:250px" bindtouchstart="touchHandler"></canvas>
           </view>
         </view>
-
+      
         <view wx:if="{{itemList.length==0}}">
           <i-load-more tip="暂无数据" loading="{{ false }}" />
           <i-load-more loading="{{ false }}" />
         </view>
+
+        <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 
       </scroll-view>
     </swiper-item>
@@ -199,64 +174,6 @@
       <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
     </swiper-item>
 
-
-<!--处理记录-->
-<block wx:if="{{recordList.length!=0}}" >
-<i-cell-group>
-    <i-cell title="状态:"  >
-    <i-tag wx:if="{{recordList[record_current-1].status==0}}" slot="footer" class="i-tags"   color="green"> 已完成</i-tag>
-    <i-tag wx:elif="{{recordList[record_current-1].status==1}}" slot="footer" class="i-tags"   color="blue"> 处理中</i-tag>
-    <i-tag wx:elif="{{recordList[record_current-1].status==2}}" slot="footer" class="i-tags"   color="yellow"> 待处理</i-tag>
-    </i-cell>
-    <i-cell title="处理人:" value="{{recordList[record_current-1].car.driver.realname}}">
-    </i-cell>
-    <i-cell title="任务分配时间:" value="{{recordList[record_current-1].allocationTime}}">
-    </i-cell>
-    <i-cell title="产生污泥块量(吨):" value="{{recordList[record_current-1].sludgesWeight}}">
-    </i-cell>
-</i-cell-group>
-<i-collapse-item title="更多详情"  >
-    <view slot="content">
-    <i-cell title="污泥处理开始时间:" value="{{recordList[record_current-1].disposalTime}}">
-    </i-cell>
-    <i-cell title="污泥处理完成时间:" value="{{recordList[record_current-1].finishTime}}">
-    </i-cell>
-    <i-cell title="处理人号码:" value="{{recordList[record_current-1].car.driver.telephone}}">
-    </i-cell>   
-    <i-cell title="车牌号:" value="{{recordList[record_current-1].car.license}}">
-    </i-cell> 
-    </view>
-</i-collapse-item>
-<view>
-<!--编辑处理记录-->
-<i-button bind:click="editRecordBtn" type="info" size="small"  shape="circle" data-recordid='{{recordList[record_current-1].id}}' data-siteid='{{recordList[record_current-1].siteId}}'>分配处理人</i-button>
-<!--自定义编辑按钮弹窗-->
-<view class="modal-mask" bindtap="hideRecordModal" catchtouchmove="preventTouchMove" wx:if="{{showEditRecordModal}}"></view>
-<view class="modal-dialog" wx:if="{{showEditRecordModal}}">
-<view class="modal-content">
-  <view class="modal-title">修改处理人</view>
-       <view class="modal-input">
-       <picker bindchange="bindTreatcarPickerChange" range="{{assignTreatcarlist}}" value='{{assignTreatcarlist[carIndex].id}}' class='regSelect' range-key="{{'realname'}}" >
-        <input class='selectInp'  bindinput="treatcarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{assignTreatcarlist[carIndex].realname}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
-      </view>
-</view>
-     
-  <view class="modal-footer">
-     <view class="btn-cancel"  >
-    <button class="cancel" bindtap="onrecordCancel">取消</button>
-    </view>
-    <view class="btn-confirm" >
-    <button class="confirm" bindtap='modifysubmit' >保存</button>   
-    </view>
-  </view>
-  </view>
-<!--删除处理记录-->
-	<i-button bind:click="delRecord" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
-</view>
     <swiper-item>
       <!--查询-->
       <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
@@ -366,11 +283,8 @@
           <i-load-more tip="暂无数据" loading="{{ false }}" />
           <i-load-more loading="{{ false }}" />
         </view>
+          <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
       </scroll-view>
     </swiper-item>
   </swiper>
 </view>
-
-
-<import src="../../../template/tabbar.wxml" />
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>

@@ -67,7 +67,7 @@ color: #777;
     width: 16%;
     height: 52rpx;
     font-size: 9px;
-    margin: auto;
+    margin-top: 12px;
 }
 
 .button-view-two{
@@ -112,7 +112,7 @@ color: #777;
     width: 23%;
     height: 90px;
     position: absolute;
-    left: 115px;
+    left: 135px;
     top: 90rpx;
     z-index: 1;
     overflow: hidden;
@@ -125,7 +125,7 @@ color: #777;
     width: 23%;
     height: 90px;
     position: absolute;
-    left: 220px;
+    left: 240px;
     top: 90rpx;
     z-index: 1;
     overflow: hidden;
@@ -330,6 +330,13 @@ input-holder {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+.bottom_one {
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 50px;
 }
 .name {
     color: #777272;

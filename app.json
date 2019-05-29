@@ -24,9 +24,7 @@
         "pages/sysmanage/sysmanage",
         "pages/sitedetail/sitedetail",
         "pages/car/car",
-        "pages/userdetail/userdetail",
-        "pages/equipmanager/equipmanager", 
-        "pages/sysmanage/sysmanage"
+        "pages/userdetail/userdetail"
       ]
     },
     {
