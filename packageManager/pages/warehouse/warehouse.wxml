@@ -29,14 +29,12 @@
             <canvas canvas-id="{{item.serialNumber}}" class="canvas" style="height:250px" bindtouchstart="touchHandler"></canvas>
           </view>
         </view>
-      
+
         <view wx:if="{{itemList.length==0}}">
           <i-load-more tip="暂无数据" loading="{{ false }}" />
           <i-load-more loading="{{ false }}" />
         </view>
-
         <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
-
       </scroll-view>
     </swiper-item>
 
@@ -178,40 +176,6 @@
       <!--查询-->
       <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
-        <!--查询框-->
-        <view class="tabTit box">
-          <view class="flex1{{!tabforrecord[index]?' active':''}}" wx:for="{{tabTxtforrecord}}" wx:key="type" data-index="{{index}}" bindtap="filterTabforrecord">
-            <text>{{item}}</text>
-            <image src="/resources/down.png"></image>
-          </view>
-        </view>
-        <!--筛选项-->
-        <!--按工厂筛选-->
-        <view class="tabLayer" hidden="{{tabforrecord[0]}}">
-          <text class="{{site_id==0?'active':''}}" data-id="0" data-index="0" data-txt="工厂" bindtap="filterforrecord">不限</text>
-          <text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="0" data-txt="{{site.siteName}}" bindtap="filterforrecord">{{site.siteName}}</text>
-        </view>
-        <!--按负责人筛选-->
-        <view class="tabLayer" hidden="{{tabforrecord[1]}}">
-          <text class="{{assigntreatscar_id==0?'active':''}}" data-id="0" data-index="1" data-txt="负责人" bindtap="filterforrecord">不限</text>
-          <text class="{{assigntreatscar_id==car.id?'active':''}}" wx:for="{{assignTreatcarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="1" data-txt="{{car.realname}}" bindtap="filterforrecord">{{car.realname}}</text>
-        </view>
-
-        <!--按日期筛选-->
-        <view class="tabLayer" hidden="{{tabforrecord[2]}}">
-          <picker mode="date" value="{{date}}" end="{{date4}}" bindchange="bindDateChange3">
-            <view class="picker">
-              {{date3}}
-            </view>
-          </picker>
-          至
-          <picker mode="date" value="{{date4}}" start="{{date}}" end="2050-01-01" bindchange="bindDateChange4">
-            <view class="picker">
-              {{date4}}
-            </view>
-          </picker>
-        </view>
-
         <!--处理记录-->
         <block wx:if="{{recordList.length!=0}}">
           <i-cell-group>
@@ -220,7 +184,7 @@
               <i-tag wx:elif="{{recordList[record_current-1].status==1}}" slot="footer" class="i-tags" color="blue"> 处理中</i-tag>
               <i-tag wx:elif="{{recordList[record_current-1].status==2}}" slot="footer" class="i-tags" color="yellow"> 待处理</i-tag>
             </i-cell>
-            <i-cell title="处理人:" value="{{recordList[record_current-1].car.driver.realname}}">
+            <i-cell title="处理人:" wx:for="{{recordList[record_current-1].recordTreatCars}}" wx:key="" value="{{item.treatcar.driver.realname}}">
             </i-cell>
             <i-cell title="任务分配时间:" value="{{recordList[record_current-1].allocationTime}}">
             </i-cell>
@@ -233,9 +197,9 @@
               </i-cell>
               <i-cell title="污泥处理完成时间:" value="{{recordList[record_current-1].finishTime}}">
               </i-cell>
-              <i-cell title="处理人号码:" value="{{recordList[record_current-1].car.driver.telephone}}">
+              <i-cell title="处理人号码:" wx:for="{{recordList[record_current-1].recordTreatCars}}" wx:key="" value="{{item.treatcar.driver.telephone}}">
               </i-cell>
-              <i-cell title="车牌号:" value="{{recordList[record_current-1].car.license}}">
+              <i-cell title="车牌号:" wx:for="{{recordList[record_current-1].recordTreatCars}}" wx:key="" value="{{item.recordTreatCars[0].treatcar.license}}">
               </i-cell>
             </view>
           </i-collapse-item>
@@ -283,8 +247,8 @@
           <i-load-more tip="暂无数据" loading="{{ false }}" />
           <i-load-more loading="{{ false }}" />
         </view>
-          <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
       </scroll-view>
+      <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
     </swiper-item>
   </swiper>
 </view>
