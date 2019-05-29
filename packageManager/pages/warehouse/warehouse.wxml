@@ -242,9 +242,9 @@
     </i-cell>
     <i-cell title="污泥处理完成时间:" value="{{recordList[record_current-1].finishTime}}">
     </i-cell>
-    <i-cell title="处理人号码:" value="{{recordList[record_current-1].car.driver.telephone}}">
+    <i-cell title="处理人号码:" wx:for="{{recordList[record_current-1].recordTreatCars}}" wx:key=""  value="{{item.treatcar.driver.telephone}}">
     </i-cell>   
-    <i-cell title="车牌号:" value="{{recordList[record_current-1].car.license}}">
+    <i-cell title="车牌号:" wx:for="{{recordList[record_current-1].recordTreatCars}}" wx:key="" value="{{item.recordTreatCars[0].treatcar.license}}">
     </i-cell> 
     </view>
 </i-collapse-item>
