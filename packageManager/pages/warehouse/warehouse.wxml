@@ -1,225 +1,179 @@
 <!--pages/warehouse/warehouse.wxml-->
-<import src="../../../template/tabbar.wxml"/>
-
 <view>
-<!--顶部导航栏-->
-<view class="swiper-tab">
- 
-<view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">智慧泥仓</view>
- 
-<view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">污泥出入记录</view>
- 
-<view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">处理记录</view>
+  <!--顶部导航栏-->
+  <view class="swiper-tab">
 
-</view>
+    <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">智慧泥仓</view>
 
-<!--内容主体-->
-<swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}" current="{{currentTab}}" duration="200" bindchange="swiperChange">
- 
-<swiper-item>
+    <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">污泥出入记录</view>
 
-<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+    <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">处理记录</view>
 
-<form>
-<view class="echart-iframe">
-  <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec }}" bind:init="echartInit"></ec-canvas>
-</view>
-<view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
-  <view class='ViewText'>{{item.name}}({{item.moistrueDegree}})</view>
-  <view class='testText'>
-  <text>总容量：{{item.capacity}}吨</text>
-  </view>
-  <view class='setting'>
-  <image style="width:40rpx;height:40rpx;margin-left:10px;        margin-right:10px;" mode="scaleToFill" src="{{imageSrc2}}"></image>
-  <text class='testText'>存储量</text>
-    <image style="width:40rpx;height:40rpx;margin-left:10px;        margin-right:10px;"mode="scaleToFill" src="{{imageSrc1}}"></image>
-    <text class='testText'>剩余量</text>
-  </view>
-  <view style='width:100%;height:200rpx'>
-    <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" tuData="{{item.data}}" ec="{{ ec }}"></ec-canvas>
-  </view>
-</view>
-</form>
-<view  wx:if="{{itemList.length==0}}">
-<i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
-</view>
-
-</scroll-view>
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
-</swiper-item>
- 
-<swiper-item >
-<!--查询框-->
-<view class="tabTit box">
-  <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab">
-    <text>{{item}}</text>
-    <image src="/resources/down.png"></image>
-  </view>
-</view>
-<!--筛选项-->
-<!--按仓库筛选-->
-<view class="tabLayer" hidden="{{tab[0]}}">
-    <text class="{{warehouse_id==0?'active':''}}" data-id="0" data-index="0" data-txt="仓库" bindtap="filter">不限</text>
-    <text class="{{warehouse_id==warehouse.id?'active':''}}" wx:for="{{warehouseList}}" wx:key="pp" wx:for-item="warehouse" data-id="{{warehouse.id}}" data-index="0" data-txt="{{warehouse.id}}号仓" bindtap="filter">{{warehouse.id}}号仓</text>
-</view>
-<!--按工厂筛选-->
-<view class="tabLayer" hidden="{{tab[1]}}">
-<text class="{{site_id==0?'active':''}}" data-id="0" data-index="1" data-txt="工厂" bindtap="filter">不限</text>
-<text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
-</view>
-<!--按负责人筛选-->
-<view class="tabLayer" hidden="{{tab[2]}}">
-<text class="{{assigntranscar_id==0?'active':''}}" data-id="0" data-index="2" data-txt="负责人" bindtap="filter">不限</text>
- <text class="{{assigntranscar_id==car.id?'active':''}}" wx:for="{{assigntranscarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="2" data-txt="{{car.realname}}" bindtap="filter">{{car.realname}}</text>
-</view>
-
-<!--按日期筛选-->
-<view class="tabLayer" hidden="{{tab[3]}}">
-    <picker mode="date" value="{{date}}"  end="{{date2}}" bindchange="bindDateChange">  
-        <view class="picker">  
-          {{date}}  
-        </view>  
-      </picker>  
-      至  
-      <picker mode="date" value="{{date2}}" start="{{date}}" end="2050-01-01" bindchange="bindDateChange2">  
-        <view class="picker">  
-          {{date2}}  
-        </view>  
-      </picker>        
-</view>
-
-<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
-
-<!--增加框-->
-<view bindtap='addsludge' class="add_iconview">
-      <text class="add_text">新增污泥块出仓记录:</text>
-      <image class="add_icon" src="/resources/addsludge.png"></image>
-</view>
-<!--增加弹窗-->
-<!--弹窗-->
-  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
-  <view class="modal-dialog" wx:if="{{showModal}}">
-    <view class="modal-title">新增污泥块出仓记录</view>
-    <view class="modal-content">
-      <view class="modal-input">
-       <!--<input placeholder-class="input-holder"  bindinput="wareHouseinputChange" class="input" placeholder="泥仓号"></input>-->
-        <picker bindchange="bindwarehousePickerChange" range="{{itemList}}" value='{{itemList[warehouseIndex].name}}' class='regSelect' range-key="{{'name'}}" >
-        <input class='selectInp'  bindinput="wareHouseinputChange" placeholder="请选择泥仓" name='itemList' disabled='false' value='{{itemList[warehouseIndex].name}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
-      </view>
-      <view class="modal-input">
-        <!--<input placeholder-class="input-holder"  bindinput="transCarinputChange" class="input" placeholder="运输司机"></input>-->
-       <picker bindchange="bindtranscarPickerChange" range="{{carrierUnassignList}}" value='{{carrierUnassignList[carIndex].id}}' class='regSelect' range-key="{{'name'}}" >
-        <input class='selectInp'  bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].name}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
-      </view>
-      <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="rfidinputChange" class="input" placeholder="RFID"></input>
-      </view>
-      <view class="modal-input">
-        <input placeholder-class="input-holder"  bindinput="desAddrinputChange" class="input" placeholder="目的地"></input>
-       </view>
-       <view class="modal-input">
-        <!--<input placeholder-class="input-holder" bindinput="functioninputChange" class="input" placeholder="用途"></input>--> 
-        <picker bindchange="bindfunctionPickerChange" range="{{functionList}}" value='{{functionList[functionIndex].function}}' class='regSelect' range-key="{{'function'}}" >
-        <input class='selectInp'  bindinput="functioninputChange" placeholder="请选择用途" name='function' disabled='false' value='{{functionList[functionIndex].function}}'/> 
-      <view class='select'> 
-        <image class='select-img'src="/resources/down.png"></image>
-      </view>
-    </picker>
-      </view>
-         <view class="modal-input">
-         <input placeholder-class="input-holder"  bindinput="weightinputChange" class="input" placeholder="重量"></input>
-      </view>
-    </view>
-    <view class="modal-footer">
-      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-      <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
-    </view>
   </view>
 
-<!--污泥出入记录-->
-<block wx:if="{{sludgeList.length!=0}}">
-<i-cell-group>
-    <i-cell title="状态:"  >
-    <i-tag wx:if="{{sludgeList[sludeg_current-1].status==0}}" slot="footer" class="i-tags"   color="yellow"> 未到达</i-tag>
-    <i-tag wx:elif="{{sludgeList[sludeg_current-1].status==1}}" slot="footer" class="i-tags"   color="green"> 已到达</i-tag>
-    </i-cell>
-    <i-cell title="RFID:" value="{{sludgeList[sludeg_current-1].rfidString}}">
-    </i-cell>
-    <i-cell title="目的地:" value="{{sludgeList[sludeg_current-1].destinationAddress}}">
-    </i-cell>
-    <i-cell title="污泥块量(吨):" value="{{sludgeList[sludeg_current-1].weight}}">
-    </i-cell>
-    <i-cell title="污泥运输车司机:" value="{{sludgeList[sludeg_current-1].car.driver.realname}}">
-    </i-cell>
-    <i-cell title="污泥功能:" value="{{sludgeList[sludeg_current-1].sludgeFunction.function}}">
-    </i-cell>
-</i-cell-group>
- <i-cell >
- </i-cell>
+  <!--内容主体-->
+  <swiper style="height:{{clientHeight?clientHeight+'px':'auto'}}" current="{{currentTab}}" duration="200" bindchange="swiperChange">
 
-</block>
- <!--分页--->
-<i-page current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
-    <view slot="prev">上一条记录</view>
-    <view slot="next">下一条记录</view>
-</i-page>
-<!--无数据-->
- <view  wx:if="{{sludgeList.length==0}}">
-<i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
-</view>
+    <swiper-item>
 
-</scroll-view>
+      <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
-<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
-</swiper-item>
- 
+        <view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
+          <view style='width:100%'>
+            <view class='ViewText'>{{item.name}}</view>
+            <view>
+              <text class='testText'>污泥块含水量：{{item.moistrueDegree}}%</text>
+            </view>
+            <text class='testText'>总容量：{{item.capacity}}吨</text>
+            <canvas canvas-id="{{item.serialNumber}}" class="canvas" style="height:250px" bindtouchstart="touchHandler"></canvas>
+          </view>
+        </view>
+      
+        <view wx:if="{{itemList.length==0}}">
+          <i-load-more tip="暂无数据" loading="{{ false }}" />
+          <i-load-more loading="{{ false }}" />
+        </view>
 
-<swiper-item> <!--查询-->
-<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+      </scroll-view>
+    </swiper-item>
 
-<!--查询框-->
-<view class="tabTit box">
-  <view class="flex1{{!tabforrecord[index]?' active':''}}" wx:for="{{tabTxtforrecord}}" wx:key="type" data-index="{{index}}" bindtap="filterTabforrecord">
-    <text>{{item}}</text>
-    <image src="/resources/down.png"></image>
-  </view>
-</view>
-<!--筛选项-->
-<!--按工厂筛选-->
-<view class="tabLayer" hidden="{{tabforrecord[0]}}">
-<text class="{{site_id==0?'active':''}}" data-id="0" data-index="0" data-txt="工厂" bindtap="filterforrecord">不限</text>
-     <text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="0" data-txt="{{site.siteName}}" bindtap="filterforrecord">{{site.siteName}}</text>
-</view>
-<!--按负责人筛选-->
-<view class="tabLayer" hidden="{{tabforrecord[1]}}">
-<text class="{{assigntreatscar_id==0?'active':''}}" data-id="0" data-index="1" data-txt="负责人" bindtap="filterforrecord">不限</text>
- <text class="{{assigntreatscar_id==car.id?'active':''}}" wx:for="{{assignTreatcarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="1" data-txt="{{car.realname}}" bindtap="filterforrecord">{{car.realname}}</text>
-</view>
+    <swiper-item>
+      <!--查询框-->
+      <view class="tabTit box">
+        <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab">
+          <text>{{item}}</text>
+          <image src="/resources/down.png"></image>
+        </view>
+      </view>
+      <!--筛选项-->
+      <!--按仓库筛选-->
+      <view class="tabLayer" hidden="{{tab[0]}}">
+        <text class="{{warehouse_id==0?'active':''}}" data-id="0" data-index="0" data-txt="仓库" bindtap="filter">不限</text>
+        <text class="{{warehouse_id==warehouse.id?'active':''}}" wx:for="{{warehouseList}}" wx:key="pp" wx:for-item="warehouse" data-id="{{warehouse.id}}" data-index="0" data-txt="{{warehouse.id}}号仓" bindtap="filter">{{warehouse.id}}号仓</text>
+      </view>
+      <!--按工厂筛选-->
+      <view class="tabLayer" hidden="{{tab[1]}}">
+        <text class="{{site_id==0?'active':''}}" data-id="0" data-index="1" data-txt="工厂" bindtap="filter">不限</text>
+        <text class="{site_id==site.id?'active':''}}" wx:for="{{sitelist}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
+      </view>
+      <!--按负责人筛选-->
+      <view class="tabLayer" hidden="{{tab[2]}}">
+        <text class="{{assigntranscar_id==0?'active':''}}" data-id="0" data-index="2" data-txt="负责人" bindtap="filter">不限</text>
+        <text class="{{assigntranscar_id==car.id?'active':''}}" wx:for="{{assigntranscarlist}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="2" data-txt="{{car.realname}}" bindtap="filter">{{car.realname}}</text>
+      </view>
 
-<!--按日期筛选-->
-<view class="tabLayer" hidden="{{tabforrecord[2]}}">
-    <picker mode="date" value="{{date}}"  end="{{date4}}" bindchange="bindDateChange3">  
-        <view class="picker">  
-          {{date3}}  
-        </view>  
-      </picker>  
-      至  
-      <picker mode="date" value="{{date4}}" start="{{date}}" end="2050-01-01" bindchange="bindDateChange4">  
-        <view class="picker">  
-          {{date4}}  
-        </view>  
-      </picker>        
-</view>
+      <!--按日期筛选-->
+      <view class="tabLayer" hidden="{{tab[3]}}">
+        <picker mode="date" value="{{date}}" end="{{date2}}" bindchange="bindDateChange">
+          <view class="picker">
+            {{date}}
+          </view>
+        </picker>
+        至
+        <picker mode="date" value="{{date2}}" start="{{date}}" end="2050-01-01" bindchange="bindDateChange2">
+          <view class="picker">
+            {{date2}}
+          </view>
+        </picker>
+      </view>
+
+      <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+
+        <!--增加框-->
+        <view bindtap='addsludge' class="add_iconview">
+          <text class="add_text">新增污泥块出仓记录:</text>
+          <image class="add_icon" src="/resources/addsludge.png"></image>
+        </view>
+        <!--增加弹窗-->
+        <!--弹窗-->
+        <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+        <view class="modal-dialog" wx:if="{{showModal}}">
+          <view class="modal-title">新增污泥块出仓记录</view>
+          <view class="modal-content">
+            <view class="modal-input">
+              <!--<input placeholder-class="input-holder"  bindinput="wareHouseinputChange" class="input" placeholder="泥仓号"></input>-->
+              <picker bindchange="bindwarehousePickerChange" range="{{itemList}}" value='{{itemList[warehouseIndex].name}}' class='regSelect' range-key="{{'name'}}">
+                <input class='selectInp' bindinput="wareHouseinputChange" placeholder="请选择泥仓" name='itemList' disabled='false' value='{{itemList[warehouseIndex].name}}' />
+                <view class='select'>
+                  <image class='select-img' src="/resources/down.png"></image>
+                </view>
+              </picker>
+            </view>
+            <view class="modal-input">
+              <!--<input placeholder-class="input-holder"  bindinput="transCarinputChange" class="input" placeholder="运输司机"></input>-->
+              <picker bindchange="bindtranscarPickerChange" range="{{carrierUnassignList}}" value='{{carrierUnassignList[carIndex].id}}' class='regSelect' range-key="{{'name'}}">
+                <input class='selectInp' bindinput="transCarinputChange" placeholder="请选择司机" name='carrierUnassign' disabled='false' value='{{carrierUnassignList[carIndex].id}}' />
+                <view class='select'>
+                  <image class='select-img' src="/resources/down.png"></image>
+                </view>
+              </picker>
+            </view>
+            <view class="modal-input">
+              <input placeholder-class="input-holder" bindinput="rfidinputChange" class="input" placeholder="RFID"></input>
+            </view>
+            <view class="modal-input">
+              <input placeholder-class="input-holder" bindinput="desAddrinputChange" class="input" placeholder="目的地"></input>
+            </view>
+            <view class="modal-input">
+              <!--<input placeholder-class="input-holder" bindinput="functioninputChange" class="input" placeholder="用途"></input>-->
+              <picker bindchange="bindfunctionPickerChange" range="{{functionList}}" value='{{functionList[functionIndex].function}}' class='regSelect' range-key="{{'function'}}">
+                <input class='selectInp' bindinput="functioninputChange" placeholder="请选择用途" name='function' disabled='false' value='{{functionList[functionIndex].function}}' />
+                <view class='select'>
+                  <image class='select-img' src="/resources/down.png"></image>
+                </view>
+              </picker>
+            </view>
+            <view class="modal-input">
+              <input placeholder-class="input-holder" bindinput="weightinputChange" class="input" placeholder="重量"></input>
+            </view>
+          </view>
+          <view class="modal-footer">
+            <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+            <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+          </view>
+        </view>
+
+        <!--污泥出入记录-->
+        <block wx:if="{{sludgeList.length!=0}}">
+          <i-cell-group>
+            <i-cell title="状态:">
+              <i-tag wx:if="{{sludgeList[sludeg_current-1].status==0}}" slot="footer" class="i-tags" color="yellow"> 未到达</i-tag>
+              <i-tag wx:elif="{{sludgeList[sludeg_current-1].status==1}}" slot="footer" class="i-tags" color="green"> 已到达</i-tag>
+            </i-cell>
+            <i-cell title="RFID:" value="{{sludgeList[sludeg_current-1].rfidString}}">
+            </i-cell>
+            <i-cell title="目的地:" value="{{sludgeList[sludeg_current-1].destinationAddress}}">
+            </i-cell>
+            <i-cell title="污泥块量(吨):" value="{{sludgeList[sludeg_current-1].weight}}">
+            </i-cell>
+            <i-cell title="污泥运输车司机:" value="{{sludgeList[sludeg_current-1].car.driver.realname}}">
+            </i-cell>
+            <i-cell title="污泥功能:" value="{{sludgeList[sludeg_current-1].sludgeFunction.function}}">
+            </i-cell>
+          </i-cell-group>
+          <i-cell>
+          </i-cell>
+
+        </block>
+        <!--分页--->
+        <i-page current="{{ sludeg_current }}" total="{{sludgeList.length}}" bind:change="sludgehandleChange">
+          <view slot="prev">上一条记录</view>
+          <view slot="next">下一条记录</view>
+        </i-page>
+        <!--无数据-->
+        <view wx:if="{{sludgeList.length==0}}">
+          <i-load-more tip="暂无数据" loading="{{ false }}" />
+          <i-load-more loading="{{ false }}" />
+        </view>
+
+      </scroll-view>
+
+      <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
+    </swiper-item>
+
+    <swiper-item>
+      <!--查询-->
+      <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
 <!--处理记录-->
 <block wx:if="{{recordList.length!=0}}" >
@@ -265,35 +219,7 @@
     </picker>
       </view>
 </view>
-     
-  <view class="modal-footer">
-     <view class="btn-cancel"  >
-    <button class="cancel" bindtap="onrecordCancel">取消</button>
-    </view>
-    <view class="btn-confirm" >
-    <button class="confirm" bindtap='modifysubmit' >保存</button>   
-    </view>
-  </view>
-  </view>
-<!--删除处理记录-->
-	<i-button bind:click="delRecord" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
-</view>
 
- <i-cell >
- </i-cell>
-</block>
-<!--分页--->
-<i-page current="{{ record_current }}" total="{{recordList.length}}" bind:change="recordhandleChange">
-    <view slot="prev">上一条记录</view>
-    <view slot="next">下一条记录</view>
-</i-page>
-<!--暂无数据--->
-<view  wx:if="{{recordList.length==0}}">
-<i-load-more tip="暂无数据" loading="{{ false }}"/>
-<i-load-more loading="{{ false }}" />
-</view>
-</scroll-view>
+
+<import src="../../../template/tabbar.wxml" />
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
-</swiper-item> 
-</swiper>
-</view>

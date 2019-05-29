@@ -37,6 +37,9 @@ Page({
     no: "",
     windowWidth: wx.getSystemInfoSync().windowWidth,
     markers: [],
+    flushWareHouseInterval:'',
+    flushSiteInterval:'',
+    flushCarInterval:''
   },
   // 滑动开始
   touchstart: function (e) {
@@ -80,9 +83,12 @@ Page({
     that.showWareHouse();
     that.showSite();
     that.queryCarInRoad();
-    // setInterval(function () {
-    //   that.queryCarInRoad();
-    // }, 2000)
+    that.setData({
+      flushCarInterval: setInterval(function () {
+        that.queryCarInRoad();
+      }, 2000)
+    })
+    
     that.setData({
       no: app.globalData.userData[0].username,
     });
@@ -123,9 +129,11 @@ Page({
         });
         //console.log(85+":"+JSON.stringify(that.data.markers))
         that.flushWareHouseColloutContent()
-        // setInterval(function () {
-        //   that.flushWareHouseColloutContent()
-        // }, 10000)
+        that.setData({
+          flushWareHouseInterval: setInterval(function () {
+            that.flushWareHouseColloutContent()
+          }, 10000)
+        })
       }
     });
   },
@@ -236,9 +244,12 @@ Page({
           markers: localMarkers
         })
         that.flushSiteIconAndCallOutContent();
-        // setInterval(function () {
-        //   that.flushSiteIconAndCallOutContent();
-        // }, 10000)
+        that.setData({
+          flushSiteInterval: setInterval(function () {
+            that.flushSiteIconAndCallOutContent();
+          }, 10000)
+        })
+        
       }
     });
   },
@@ -413,13 +424,57 @@ Page({
       }
     })
   },
-
-
-  showdetailofsite: function (event) {
-    var id = event.currentTarget.dataset.id
+  showdetailofsiteone: function (id) {
     console.log(id)
     wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + event.currentTarget.dataset.id,
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + id,
+    });
+  },
+
+  showdetailofwarehouse: function (id) {
+    console.log(id)
+    wx.navigateTo({
+      url: '/packageManager/pages/warehouse/warehouse?warehouseId=' + id,
+    });
+  },
+
+  showdetail: function (event) {
+    var that = this;
+    var n = event.markerId.toString(); //将其转化为字符串再切割
+    var str = [];
+    var num = 0;
+    for(var i=0;i<n.length;i++){
+     if(!((n[i]>='0')&&(n[i]<=9))){
+         str[num]=n[i];
+         num++;
+     }else{
+       break;
+     }        
+    }
+    var str1 = str.join('');
+    console.log(num);
+    var str2 = [];
+    for(var i=num;num<n.length;i++){
+       str2[num] = n[i];
+       num++;
+    }
+    var str3=str2.join('');
+    var id = parseInt(str3);
+    if (str1 == "warehouse") {
+      that.showdetailofwarehouse(id);
+    }
+    if (str1 == "site") {
+      that.showdetailofsiteone(id);
+    }
+  },
+
+  showdetailofsite: function (event) {
+    console.log()
+    var id = event.currentTarget.dataset.id;
+    var status = event.currentTarget.dataset.status;
+    console.log(event.currentTarget.dataset)
+    wx.navigateTo({
+      url: '../factorydetail/factorydetail?siteId=' + id+'&status='+status,
     });
   },
   showdetailoftreatmentcar: function (event) {
@@ -668,7 +723,10 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+      var that=this;
+      clearInterval(that.data.flushWareHouseInterval)
+    clearInterval(that.data.flushSiteInterval)
+    clearInterval(that.data.flushCarInterval)
   },
 
   /**

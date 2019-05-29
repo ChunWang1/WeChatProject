@@ -7,6 +7,7 @@
    <view class="tab-item {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">人员信息</view>
    <view class="tab-item {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">车队管理</view>
    <view class="tab-item {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">站点管理</view>
+   <view class="tab-item {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="swichNav">设备管理</view>
 </view>
 
 <!-- 内容主体 -->
@@ -52,7 +53,7 @@
   </view>
    <button class='button-view' bindtap='bindShowMsg'>
     <text>选择状态</text>
-    <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+    <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
    </button> 
     <!-- 下拉的列表 -->
     <view class="select_box_one" wx:if="{{select}}">
@@ -63,9 +64,9 @@
     </view>
    <button class='button-view' bindtap='bindShowMsgUser'>
    <text>选择角色</text>
-   <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+   <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
    </button> 
-   <view class="select_box_one" wx:if="{{selectOne}}">
+   <view class="select_box_two" wx:if="{{selectOne}}">
         <view class="select_one" bindtap="mySelectUser" data-name="管理员">管理员</view>
         <view class="select_one" bindtap="mySelectUser" data-name="工厂人员">工厂人员</view>
         <view class="select_one" bindtap="mySelectUser" data-name="处理车司机">处理车司机</view>
@@ -79,10 +80,35 @@
 
 
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
-
-<view class="user-box">用户</view>
-<block wx:for="{{userList}}" wx:for-item="user" wx:key="id">
-<view class="card-style">
+<!-- 用户信息 -->
+<view>
+  <view class="page-head">
+  <icon class="iconfont icon-yonghu"></icon>
+  <view class="page-head-title">用户信息</view>
+  <view class="page-head-line"></view>
+  </view>
+</view>
+<!-- 用户记录展示 -->
+<view class="row" wx:for="{{userList}}" wx:key="index" wx:for-item="user" bindtap="showdetailofuser" data-userid='{{user.id}}'>
+<!-- 图片 -->
+  <view wx:if="{{user.roleId==1}}"><image class="add_icon_one" src="/resources/manager.png"/></view>
+  <view wx:elif="{{user.roleId==2}}"><image class="add_icon_one" src="/resources/worker.png" /></view>
+  <view wx:elif="{{user.roleId==3 || user.roleId==4}}"><image class="add_icon_one" src="/resources/driver.png"/></view>
+  <view wx:elif="{{user.roleId==5}}"><image class="add_icon_one" src="/resources/guest.jpg" /></view>
+  <view class="content">
+       <view class="top">
+         <view class="name_one">{{user.realname}}</view>
+         <view class="status" wx:if="{{user.checkStatus == 0}}"><i-tag class="button-view-two"  color="red">未通过审核</i-tag></view>
+         <view class="status" wx:elif="{{user.checkStatus == 1}}"><i-tag class="button-view-two"  color="green">通过审核</i-tag></view>
+         <view class="status" wx:elif="{{user.checkStatus == 2}}"><i-tag wx:if="{{user.checkStatus == 2}}" class="button-view-two"  color="yellow">待审核</i-tag></view>
+       </view>
+       <view class="bottom">
+        <view class="sentence">{{user.role.role_name}}</view>
+       </view>
+    </view>
+</view>
+<!-- <block wx:for="{{userList}}" wx:for-item="user" wx:key="id"> -->
+<!-- <view class="card-style">
 
  <i-card title="{{user.realname}}">
     <view slot="content">角色:{{user.role.role_name}}</view>
@@ -93,18 +119,18 @@
     <view slot="content"  wx:if="{{user.roleId==2}}">工厂:{{user.site.siteName}}</view>
     <view slot="content" wx:if="{{user.roleId==3 || user.roleId==4}}">
     车牌号:{{user.car.license}}</view>
-    <view slot="footer" class="view-two">
-       <button class="button-view-two" wx:if="{{user.roleId!=1}}" bindtap='showEditModal' data-roleid='{{user.roleId}}' data-userid='{{user.id}}' >编辑</button>
-       <button class="button-view-two" bindtap='deleteUser' data-userid='{{user.id}}'>删除</button>
+    <view slot="footer" class="view-two"> -->
+       <!-- <button class="button-view-two" wx:if="{{user.roleId!=1}}" bindtap='showEditModal' data-roleid='{{user.roleId}}' data-userid='{{user.id}}' >编辑</button>
+       <button class="button-view-two" bindtap='deleteUser' data-userid='{{user.id}}'>删除</button> -->
        <!--
        <button class="button-view-two" bindtap='checkUser' data-userid='{{user.id}}'>通过审核</button>
        -->
-       <button class="button-view-two" bindtap='showResetModal' data-username='{{user.username}}' data-userid='{{user.id}}'>重置密码</button>
+       <!-- <button class="button-view-two" bindtap='showResetModal' data-username='{{user.username}}' data-userid='{{user.id}}'>重置密码</button>
        <i-tag wx:if="{{user.checkStatus == 0}}" class="button-view-two"  color="red">未通过审核</i-tag>
        <i-tag wx:if="{{user.checkStatus == 1}}" class="button-view-two"  color="green">通过审核</i-tag>
-       <i-tag wx:if="{{user.checkStatus == 2}}" class="button-view-two"  color="yellow">待审核</i-tag>
+       <i-tag wx:if="{{user.checkStatus == 2}}" class="button-view-two"  color="yellow">待审核</i-tag> -->
 <!--编辑用户模态框-->
-<i-modal visible="{{ editUserVisible }}" bind:ok="editUser" bind:cancel="cancelEditUser" >
+<!-- <i-modal visible="{{ editUserVisible }}" bind:ok="editUser" bind:cancel="cancelEditUser" >
    <view style='margin-top:23rpx;flex-direction: row;display: flex;' wx:if="{{roleId==3 || roleId==4}}">
    <view style='margin-left:40px;margin-top:5px;'>车辆：</view>
    <view style='margin-bottom:60rpx;margin-right:45rpx;'>
@@ -117,18 +143,18 @@
     <i-select  prop-array='{{editSiteSelectArray}}'  bind:myget='getSiteDate' ></i-select>
     </view>
     </view>
-</i-modal>
+</i-modal> -->
 <!---------------->
 
 <!--重置密码提示模态框-->
-<i-modal visible="{{ resetPassVisible }}" bind:ok="resetPass" bind:cancel="cancelResetPass" >
+<!-- <i-modal visible="{{ resetPassVisible }}" bind:ok="resetPass" bind:cancel="cancelResetPass" >
     <view>确定为用户：{{username}}  重置密码？重置密码为66668888</view>
-</i-modal>
+</i-modal> -->
 <!------------------>
 
-    </view>
+    <!-- </view>
 </i-card>
-</view>
+</view> -->
 <!--
 <view class="card-style" wx:if="{{user.roleId==2}}">
 <i-card title="{{user.username}}">
@@ -162,7 +188,7 @@
 
 </view>
 -->
-</block>
+<!-- </block> -->
 
 <!-- 分页 -->
 <!-- <i-page current="{{user_current}}" total="10" bind:change="userhandleChange">
@@ -170,11 +196,12 @@
     <view slot="next">下一页</view>
 </i-page> -->
 <!--无数据-->
+<view class="bottom-text">-------共{{userList.length}}条记录-------</view>
 <view  wx:if="{{userList.length==0}}" >
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-<view style='padding-bottom:200rpx;'></view>
+<view style='padding-bottom:400rpx;'></view>
 </scroll-view>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
@@ -183,10 +210,10 @@
 <!-------------------车队管理--------------------------------->
 <swiper-item>
 
-<view class="swiper-tab">
-  <view class="tab-item-one {{partCurrentTab==3 ? 'on-one' : ''}}" data-current="3" bindtap="partswichNav">车队信息</view>
-   <view class="tab-item-one {{partCurrentTab==4 ? 'on-one' : ''}}" data-current="4" bindtap="partswichNav"><navigator url="/packageManager/pages/equipmanager/equipmanager">设备管理</navigator></view>
-  </view>
+<!-- <view class="swiper-tab"> -->
+  <!-- <view class="tab-item-one {{partCurrentTab==3 ? 'on-one' : ''}}" data-current="3" bindtap="partswichNav">车队信息</view> -->
+   <!-- <view class="tab-item-one {{partCurrentTab==4 ? 'on-one' : ''}}" data-current="4" bindtap="partswichNav"><navigator url="/packageManager/pages/equipmanager/equipmanager">设备管理</navigator></view> -->
+  <!-- </view> -->
   <!-- <swiper class="swiper" current="{{partCurrentTab}}" duration="200" bindchange="partswiperChange"> -->
     <!-- 车队信息 -->
     <!-- <swiper-item> -->
@@ -227,7 +254,7 @@
       </view>
       <button class='button-view-three' bindtap='bindShowMsgCar'>
         <text>车类型查询</text>
-        <image style='height:20rpx;width:20rpx;' src='/resources/down.png'></image>
+        <image style='height:20rpx;width:20rpx;margin-top:6px' src='/resources/down.png'></image>
       </button>
       <!-- 下拉列表  -->
       <view class="select_box" wx:if="{{selectTwo}}">
@@ -243,7 +270,7 @@
 
 <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
-    <!-- 车队信息 -->
+    <!-- 车辆记录 -->
     <view>
         <view class="page-head">
         <icon class="iconfont icon-truck"></icon>
@@ -251,8 +278,29 @@
         <view class="page-head-line"></view>
         </view>
     </view>
-    <block wx:if="{{carList.length!=0}}">
-    <i-cell-group>
+    <view class="row" wx:for="{{carList}}" wx:key="index" wx:for-item="car" bindtap="showdetailofcar" data-carid='{{car.id}}'>
+<!-- <i-swipeout i-class="i-swipeout-demo-item" operate-width="{{180}}" unclosable="{{false}}" toggle="{{toggle}}">   -->
+    <!-- 图片 -->
+    <view wx:if="{{car.carType==0}}"><image class="add_icon_one" src="/resources/car.png"/></view>
+    <view wx:elif="{{car.carType==1}}"><image class="add_icon_one" src="/resources/transportCar.png" /></view>
+    <!-- 车牌号与状态 -->
+    <view class="content">
+       <view class="top">
+         <view class="name">车牌号</view>
+         <view class="status" wx:if="{{car.status==0}}"><i-tag slot="footer" class="i-tags" color="green">正常</i-tag></view>
+         <view class="status" wx:elif="{{car.status==1}}"><i-tag slot="footer" class="i-tags" color="red">在途中</i-tag></view>
+         <view class="status" wx:elif="{{car.status==2}}"><i-tag slot="footer" class="i-tags" color="red">已到达</i-tag></view>
+         <view class="status" wx:elif="{{car.status==1}}"><i-tag slot="footer" class="i-tags" color="red"> 已派单</i-tag></view>
+         <view class="status" wx:elif="{{car.status==2}}"> <i-tag slot="foote r" class="i-tags" color="red"> 返程中</i-tag></view>
+       </view>
+       <view class="bottom">
+        <view class="sentence">{{car.license}}</view>
+       </view>
+    </view>
+<!-- </i-swipeout> -->
+    </view>
+    <!-- <block wx:if="{{carList.length!=0}}"> -->
+    <!-- <i-cell-group>
       <i-cell title="车牌号:" value="{{carList[car_current-1].license}}">
       </i-cell>
       <i-cell title="车型:" value="{{carList[car_current-1].brand}}">
@@ -274,12 +322,12 @@
         <i-tag wx:elif="{{carList[car_current-1].status==3}}" slot="footer" class="i-tags" color="red"> 已派单</i-tag>
         <i-tag wx:elif="{{carList[car_current-1].status==4}}" slot="foote r" class="i-tags" color="red"> 返程中</i-tag>
       </i-cell>
-    </i-cell-group>
+    </i-cell-group> -->
       <!-- 编辑车辆信息 -->
-  <view>
-      <i-button bind:click="editCarBtn" type="info" size="small"  shape="circle" data-carid='{{carList[car_current-1].id}}'>编辑</i-button>
+  <!-- <view>
+      <i-button bind:click="editCarBtn" type="info" size="small"  shape="circle" data-carid='{{carList[car_current-1].id}}'>编辑</i-button> -->
       <!-- 自定义编辑按钮弹窗 -->
-      <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditCarModal}}"></view>
+      <!-- <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditCarModal}}"></view>
       <view class="modal-dialog" wx:if="{{showEditCarModal}}">
       <view class="modal-title">车辆信息</view>
     <form bindsubmit = "editCar">
@@ -302,16 +350,17 @@
       </form> 
       </view>
      <i-button bind:click="delCar" type="error" size="small" shape="circle" data-carid='{{carList[car_current-1].id}}'>删除</i-button>
-  </view>
-   <i-cell >
+  </view> -->
+   <!-- <i-cell >
    </i-cell>
-  </block>
+  </block> -->
   <!--分页--->
-<i-page current="{{ car_current }}" total="{{carList.length}}" bind:change="carhandleChange">
+<!-- <i-page current="{{ car_current }}" total="{{carList.length}}" bind:change="carhandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
-</i-page>
+</i-page> -->
 <!--暂无数据--->
+<view class="bottom-text">-------共{{carList.length}}条记录-------</view>
 <view  wx:if="{{carList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
@@ -333,6 +382,7 @@
    <view bindtap='addSite' class="add_iconview">
       <text class="add_text">+新增站点</text>
       <image class="add_icon" src="/resources/addsite.png"></image>
+      <view class="page-head-line"></view>
    </view>
    <!-- 增加弹窗 -->
    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
@@ -366,9 +416,28 @@
       <view class="btn-confirm" bindtap="onSiteConfirm" data-status="confirm">保存</view>
     </view>
     </view>
+ 
     <!-- 站点记录 -->
-  <block wx:if="{{siteList.length!=0}}">
-  <i-cell-group>
+  <view class="row" wx:for="{{siteList}}" wx:key="index" wx:for-item="site" bindtap="showdetailofsite" data-siteid='{{site.id}}'>
+  <!-- 图片 -->
+   <view wx:if="{{site.status==0}}"><image class="add_icon_one" src="/resources/factory01.png" /></view>
+   <view wx:elif="{{site.status==1}}"><image class="add_icon_one" src="/resources/factory02.png" /></view>
+   <view wx:elif="{{site.status==2}}"><image class="add_icon_one" src="/resources/factory03.png" /></view>
+  <!-- 站点名称和状态 -->
+   <view class="content">
+      <view class="top">
+         <view class="name">站点名称</view>
+         <view class="status" wx:if="{{site.status==0}}"><i-tag slot="footer" class="i-tags"   color="green">正常</i-tag></view>
+         <view class="status" wx:if="{{site.status==1}}"><i-tag slot="footer" class="i-tags"   color="red">处理中</i-tag></view>
+         <view class="status" wx:if="{{site.status==2}}"><i-tag slot="footer" class="i-tags"   color="yellow">处理完</i-tag></view>
+      </view>
+      <view class="bottom">
+        <view class="sentence">{{site.siteName}}</view>
+      </view>
+   </view>
+  </view>
+  <!-- <block wx:if="{{siteList.length!=0}}"> -->
+  <!-- <i-cell-group>
     <i-cell title="编号:" value="{{siteList[site_current-1].serialNumber}}">
     </i-cell>
     <i-cell title="厂名:" value="{{siteList[site_current-1].siteName}}">
@@ -384,12 +453,12 @@
     <i-tag wx:elif="{{siteList[site_current-1].status==1}}" slot="footer" class="i-tags"   color="red">处理中</i-tag>
     <i-tag wx:elif="{{siteList[site_current-1].status==2}}" slot="footer" class="i-tags"   color="yellow">处理完</i-tag>
     </i-cell>
-</i-cell-group>
+</i-cell-group> -->
 <!-- 编辑站点 -->
-<view>
-  <i-button bind:click="editSiteBtn" type="info" size="small"  shape="circle" data-siteid='{{siteList[site_current-1].id}}'>编辑</i-button>
+<!-- <view> -->
+  <!-- <i-button bind:click="editSiteBtn" type="info" size="small"  shape="circle" data-siteid='{{siteList[site_current-1].id}}'>编辑</i-button> -->
   <!-- 自定义编辑按钮弹窗 -->
-  <view class="modal" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
+  <!-- <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
   <view class="modal-dialog" wx:if="{{showEditSiteModal}}">
   <view class="modal-title">编辑站点</view>
   <form bindsubmit="editSite">
@@ -412,26 +481,150 @@
       <button class="btn-confirm" form-type="submit" data-status="confirm">保存</button>
       </view>
       </form>
-  </view>
+  </view> -->
   <!-- 删除站点 -->
-  <i-button bind:click="delSite" type="error" size="small" shape="circle" data-siteid='{{siteList[site_current-1].id}}'>删除</i-button>
-</view>
- <i-cell >
- </i-cell>
-</block>
+  <!-- <i-button bind:click="delSite" type="error" size="small" shape="circle" data-siteid='{{siteList[site_current-1].id}}'>删除</i-button> -->
+<!-- </view> -->
+ <!-- <i-cell >
+ </i-cell> -->
+<!-- </block> -->
 <!--分页--->
-<i-page current="{{site_current}}" total="{{siteList.length}}" bind:change="sitehandleChange">
+<!-- <i-page current="{{site_current}}" total="{{siteList.length}}" bind:change="sitehandleChange">
     <view slot="prev">上一条记录</view>
     <view slot="next">下一条记录</view>
-</i-page>
+</i-page> -->
 <!--暂无数据--->
+<view class="bottom-text">-------共{{siteList.length}}条记录-------</view>
 <view  wx:if="{{siteList.length==0}}">
 <i-load-more tip="暂无数据" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
-<view style='padding-bottom:300rpx;'></view>
+<view style='padding-bottom:450rpx;'></view>
 </scroll-view>
 <template is="tabBar" data="{{tabBar:manageTabBar}}"></template>   
+</swiper-item>
+
+<!-- 设备管理 -->
+<swiper-item>
+<!-- 查询框 -->
+<view class="view-one">
+   <input class="inputStyle" type="text" placeholder="请输入设备号"
+      bindinput="searchSerialNumberValueInputChange" value='{{searchSerialNumberValueInput}}'/>
+      <button class="button-view-one" bindtap="querySensorByCondition">查询</button>
+</view>
+<view class="tabTit box">
+  <view class="flex1{{!tab[index]?' active':''}}" wx:for="{{tabTxt}}" wx:key="type" data-index="{{index}}" bindtap="filterTab" >
+    <text>{{item}}</text>
+    <image src="/resources/down.png"></image>
+  </view>
+</view>
+
+<!-- 按设备位置筛选 -->
+<view class="tabLayer" hidden="{{tab[0]}}">
+    <text class="{{location_id==-1?'active':''}}" data-id="-1" data-index="0" data-txt="设备位置" bindtap="filter">不限</text>
+    <text class="{{location_id==location.id?'active':''}}" wx:for="{{locationList}}" wx:key="location" wx:for-item="location" data-id="{{location.id}}" data-index="0" data-txt="{{location.name}}" bindtap="filter">{{location.name}}</text>
+</view>
+<!-- 按具体位置筛选 -->
+<!-- 工厂筛选 -->
+<view class="tabLayer_one" hidden="{{tab[1]}}" wx:if="{{location_id==0}}">
+     <text class="{{id==-1?'active':''}}" data-id="-1" data-index="1" data-txt="具体位置" bindtap="filter">不限</text>
+     <text class="{id==site.id?'active':''}}" wx:for="{{siteList}}" wx:key="pp" wx:for-item="site" data-id="{{site.id}}" data-index="1" data-txt="{{site.siteName}}" bindtap="filter">{{site.siteName}}</text>
+</view>
+<!-- 按车辆筛选 -->
+<view class="tabLayer" hidden="{{tab[1]}}" wx:elif="{{location_id==1}}">
+     <text class="{{id==-1?'active':''}}" data-id="-1" data-index="1" data-txt="具体位置" bindtap="filter">不限</text>
+     <text class="{{id==car.id?'active':''}}" wx:for="{{carList}}" wx:key="pp" wx:for-item="car" data-id="{{car.id}}" data-index="1" data-txt="{{car.license}}" bindtap="filter">{{car.license}}</text>
+</view>
+<!-- 按设备类型筛选 -->
+<view class="tabLayer" hidden="{{tab[2]}}">
+     <text class="{{sensor_id==-1?'active':''}}" data-id="-1" data-index="2" data-txt="设备类型" bindtap="filter">不限</text>
+     <text class="{{sensor_id==sensorType.id?'active':''}}" wx:for="{{sensorTypeList}}" wx:key="pp" wx:for-item="sensorType" data-id="{{sensorType.id}}" data-index="2" data-txt="{{sensorType.type}}" bindtap="filter">{{sensorType.type}}</text>
+</view>
+<!-- 按设备状态筛选 -->
+<view class="tabLayer" hidden="{{tab[3]}}">
+    <text class="{{sensorStatus_id==-1?'active':''}}" data-id="-1" data-index="3" data-txt="状态" bindtap="filter">不限</text>
+    <text class="{{sensorStatus_id==sensorStatus.id?'active':''}}" wx:for="{{sensorStatusList}}" wx:key="sensorStatus" wx:for-item="sensorStatus" data-id="{{sensorStatus.id}}" data-index="3" data-txt="{{sensorStatus.name}}" bindtap="filter">{{sensorStatus.name}}</text>
+</view>
+<scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
+<!-- 增加框 -->
+  <view bindtap='adddevice' class="add_iconview">
+      <text class="add_text">+新增传感器</text>
+      <image class="add_icon" src="/resources/addsite.png"></image>
+      <view class="page-head-line"></view>
+  </view>
+<!-- 添加传感器信息弹框 -->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}">
+   <view class="modal-title">新增传感器</view>
+   <view class="modal-content">
+      <view class="modal-input">
+          <input placeholder-class="input-holder"  bindinput="sensorserialnumberinputChange" class="input" placeholder="设备号"></input>
+      </view>
+      <view class="modal-input">
+        <picker bindchange="bindsensorTypePickerChange" range="{{sensorTypeList}}" value='{{sensorTypeList[sensorTypeIndex].type}}' class='regSelect' range-key="{{'type'}}">
+        <input class='selectInp'  bindinput="sensortypeinputChange" placeholder="类型" name='sensorTypeList' disabled='false' value='{{sensorTypeName}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:if="{{sensorTypeList[sensorTypeIndex].id == 1}}">
+          <input placeholder-class="input-holder"  bindinput="gPSIDinputChange" class="input" placeholder="GPS设备ID"/>
+      </view>
+      <view class="modal-input">
+        <picker bindchange="bindlocationPickerChange" range="{{locationList}}" value='{{locationList[locationIndex].name}}' class='regSelect' range-key="{{'name'}}">
+        <input class='selectInp'  bindinput="locationinputChange" placeholder="位置" name='locationList' disabled='false' value='{{locationName}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:if="{{locationList[locationIndex].id == 0}}">
+        <picker bindchange="bindsitePickerChange" range="{{siteList}}" value='{{siteList[siteIndex].siteName}}' class='regSelect' range-key="{{'siteName'}}">
+        <input class='selectInp'  bindinput="placeinputChange" placeholder="工厂名称" name='siteList' disabled='false' value='{{siteName}}'/> 
+      <view class='select'> 
+        <image class='select-img'src="/resources/down.png"></image>
+      </view>
+        </picker>
+      </view>
+      <view class="modal-input" wx:elif="{{locationList[locationIndex].id == 1}}">
+        <picker bindchange="bindcarPickerChange" range="{{carList}}" value="{{carList[carIndex].license}}" class='regSelect' range-key="{{'license'}}">
+        <input class='selectInp' bindinput="placeinputChange" placeholder="车牌号" name='carList' disabled='false' value='{{selectedLicense}}'></input>
+        <view class='select'>
+          <image class='select-img' src="/resources/down.png"></image>
+        </view>
+        </picker>
+      </view>
+   </view>
+    <view class="modal-footer">
+      <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+      <view class="btn-confirm" bindtap="onSensorConfirm" data-status="confirm">保存</view>
+    </view>
+ </view>
+
+<!-- 设备记录 -->
+<view class="row" wx:for="{{sensorList}}" wx:key="index" wx:for-item="sensor" bindtap="showdetailofsensor" data-sensorid='{{sensor.id}}'>
+<!-- 图片 -->
+<image class="add_icon_two" src="/resources/sensor.png" />
+<view class="content">
+  <view class="top">
+    <view class="name">类型</view>
+    <view class="status">{{sensor.sensorType.type}}</view>
+  </view>
+  <view class="bottom">
+    <view class="sentence" wx:if="{{sensor.carId == -1}}">位置：{{sensor.site.siteName}}</view>
+    <view class="sentence" wx:if="{{sensor.siteId == -1}}">位置:{{sensor.car.license}}</view>
+  </view>
+</view>
+</view>
+<view class="bottom-text">-------共{{sensorList.length}}条记录-------</view>
+<view  wx:if="{{sensorList.length==0}}">
+<i-load-more tip="暂无数据" loading="{{ false }}"/>
+<i-load-more loading="{{ false }}" />
+</view>
+<view style='padding-bottom:450rpx;'></view>
+</scroll-view>
+<template is="tabBar" data="{{tabBar:manageTabBar}}"></template>
 </swiper-item>
 </swiper>
 </view>
