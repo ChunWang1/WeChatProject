@@ -25,6 +25,11 @@
         "pages/sitedetail/sitedetail",
         "pages/car/car",
         "pages/userdetail/userdetail"
+<<<<<<< HEAD
+=======
+        "pages/equipmanager/equipmanager", 
+        "pages/sysmanage/sysmanage"
+>>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
       ]
     },
     {
@@ -100,6 +105,11 @@
     "i-swipeout": "../../../dist/swipeout/index",
     "i-badge": "../../../dist/badge/index",
     "i-notice-bar": "../../../dist/notice-bar/index",
+<<<<<<< HEAD
+=======
+    "i-select": "../../../dist/select/select",
+    "i-page": "../../../dist/page/index"
+>>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
     "i-select":"../../../dist/select/select",
     "i-page": "../../../dist/page/index",
     "i-tabs": "../../../dist/tabs/index",
@@ -107,7 +117,10 @@
     "i-row": "../../../dist/row/index",
     "i-col": "../../../dist/col/index",
     "i-panel": "../../../dist/panel/index"
+<<<<<<< HEAD
     
    
+=======
+>>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
   }
 }
