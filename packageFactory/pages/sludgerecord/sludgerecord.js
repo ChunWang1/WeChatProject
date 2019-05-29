@@ -153,15 +153,20 @@ Page({
     for (var i = 0; i < recordList.length; i++) {
       for (var j = 0; j < recordList[i].recordTreatCars.length; j++) {
         if (recordList[i].recordTreatCars[j].treatcar.driver.realname === that.data.recordDrivers[e.currentTarget.dataset.index]) {
-          driverId = recordList[i].recordTreatCars[j].treatcarId;
+          driverId = recordList[i].recordTreatCars[j].treatcar.driverId;
           break;
         }
       }
     }
-    console.log(that.data.recordDrivers[e.currentTarget.dataset.index] + " " + driverId)
+    console.log(that.data.recordDrivers[e.currentTarget.dataset.index] + " driverId: " + driverId + " siteId: " + app.globalData.userData[0].siteId)
     wx.request({
       url: app.globalData.QUERY_RecordByDriverId_URL,
-      data: { driverId: driverId },
+      method:"POST",
+      data: JSON.stringify
+      ({ 
+      driverId: parseInt(driverId), 
+      siteId: parseInt(app.globalData.userData[0].siteId) 
+      }),
       header: {
         'content-type': 'application/json'
       },
@@ -170,7 +175,6 @@ Page({
         that.setData({
           recordByDriverIdList: res.data
         })
-        return
       },
       fail: function (err) {
         console.log(err)
@@ -237,7 +241,10 @@ Page({
         console.log(err)
       }
     })
-     
+     that.setData({
+       startDate: '2019-03-10',
+       endDate: '2019-03-13',
+     })
   },
   /*
   //根据时间查询运输车记录
@@ -341,7 +348,7 @@ Page({
         var temp=[];
         var num=0;
         for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].status == 3) {
+          if (res.data[i].status === 3) {
             num++;
             temp.push(res.data[i]);
           }
@@ -352,7 +359,8 @@ Page({
           }    
         }
         
-        if(num>0){
+        console.log("num: "+num)
+        if(num>=0){
           that.setData({
             updateRecordNum:num
           })

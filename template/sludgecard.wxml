@@ -21,8 +21,11 @@ const { $Message } = require('../../../dist/base/index');
             <view class="record-info-price">
                污泥运输车司机：{{item.car.driver.realname}}
             </view>
-            <view class="record-info-price">
+            <view wx:if="{{item.weight!=null}}" class="record-info-price">
                 产生污泥块量：{{item.weight}} 吨
+            </view>
+            <view wx:if="{{item.weight==null}}" class="record-info-price">
+                <i-tag   class="i-tags"   color="green"> 待输入</i-tag>
             </view>
             <view class="record-info-price">
                 目的地：{{item.destinationAddress}}

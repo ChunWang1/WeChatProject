@@ -1,11 +1,12 @@
 //var URL = "https://www.teamluo.cn";
 var URL = "http://localhost:8080/DisposalSludgeSystem";
 //var URL ="http://iot.hnu.edu.cn";
+//var URL ="http://114.115.212.204/DisposalSludgeSystem";
 App({
   manageTabBar: {
     "color": "#9E9E9E",
     "selectedColor": "#70DB93",
-    "backgroundColor": "#fff",
+    "backgroundColor": "#fff",//
     "borderStyle": "#ccc",
     "position": "bottom",
     "list": [
@@ -276,7 +277,10 @@ App({
     });
   },
 
+  
+
   onLaunch: function () {
+    /*
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -307,8 +311,7 @@ App({
           })
         }
       }
-    })
-
+    })*/
   },
 
 
@@ -317,14 +320,14 @@ App({
 
   //全局变量
   globalData: {
-    userInfo: null,
+  //  userInfo: null,
 
     userData: [{
       id: "",
       idCard: "",
       realname: "",
       email: "",
-      role: "",
+      role_name: "",
       sex: "",
       username: "",
       telephone: "",
@@ -384,7 +387,9 @@ App({
     QUERY_SensorBySensorId_URL: URL + "/sensor/querySensorBySensorId",
     QUERY_AllRecord_URL: URL + "/record/queryAllRecord",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-    MODIFY_UserInfo_URL: URL + "/user/modifyUserInfo",
+    MODIFY_UserInfo_URL: URL + "/user/modifyUserInfoForWX",
+    QUERY_UserById_URL: URL +"/user/queryUserByUserId",
+    MODIFY_Pwd_URL: URL +"/user/modifyPwd",
     INSERT_RecordByAlert_URL: URL + "/record/insertRecordByAlert",
     QUERY_AllRecordOfOneFactory_URL: URL + "/record/queryAllRecordOfOneFactory",
     QUERY_AllSludgeOfOneFactory_URL: URL + "/sludge/queryAllSludgeOfOneFactory",
@@ -399,13 +404,16 @@ App({
     EDIT_Record_URL: URL + "/record/editRecord",
     DELETE_Record_URL: URL + "/record/deleteRecord",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
-    QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
+    QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverIdOfOneFacotry",
     QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
     QUERY_SludgeByDate_URL: URL + "/sludge/querySludgeByDate",
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",
     QUERY_RecordByRecordId_URL: URL + "/record/queryRecordByRecordId", QUERY_SludgeByRecordId_URL: URL + "/sludge/querySludgeByRecordId",
     UPDATE_RecordStatusById: URL +"/record/updateRecordStatusById",
-    //工厂链接
+    //管理员
+    QUERY_TreatmentCarUnassign_URL: URL +"/car/queryTreatmentCarUnassign",
+    QUERY_CarrierUnassign_URL: URL +"/car/queryCarrierUnassign",
+    UPDATE_AssignDriverForRecord_URL: URL +"/record/assignDriverForRecord",
     //司机公用链接
     QUERY_queryWorkerMapCar_URL: URL + "/car/queryWorkerMapCar",
     QUERY_flushCarStatus_URL: URL +"/car/flushCarStatus",
