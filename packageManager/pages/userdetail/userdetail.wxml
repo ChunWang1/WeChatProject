@@ -1,0 +1,47 @@
+<!--packageManager/pages/userdetail/userdetail.wxml-->
+<view>
+<!-- 标题信息 -->
+  <view class="page-head">
+    <icon class="iconfont icon-yonghu"></icon>
+    <view class="page-head-title">用户详情</view>
+    <view class="page-head-line"></view>
+  </view>
+  <block>
+   <i-cell-group>
+     <i-cell title="角色:" value="{{user.role.role_name}}"></i-cell>
+     <i-cell wx:if="{{user.roleId==1}}" title="性别:" value="{{user.sex}}"></i-cell>
+     <i-cell title="E-mail:" value="{{user.email}}"></i-cell>
+     <i-cell title="身份证:" value="{{user.idCard}}"></i-cell>
+     <i-cell title="Tel:" value="{{user.telephone}}"></i-cell>
+     <i-cell wx:if="{{user.roleId==2}}" title="工厂:" value="{{user.site.siteName}}"></i-cell>
+     <i-cell wx:if="{{user.roleId==3 || user.roleId==4}}" title="车牌号:" value="{{user.car.license}}"></i-cell>
+   </i-cell-group>
+   <!-- 编辑用户信息 -->
+   <view wx:if="{{user.roleId ==2 || user.roleId==3 || user.roleId==4}}">
+     <i-button bind:click="showEditModal" type="info" size="small"  shape="circle" data-roleid="{{user.roleId}}" data-userid='{{user.id}}'>编辑</i-button>
+     <i-button bind:click="showResetModal" type="error" size="small"  shape="circle" data-username="{{user.username}}" data-userid='{{user.id}}'>重置密码</i-button>
+   </view>
+   <view wx:elif="{{user.roleId == 1 || user.roleId == 5}}">
+      <i-button bind:click="showResetModal" type="error" size="small"  shape="circle" data-username="{{user.username}}" data-userid='{{user.id}}'>重置密码</i-button>
+   </view>
+   <!-- 用户信息模态框编辑 -->
+  <i-modal visible="{{ editUserVisible }}" bind:ok="editUser" bind:cancel="cancelEditUser" >
+   <view style='margin-top:23rpx;flex-direction: row;display: flex;' wx:if="{{user.roleId==3 || user.roleId==4}}">
+   <view style='margin-left:40px;margin-top:5px;'>车辆：</view>
+   <view style='margin-bottom:60rpx;margin-right:45rpx;'>
+    <i-select  prop-array='{{editCarSelectArray}}'  bind:myget='getCarDate' ></i-select>
+    </view>
+    </view>
+    <view style='margin-top:23rpx;flex-direction: row;display: flex;' wx:if="{{user.roleId==2}}">
+    <view style='margin-left:40px;margin-top:5px;'>工厂：</view>
+    <view style='margin-bottom:60rpx;margin-right:45rpx;'>
+    <i-select prop-array='{{editSiteSelectArray}}'  bind:myget='getSiteDate' ></i-select>
+    </view>
+    </view>
+  </i-modal>
+  <!-- 重置密码模态框 -->
+  <i-modal visible="{{ resetPassVisible }}" bind:ok="resetPass" bind:cancel="cancelResetPass" >
+    <view>确定为用户：{{user.username}}  重置密码？重置密码为66668888</view>
+  </i-modal>
+  </block>
+</view>

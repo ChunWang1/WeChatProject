@@ -1,0 +1,62 @@
+<!--packageManager/pages/car.wxml-->
+<view>
+<!-- 标题信息 -->
+  <view class="page-head">
+  <icon class="iconfont icon-truck"></icon>
+  <view class="page-head-title">车辆详情</view>
+  <view class="page-head-line"></view>
+  </view>
+ <block>
+   <i-cell-group>
+      <i-cell title="车牌号:" value="{{car.license}}">
+      </i-cell>
+      <i-cell title="车型:" value="{{car.brand}}">
+      </i-cell>
+      <i-cell title="车类型:">
+        <i-tag wx:if="{{car.carType==0}}" slot="footer" class="i-tags" >污泥处理车</i-tag>
+        <i-tag wx:elif="{{car.carType==1}}" slot="footer" class="i-tags" > 污泥运输车</i-tag>
+      </i-cell>
+      <i-cell title="司机:" value="{{car.driver.realname}}">
+      </i-cell>
+      <i-cell title="司机号码:" value="{{car.driver.telephone}}">
+      </i-cell>
+      <view class="i-cell" wx:if="{{car.carType==0}}" bindtap="showdetailoftreatmentcar" data-carid='{{car.id}}'>设备</view>
+      <view class="i-cell" wx:elif="{{car.carType==1}}">设备</view>
+      <i-cell title="状态:">
+        <i-tag wx:if="{{car.status==0}}" slot="footer" class="i-tags" color="green"> 正常</i-tag>
+        <i-tag wx:elif="{{car.status==1}}" slot="footer" class="i-tags" color="red"> 在途中</i-tag>
+        <i-tag wx:elif="{{car.status==2}}" slot="footer" class="i-tags" color="red"> 已到达</i-tag>
+        <i-tag wx:elif="{{car.status==3}}" slot="footer" class="i-tags" color="red"> 已派单</i-tag>
+        <i-tag wx:elif="{{car.status==4}}" slot="foote r" class="i-tags" color="red"> 返程中</i-tag>
+      </i-cell>
+    </i-cell-group>
+    <!-- 编辑车辆信息 -->
+    <view>
+      <i-button bind:click="editCarBtn" type="info" size="small"  shape="circle" data-carid='{{car.id}}'>编辑</i-button>
+      <!-- 自定义编辑按钮弹窗 -->
+      <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditCarModal}}"></view>
+      <view class="modal-dialog" wx:if="{{showEditCarModal}}">
+      <view class="modal-title">车辆信息</view>
+    <form bindsubmit = "editCar">
+      <view class="modal-content">
+        <input class="modal-input" bindinput="licenseinputChange" value="{{car.license}}" placeholder="车牌号" name = "license"/>
+        <input class="modal-input" bindinput="brandinputChange" value="{{car.brand}}" placeholder="品牌" name= "brand"/>
+        <view class="modal-input">
+         <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].text}}' class='regSelect' range-key="{{'text'}}" >
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value="{{selectedCarRealname}}" name="selectedCarRealname"/> 
+         <view class='select'> 
+           <image class='select-img'src="/resources/down.png"></image>
+         </view>
+        </picker>
+      </view>
+      </view>
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
+        <button class="btn-confirm" form-type='submit' data-status="confirm">保存</button>
+      </view>
+      </form> 
+      </view>
+  </view>
+ </block>
+
+</view>
