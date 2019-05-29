@@ -393,6 +393,12 @@ page{
   border-color: #ed3f14;
 }
 
+.i-input-self{
+  background-color: #FFFFFF;
+  font-size: 13px;
+  height: 35px;
+}
+
 
 
 

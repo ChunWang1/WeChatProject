@@ -287,11 +287,11 @@
     <view class="content">
        <view class="top">
          <view class="name">车牌号</view>
-         <view class="status" wx:if="{{car.status==0}}"><i-tag slot="footer" class="i-tags" color="green">正常</i-tag></view>
-         <view class="status" wx:elif="{{car.status==1}}"><i-tag slot="footer" class="i-tags" color="red">在途中</i-tag></view>
-         <view class="status" wx:elif="{{car.status==2}}"><i-tag slot="footer" class="i-tags" color="red">已到达</i-tag></view>
-         <view class="status" wx:elif="{{car.status==1}}"><i-tag slot="footer" class="i-tags" color="red"> 已派单</i-tag></view>
-         <view class="status" wx:elif="{{car.status==2}}"> <i-tag slot="foote r" class="i-tags" color="red"> 返程中</i-tag></view>
+         <view class="status" wx:if="{{car.status==0}}"><i-tag slot="footer" class="i-tags" color="green">空闲</i-tag></view>
+         <view class="status" wx:elif="{{car.status==1}}"><i-tag slot="footer" class="i-tags" color="yellow">在途中</i-tag></view>
+         <view class="status" wx:elif="{{car.status==2}}"><i-tag slot="footer" class="i-tags" color="blue">已到达</i-tag></view>
+         <view class="status" wx:elif="{{car.status==3}}"><i-tag slot="footer" class="i-tags" color="red"> 已派单</i-tag></view>
+         <view class="status" wx:elif="{{car.status==4}}"> <i-tag slot="foote r" class="i-tags" color="yellow"> 返程中</i-tag></view>
        </view>
        <view class="bottom">
         <view class="sentence">{{car.license}}</view>

@@ -415,6 +415,7 @@ Page({
   },
 
   inputWeight:function(e){
+    console.log(e.detail.value)
     this.setData({
       weight: e.detail.value
     })
@@ -427,11 +428,11 @@ Page({
   confirm:function(e){
     var that=this;
     var postData = {
-      id: this.data.sludgeId,
-      rfidString: this.data.rfid,
-      weight: this.data.weight,
+      id: that.data.sludgeId,
+      rfidString: that.data.rfid,
+      weight: parseFloat(that.data.weight),
       minorMudWareHouseId: selectWarehouseId,
-      destinationAddress: this.data.address
+      destinationAddress: that.data.address
     }
     if(desType==1){ 
       postData.minorMudWareHouseId = selectWarehouseId;
