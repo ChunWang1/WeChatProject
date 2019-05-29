@@ -426,8 +426,9 @@ Page({
   },
   showdetailofsiteone: function (id) {
     console.log(id)
+    var status=siteInfoOld[id].status
     wx.navigateTo({
-      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + id,
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + id + '&status=' + status,
     });
   },
 
@@ -435,6 +436,24 @@ Page({
     console.log(id)
     wx.navigateTo({
       url: '/packageManager/pages/warehouse/warehouse?warehouseId=' + id,
+    });
+  },
+
+  showdetailofsite: function (event) {
+    console.log()
+    var id = event.currentTarget.dataset.id;
+    var status = event.currentTarget.dataset.status;
+    console.log(event.currentTarget.dataset)
+    wx.navigateTo({
+      url: '../factorydetail/factorydetail?siteId=' + id + '&status=' + status,
+    });
+  },
+  showdetailoftreatmentcar: function (event) {
+    var carid = event.currentTarget.dataset.carid
+    console.log(carid)
+    console.log(event.currentTarget.dataset.siteid)
+    wx.navigateTo({
+      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
     });
   },
 
@@ -468,23 +487,6 @@ Page({
     }
   },
 
-  showdetailofsite: function (event) {
-    console.log()
-    var id = event.currentTarget.dataset.id;
-    var status = event.currentTarget.dataset.status;
-    console.log(event.currentTarget.dataset)
-    wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + id+'&status='+status,
-    });
-  },
-  showdetailoftreatmentcar: function (event) {
-    var carid = event.currentTarget.dataset.carid
-    console.log(carid)
-    console.log(event.currentTarget.dataset.siteid)
-    wx.navigateTo({
-      url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
-    });
-  },
 
   startSetInter: function () {
     var that = this;

@@ -1,20 +1,23 @@
 /* packageManager/pages/car.wxss */
-.page-head{
+
+.page-head {
   padding: 10rpx 10rpx 30rpx;
   text-align: center;
 }
-.page-head-title{
+
+.page-head-title {
   display: inline-block;
   padding: 0 40rpx 20rpx 40rpx;
   font-size: 36rpx;
   color: #1c2438;
   text-align: center;
 }
-.page-head-line{
+
+.page-head-line {
   margin-top: 0 auto;
   width: 500rpx;
   height: 2rpx;
-  background-color: #BEBEBE;
+  background-color: #bebebe;
 }
 
 .modal-mask {
@@ -38,20 +41,23 @@
   height: 70%;
   left: 0;
   z-index: 9999;
-  background: rgb(246, 250, 247) ;
+  background: rgb(246, 250, 247);
   margin: -240rpx 105rpx;
   border-radius: 36rpx;
-  font-size: 20rpx
+  font-size: 20rpx;
 }
+
 .modal-title {
   padding-top: 50rpx;
   font-size: 36rpx;
   color: #030303;
   text-align: center;
 }
+
 .modal-content {
   padding: 50rpx 32rpx;
 }
+
 .modal-input {
   display: flex;
   background: #fff;
@@ -59,26 +65,30 @@
   border-radius: 4rpx;
   font-size: 28rpx;
 }
-.regSelect{
+
+.regSelect {
   font-size: 28rpx;
   position: relative;
   padding-top: 18rpx;
   height: 100%;
 }
-.selectInp{
-  width:100%;
+
+.selectInp {
+  width: 100%;
   font-size: 30rpx;
   position: absolute;
 }
-.select{ 
+
+.select {
   font-size: 30rpx;
-  padding:10rpx 0 10rpx 30rpx;
+  padding: 10rpx 0 10rpx 30rpx;
   color: #000;
 }
-.select-img{
-   width:30rpx;
-   height:30rpx;
-   margin-left:160px;
+
+.select-img {
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 160px;
 }
 
 .modal-footer {
@@ -89,16 +99,35 @@
   font-size: 34rpx;
   line-height: 86rpx;
 }
+
 .btn-cancel {
   width: 50%;
   color: #666;
   text-align: center;
   border-right: 1px solid #dedede;
 }
+
 .btn-confirm {
   width: 50%;
   color: #ec5300;
   text-align: center;
 }
 
-.i-cell{position:relative;padding:12px 15px;display:flex;background:#fff;align-items:center;line-height:1.4;font-size:14px;overflow:hidden;color: blue}
+.i-cell {
+  position: relative;
+  padding: 12px 15px;
+  display: flex;
+  background: #fff;
+  align-items: center;
+  line-height: 1.4;
+  font-size: 14px;
+  overflow: hidden;
+  color: blue;
+}
+
+
+.i-input-self{
+  background-color: #FFFFFF;
+  font-size: 13px;
+  height: 35px;
+}

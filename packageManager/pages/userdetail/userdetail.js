@@ -199,16 +199,16 @@ Page({
               icon: 'success',
               duration: 2000,
             })
-            // that.queryAllUser();
+            //that.queryAllUser();
             wx.request({
-              url: app.globalData.QUERY_UserById_URL,
+              url: app.globalData.QUERY_UserByUserId_URL,
               data: { userId: that.data.userId },
               method: 'GET',
               headers: {
                 'content-type': 'application/json'
               },
               success: function (res) {
-                console.log(res.data);
+                console.log("haha"+JSON.stringify(res.data));
                 that.setData({
                   user: res.data,
                 })

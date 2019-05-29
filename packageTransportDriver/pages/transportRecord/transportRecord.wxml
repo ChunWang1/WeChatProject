@@ -12,27 +12,25 @@
         <view style="padding: 15px;">
           <i-row>
             <i-col span="12" i-class="col-class siteName">{{sludge.record.site.siteName}}</i-col>
-            <i-col offset="4" span="4" i-class="col-class">
+            <i-col offset="2" span="4" i-class="col-class">
               <i-tag class="i-tags" name="单个标签" color="default">{{sludge.weight}}吨</i-tag>
             </i-col>
-            <i-col span="4" i-class="col-class" wx:if="{{sludge.status==0||sludge.status==2||sludge.status==3||sludge.status==4}}">
+            <i-col span="6" i-class="col-class" wx:if="{{sludge.status==0||sludge.status==2||sludge.status==3||sludge.status==4}}">
               <i-tag class="i-tags" name="单个标签" color="yellow">运输中</i-tag>
             </i-col>
-            <i-col span="4" i-class="col-class" wx:if="{{sludge.status==1||sludge.status==3||sludge.status==5}}">
+            <i-col span="6" i-class="col-class" wx:if="{{sludge.status==1||sludge.status==3||sludge.status==5}}">
               <i-tag class="i-tags" name="单个标签" color="blue">已到达泥仓</i-tag>
             </i-col>
-            <i-col span="4" i-class="col-class" wx:if="{{sludge.status==6}}">
+            <i-col span="6" i-class="col-class" wx:if="{{sludge.status==6}}">
               <i-tag class="i-tags" name="单个标签" color="red">待处理</i-tag>
             </i-col>
-            <i-col span="4" i-class="col-class" wx:if="{{sludge.status==7}}">
+            <i-col span="6" i-class="col-class" wx:if="{{sludge.status==7}}">
               <i-tag class="i-tags" name="单个标签" color="red">待审核</i-tag>
             </i-col>
           </i-row>
-          <!--
-          <i-col span="24" i-class="time">目的地:{{sludge.destinationAddress==null?:'':sludge.destinationAddress}}</i-col>
-          <i-col span="24" i-class="time">装箱时间:{{sludge.produceTime==null?:'':sludge.produceTime}}</i-col>
+          <i-col span="24" i-class="time">目的地:{{sludge.destinationAddress==null?'':sludge.destinationAddress}}</i-col>
+          <i-col span="24" i-class="time">装箱时间:{{sludge.produceTime==null?'':sludge.produceTime}}</i-col>
           <i-col span="24" i-class="time">完成时间:{{sludge.arrivalTime==null?'':sludge.arrivalTime}}</i-col>
-          -->
           <i-row>
 
           </i-row>
