@@ -21,9 +21,7 @@
         "pages/allcardetail/allcardetail",
         "pages/warehouse/warehouse",
         "pages/equipmanager/equipmanager",
-        "pages/modifypwd/modifypwd",
         "pages/sysmanage/sysmanage",
-        "pages/personinfor/personinfor",
         "pages/sitedetail/sitedetail",
         "pages/car/car",
         "pages/userdetail/userdetail"

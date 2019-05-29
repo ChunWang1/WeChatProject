@@ -18,6 +18,8 @@
 
       <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
 
+<<<<<<< HEAD
+=======
 <!--增加框-->
 <view bindtap='addsludge' class="add_iconview">
       <text class="add_text">新增污泥块出仓记录:</text>
@@ -46,6 +48,7 @@
         <image class='select-img'src="/resources/down.png"></image>
       </view>
     </picker>
+>>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
         <view class='chart-iframe' wx:for="{{itemList}}" wx:key="{{itemList.name}}" wx:for-item="item">
           <view style='width:100%'>
             <view class='ViewText'>{{item.name}}</view>
@@ -200,6 +203,8 @@
     </swiper-item>
 
 
+<<<<<<< HEAD
+=======
 <!--处理记录-->
 <block wx:if="{{recordList.length!=0}}" >
 <i-cell-group>
@@ -257,6 +262,7 @@
 <!--删除处理记录-->
 	<i-button bind:click="delRecord" type="error" size="small" shape="circle" data-recordid='{{recordList[record_current-1].id}}'>删除</i-button>
 </view>
+>>>>>>> c3b7e79268c2a9f3d7980665fc17b27c1de7953e
     <swiper-item>
       <!--查询-->
       <scroll-view scroll-y="{{true}}" style="height: {{clientHeight?clientHeight+'px':'auto'}};" bindscrolltolower="scrollbot">
