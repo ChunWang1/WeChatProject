@@ -77,7 +77,9 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <view wx:if="{{recordByDriverIdList.length!=0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}">
 <template is="recordcard" data="{{recordList:recordByDriverIdList}}"></template>
 </view>
-<view wx:if="{{recordByDriverIdList.length!=0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}" class='bottom-text'>-------共查到{{recordByDriverIdList.length}}条记录-------</view>
+<view wx:if="{{recordByDriverIdList.length!=0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}" class='bottom-text'>
+-------共查到{{recordByDriverIdList.length}}条记录-------
+</view>
 <view wx:if="{{recordByDriverIdList.length==0&&showquerybyDriver==true&&showquerybyWaitingUpdate==false}}">
 <i-load-more tip="责任人{{recordDriver}}暂无处理记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
@@ -89,10 +91,13 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 <view  wx:if="{{recordByDateList.length!=0&&showquerybydate==true&&showquerybyWaitingUpdate==false}}">
 <template is="recordcard" data="{{recordList:recordByDateList}}"></template>
 </view>
-<view wx:if="{{recordByDateList.length!=0&&showquerybydate==true&&showquerybyWaitingUpdate==false}}" class='bottom-text'>-------共查到{{recordByDateList.length}}条记录-------</view>
+
 <view wx:if="{{recordByDateList.length==0&&showquerybydate==true&&showquerybyWaitingUpdate==false}}">
 <i-load-more tip="该时间段暂无处理记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
+</view>
+<view wx:if="{{recordByDateList.length!=0&&showquerybydate==true&&showquerybyWaitingUpdate==false&&showquerybyDriver==false}}" class='bottom-text'>
+-------共查到{{recordByDateList.length}}条记录-------
 </view>
 </block>
 
@@ -118,11 +123,12 @@ hidden="{{mask1Hidden}}" bindtap="mask1Cancel">
 </view>
 <!----------------------------------------------------->
 
-<view wx:if="{{recordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==false}}" class='bottom-text'>-------共{{recordList.length}}条记录-------</view>
+
 <view wx:if="{{recordList.length==0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==false}}">
 <i-load-more tip="暂无处理车记录" loading="{{ false }}"/>
 <i-load-more loading="{{ false }}" />
 </view>
+<view wx:if="{{recordList.length!=0&&mask1Hidden==true&&mask2Hidden==true&&showquerybydate==false&&showquerybyDriver==false&&showquerybyWaitingUpdate==false}}" class='bottom-text'>-------共{{recordList.length}}条记录-------</view>
 </block>
 
 </scroll-view>

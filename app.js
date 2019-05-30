@@ -1,12 +1,12 @@
-//var URL = "https://www.teamluo.cn";
-var URL = "http://localhost:8080/DisposalSludgeSystem";
+var URL = "https://www.teamluo.cn";
+//var URL = "http://localhost:8080/DisposalSludgeSystem";
 //var URL ="http://iot.hnu.edu.cn";
 //var URL ="http://114.115.212.204/DisposalSludgeSystem";
 App({
   manageTabBar: {
     "color": "#9E9E9E",
     "selectedColor": "#70DB93",
-    "backgroundColor": "#fff",
+    "backgroundColor": "#fff",//
     "borderStyle": "#ccc",
     "position": "bottom",
     "list": [
@@ -277,7 +277,10 @@ App({
     });
   },
 
+  
+
   onLaunch: function () {
+    
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -331,7 +334,6 @@ App({
         }
       }
     })
-
   },
 
   qureyUserByNickName:function(nickname){
@@ -339,9 +341,10 @@ App({
     var that=this;
     wx.request({
       url: this.globalData.QUERY_qureyUserByNickName_URL,
-      data:{
-        nickname:nickname
-      },
+      method:"POST",
+      data:JSON.stringify({
+        nickname: nickname
+      }),
       success:function(res){
         console.log(JSON.stringify(res.data));
         if (res.data.result=="ERROR"){
@@ -418,14 +421,14 @@ App({
 
   //全局变量
   globalData: {
-    userInfo: null,
+  //  userInfo: null,
 
     userData: [{
       id: "",
       idCard: "",
       realname: "",
       email: "",
-      role: "",
+      role_name: "",
       sex: "",
       username: "",
       telephone: "",
@@ -445,6 +448,7 @@ App({
     QUERY_MapCar_BySiteIdAndCarTypeAndStatus_URL: URL + '/car/queryMapCarBySiteIdAndCarTypeAndStatus',
     QUERY_VideoAndSensorByCarIdfoForWX_URL: URL + "/monitor/queryVideoAndSensorByCarIdfoForWX",
     QUERY_AllSite_URL: URL + "/system/queryAllSite",
+    QUERY_SiteBySiteId_URL: URL + "/system/querySiteBySiteId",
 	  DELETE_Site_URL: URL + "/system/deleteSite",
     ADD_Site_URL: URL + "/system/addSite",
     EDIT_Site_URL: URL + "/system/editSite",
@@ -457,12 +461,14 @@ App({
     EDIT_Car_URL: URL + "/car/editCar",
     FUZZYQUERY_car_URL: URL + "/car/fuzzyQueryCar",
     QUERY_CarByCarType_URL: URL + "/car/queryCarByCarType",
+    QUERY_CarByCarId_URL: URL + "/car/queryCarByCarId",
     ADD_User_URL: URL + "/system/addUser",
     QUERY_NoCarAssignedDriverList_URL: URL + "/user/queryNoCarAssignedDriverList",
     QUERY_AllUser_URL: URL +"/system/queryAllUser",
     QUERY_UserByCheckStatus_URL: URL +"/system/queryUserByCheckStatus",
     QUERY_UserByRoleId_URL: URL + "/system/queryUserByRoleId",
     FUZZYQUERY_User_URL: URL + "/system/fuzzyQueryUser",
+    QUERY_UserByUserId_URL: URL + "/system/queryUserById",
     QUERY_AllSensoType_URL: URL + "/sensor/queryAllSensorType",
     QUERY_AllSensor_URL: URL + "/sensor/queryAllSensor",
     ADD_Sensor_URL: URL + "/sensor/addSensor",
@@ -479,9 +485,12 @@ App({
     REGISTER_URL: URL + "/user/register",
     QUERY_HistoryData_URL: URL + "/sensor/queryHistoryData",
     QUERY_SensorByCondition_URL: URL + "/sensor/conditionalQuery",
+    QUERY_SensorBySensorId_URL: URL + "/sensor/querySensorBySensorId",
     QUERY_AllRecord_URL: URL + "/record/queryAllRecord",
     QUERY_AllSludgeByInOutFlagAndWareHouseSerial_URL: URL + "/sludge/queryAllSludgeByInOutFlagAndWareHouseSerial",
-    MODIFY_UserInfo_URL: URL + "/user/modifyUserInfo",
+    MODIFY_UserInfo_URL: URL + "/user/modifyUserInfoForWX",
+    QUERY_UserById_URL: URL +"/user/queryUserByUserId",
+    MODIFY_Pwd_URL: URL +"/user/modifyPwd",
     INSERT_RecordByAlert_URL: URL + "/record/insertRecordByAlert",
     QUERY_AllRecordOfOneFactory_URL: URL + "/record/queryAllRecordOfOneFactory",
     QUERY_AllSludgeOfOneFactory_URL: URL + "/sludge/queryAllSludgeOfOneFactory",
@@ -496,7 +505,7 @@ App({
     EDIT_Record_URL: URL + "/record/editRecord",
     DELETE_Record_URL: URL + "/record/deleteRecord",
     QUERY_queryassignCarTreatDriver_URL: URL + "/record/queryassignCarTreatDriver",
-    QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverId",
+    QUERY_RecordByDriverId_URL: URL + "/record/queryRecordByDriverIdOfOneFacotry",
     QUERY_RecordByDate_URL: URL + "/record/queryRecordByDate",
     QUERY_SludgeByDate_URL: URL + "/sludge/querySludgeByDate",
     QUERY_SludgeByDriverId_URL: URL + "/sludge/querySludgeByDriverId",

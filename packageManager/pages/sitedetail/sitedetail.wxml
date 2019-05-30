@@ -1,0 +1,59 @@
+<!--packageManager/pages/sitedetail.wxml-->
+<!-- 站点详情信息 -->
+<view>
+  <!-- 标题 -->
+  <view class="page-head">
+    <icon class="iconfont icon-site"></icon>
+    <view class="page-head-title">站点详情</view>
+    <view class="page-head-line"></view>
+  </view>
+  <!-- 详情显示 -->
+  <block>
+    <i-cell-group>
+      <i-cell title="编号:" value="{{site.serialNumber}}">
+      </i-cell>
+      <i-cell title="厂名:" value="{{site.siteName}}">
+      </i-cell>
+      <i-cell title="地址:" value="{{site.address}}">
+      </i-cell>
+      <i-cell title="电话:" value="{{site.telephone}}">
+      </i-cell>
+      <i-cell title="负责人:" value="{{site.manage.realname}}">
+      </i-cell>
+      <i-cell title="状态:">
+        <i-tag wx:if="{{site.status==0}}" slot="footer" class="i-tags" color="green">正常</i-tag>
+        <i-tag wx:elif="{{site.status==1}}" slot="footer" class="i-tags" color="red">处理中</i-tag>
+        <i-tag wx:elif="{{site.status==2}}" slot="footer" class="i-tags" color="yellow">处理完</i-tag>
+      </i-cell>
+    </i-cell-group>
+    <!-- 编辑站点 -->
+    <view>
+      <i-button bind:click="editSiteBtn" type="info" size="small" shape="circle" data-siteid='{{site.id}}'>编辑</i-button>
+      <!-- 自定义编辑按钮弹窗 -->
+      <view class="modal" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showEditSiteModal}}"></view>
+      <view class="modal-dialog" wx:if="{{showEditSiteModal}}" style='height:49vh;margin-top:2vh'>
+        <view class="modal-title">编辑站点</view>
+        <form bindsubmit="editSite">
+          <view class="modal-content">
+            <input class="modal-input" bindinput="serialNumberinputChange" value="{{site.serialNumber}}" placeholder="编号" name="serialNumber" disabled/>
+            <input class="modal-input" bindinput="siteNameinputChange" value="{{site.siteName}}" placeholder="站点名" name="siteName" />
+            <view class="modal-input">
+              <picker bindchange="bindAllManagerBySitePickerChange" range="{{editManagerList}}" value='{{editManagerList[managerIndex].realname}}' class='regSelect' range-key="{{'realname'}}">
+                <input class='selectInp' bindinput="editManagerinputChange" placeholder="负责人" disabled='false' value="{{editManagerList[managerIndex].realname}}" name="realname" />
+                <view class='select'>
+                  <image class='select-img' src="/resources/down.png"></image>
+                </view>
+              </picker>
+            </view>
+            <input class="modal-input" bindinput="telephoneinputChange" value="{{site.telephone}}" type="number" placeholder="电话" name="telephone" />
+            <input class="modal-input" bindinput="addressinputChange" value="{{site.address}}" type="textarea" placeholder="详细地址" maxlength="50" name="address" />
+          </view>
+          <view class="modal-footer">
+            <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
+            <button class="btn-confirm" form-type="submit" data-status="confirm">保存</button>
+          </view>
+        </form>
+      </view>
+    </view>
+  </block>
+</view>

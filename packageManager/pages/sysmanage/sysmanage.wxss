@@ -6,20 +6,20 @@ line-height: 100rpx;
 }
 
 .tab-item {
-width: 33.3%;
+width: 25%;
 border-bottom: 2rpx solid #ccc;
 text-align: center;
 font-size: 15px;
 color: #777;
 }
 
-.tab-item-one {
+/* .tab-item-one {
 width: 50%;
 border-bottom: 2rpx solid #ccc;
 text-align: center;
 font-size: 15px;
 color: #777;
-}
+} */
 .swiper{
   height: 1100px;
 }
@@ -29,10 +29,10 @@ color: #777;
    border-bottom: 4rpx solid #F65959;
 }
 
-.on-one {
+/* .on-one {
    color: rgb(89, 113, 246);
    border-bottom: 4rpx solid rgb(89, 113, 246);
-}
+} */
 
 .view{
    width: 100%;
@@ -44,7 +44,7 @@ color: #777;
 
 .view-one{
   width: 100%;
-  height:40px;
+  height:54px;
   display: flex;
   flex-direction: row;
   line-height: 100rpx;
@@ -61,12 +61,13 @@ color: #777;
     width: 30%;
     font-size: 9px;
     margin-top: 15px;
+    position: relative;
 }
 .button-view-one{
     width: 16%;
     height: 52rpx;
     font-size: 9px;
-    margin: auto;
+    margin-top: 12px;
 }
 
 .button-view-two{
@@ -80,6 +81,7 @@ color: #777;
     width: 33.3%;
     font-size: 11px;
     margin-top: 15px;
+    position: relative;
 }
 
 .list-msg {
@@ -96,24 +98,43 @@ color: #777;
 .select_box {
     background-color: #eee;
     padding: 0 10rpx;
-    width: 23%;
-    position: relative;
+    width: 28%;
+    position: absolute;
+    left: 243px;
     top: 90rpx;
     z-index: 1;
     overflow: hidden;
     animation: myfirst 0.5s;
+    margin-top: -6px;
 }
 .select_box_one {
     background-color: #eee;
     padding: 0 10rpx;
     width: 23%;
     height: 90px;
-    position: relative;
+    position: absolute;
+    left: 143px;
     top: 90rpx;
     z-index: 1;
     overflow: hidden;
     animation: myfirst 0.5s;
+    margin-top: -6px;
 }
+
+.select_box_two {
+    background-color: #eee;
+    padding: 0 10rpx;
+    width: 23%;
+    height: 90px;
+    position: absolute;
+    left: 280px;
+    top: 90rpx;
+    z-index: 1;
+    overflow: hidden;
+    animation: myfirst 0.5s;
+    margin-top: -6px;
+}
+
 
 .select_one {
     font-size: 10px;
@@ -243,9 +264,9 @@ input-holder {
 }
 .add_text{
   width: 50%;
-  font-size: 36rpx;
+  font-size: 38rpx;
   text-align: center;
-  margin-left:110px;
+  margin-left:130px;
 }
 .add_icon{
   width:30px;
@@ -275,9 +296,10 @@ input-holder {
   padding: 0 40rpx 20rpx 40rpx;
   font-size: 36rpx;
   color: #1c2438;
+  text-align: center;
 }
 .page-head-line{
-  margin: 0 auto;
+  margin-top: 4px;
   width: 500rpx;
   height: 2rpx;
   background-color: #BEBEBE;
@@ -290,3 +312,175 @@ input-holder {
   font-size: 28rpx;
   position: absolute;
 }
+
+/*单元行*/
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5rpx 30rpx 20rpx 5rpx;
+  border-bottom: 1px solid #e8e8e8;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 76%;
+    padding-left: 20rpx;
+}
+.top, .bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.bottom_one {
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+.name {
+    color: #777272;
+    font-size: 27rpx;
+}
+
+.name_one {
+    color: #504d4d;
+    font-size: 29rpx;
+}
+
+.status {
+    padding: 10rpx;
+    font-size: 28rpx;
+    color: #5e5c5c;
+}
+.sentence {
+    color: #4d4d4d;
+    font-size: 30rpx;
+    margin-top: 6rpx;
+    margin-bottom: 8rpx;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+.add_icon_one{
+  width:40px;
+  height:40px;
+  bottom:10rpx;
+  margin-left:15px;
+}
+
+.add_icon_two{
+  width:28px;
+  height:28px;
+  bottom:20rpx;
+  margin-left:15px;
+}
+
+.tabTit{
+  height:90rpx;
+  line-height: 80rpx;
+  border-bottom: solid 1px #eee;
+  /* position:fixed; */
+  top:95px;
+  width: 750rpx;
+  z-index: 1;
+  background: #fff;
+  font-size:14px;
+  text-align: center;
+}
+
+.box {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.tabTit .active{
+  color:#e64340;
+  background: #fff;
+}
+.flex1 {
+    flex: 1;
+    overflow: hidden;
+    display: block;
+}
+
+.tabTit .active image{
+  transform: rotate(180deg);
+  background: none;
+}
+ 
+.tabTit image{
+  width:26rpx;
+  height:26rpx;
+  vertical-align: middle;
+  margin-left: 5px;
+ 
+}
+.tabLayer{
+  box-shadow: 0 5px 5px rgba(0,0,0,.15);
+  width:750rpx;
+  overflow: hidden;
+  position: fixed;
+  top:90rpx;
+  z-index: 1;
+  background: #fff;
+  padding-bottom: 40rpx;
+  border-bottom: solid 1px #eee;
+  text-align: center;
+}
+.tabLayer_one{
+  box-shadow: 0 5px 5px rgba(0,0,0,.15);
+  width:750rpx;
+  overflow: hidden;
+  position: fixed;
+  top:90rpx;
+  z-index: 1;
+  background: #fff;
+  padding-bottom: 120rpx;
+  border-bottom: solid 1px #eee;
+  text-align: center;
+}
+.tabLayer text{
+  width:210rpx;
+  height:60rpx;
+  line-height:60rpx;
+  float:left;
+  border: solid 1px #eee;
+  margin:20rpx 0 0 26rpx;
+  font-size:12px;
+}
+.tabLayer_one text{
+  width:700rpx;
+  height:60rpx;
+  line-height:60rpx;
+  float:left;
+  border: solid 1px #eee;
+  margin:20rpx 0 0 26rpx;
+  font-size:12px;
+}
+
+.tabLayer_one .active{
+  color:#e64340;
+  border-color:#e64340;
+}
+
+.tabLayer .active{
+  color:#e64340;
+  border-color:#e64340;
+}
+
+
+.bottom-text
+{
+ font-size: 34rpx;
+ text-align: center; 
+ color: #70DB93; 
+ margin-top: 20rpx ;
+ margin-bottom: 150rpx;
+}
+
