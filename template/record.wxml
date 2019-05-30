@@ -6,8 +6,9 @@
 <i-cell-group>
     <i-cell title="状态:"  >
     <i-tag wx:if="{{item.status==0}}" slot="footer" class="i-tags"   color="green"> 已完成</i-tag>
-    <i-tag wx:elif="{{item.status==1}}" slot="footer" class="i-tags"   color="blue"> 处理中</i-tag>
-    <i-tag wx:elif="{{item.status==2}}" slot="footer" class="i-tags"   color="yellow"> 待处理</i-tag>
+    <i-tag wx:elif="{{item.status==1}}" slot="footer" class="i-tags"   color="yellow"> 处理中</i-tag>
+    <i-tag wx:elif="{{item.status==2}}" slot="footer" class="i-tags"   color="red"> 待处理</i-tag>
+    <i-tag wx:elif="{{item.status==3}}" slot="footer" class="i-tags"   color="blue"> 待审核</i-tag>
     </i-cell>
     <i-cell title="产生污泥块量(吨):" value="{{item.sludgesWeight}}">
     </i-cell>
