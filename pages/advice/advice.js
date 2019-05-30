@@ -6,6 +6,8 @@ Page({
    */
   data: {
 
+    adviceInfo:"",
+    phoneNum:"",
   },
 
   /**
@@ -15,6 +17,33 @@ Page({
 
   },
 
+  getAdvice:function(e){
+    var that=this
+    var adviceInfo = e.detail.value.adviceInfo;
+    var phoneNum = e.detail.value.phoneNum;
+    if (adviceInfo==""){
+      wx.showToast({
+        title: "您还未输入反馈 (^〇^)",
+        icon: 'none',
+        duration: 2000,
+      })
+      that.setData({
+        adviceInfo:"",
+        phoneNum:""
+      })
+    }else{
+      wx.showToast({
+        title: "反馈提交成功!",
+        icon: 'success',
+        duration: 2000,
+      })
+      that.setData({
+        adviceInfo: "",
+        phoneNum: ""
+      })
+    }
+    
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
