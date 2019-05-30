@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/login/login",
     "pages/register/register",
     "pages/personinfo/personinfo",
@@ -7,7 +8,8 @@
     "pages/personinfor/personinfor",
     "pages/modifypwd/modifypwd",
     "pages/advice/advice",
-    "pages/introduce/introduce"
+    "pages/introduce/introduce",
+	"pages/authorization/authorization"
   ],
   "subPackages": [
     {

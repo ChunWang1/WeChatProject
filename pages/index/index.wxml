@@ -1,0 +1,15 @@
+<!-- <button 
+	wx:if="{{canIUse}}" 
+	open-type="getUserInfo" 
+	bindgetuserinfo="bindGetUserInfo"
+>授权登录</button>
+<view wx:else>请升级微信版本</view> -->
+<i-grid>
+    <i-grid-item i-class="item">
+        <i-spin custom>
+            <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+            <view>身份验证中</view>
+        </i-spin>
+    </i-grid-item>
+</i-grid>
+
