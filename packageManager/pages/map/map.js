@@ -424,7 +424,20 @@ Page({
       }
     })
   },
+  showdetailofsiteone: function (id) {
+    console.log(id)
+    var status=siteInfoOld[id].status
+    wx.navigateTo({
+      url: '/packageManager/pages/factorydetail/factorydetail?siteId=' + id + '&status=' + status,
+    });
+  },
 
+  showdetailofwarehouse: function (id) {
+    console.log(id)
+    wx.navigateTo({
+      url: '/packageManager/pages/warehouse/warehouse?warehouseId=' + id,
+    });
+  },
 
   showdetailofsite: function (event) {
     console.log()
@@ -432,7 +445,7 @@ Page({
     var status = event.currentTarget.dataset.status;
     console.log(event.currentTarget.dataset)
     wx.navigateTo({
-      url: '../factorydetail/factorydetail?siteId=' + id+'&status='+status,
+      url: '../factorydetail/factorydetail?siteId=' + id + '&status=' + status,
     });
   },
   showdetailoftreatmentcar: function (event) {
@@ -443,6 +456,37 @@ Page({
       url: '../cardetail/cardetail?carId=' + event.currentTarget.dataset.carid + '&siteId=' + event.currentTarget.dataset.siteid,
     });
   },
+
+  showdetail: function (event) {
+    var that = this;
+    var n = event.markerId.toString(); //将其转化为字符串再切割
+    var str = [];
+    var num = 0;
+    for(var i=0;i<n.length;i++){
+     if(!((n[i]>='0')&&(n[i]<=9))){
+         str[num]=n[i];
+         num++;
+     }else{
+       break;
+     }        
+    }
+    var str1 = str.join('');
+    console.log(num);
+    var str2 = [];
+    for(var i=num;num<n.length;i++){
+       str2[num] = n[i];
+       num++;
+    }
+    var str3=str2.join('');
+    var id = parseInt(str3);
+    if (str1 == "warehouse") {
+      that.showdetailofwarehouse(id);
+    }
+    if (str1 == "site") {
+      that.showdetailofsiteone(id);
+    }
+  },
+
 
   startSetInter: function () {
     var that = this;

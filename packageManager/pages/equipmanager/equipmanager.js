@@ -6,102 +6,124 @@ Page({
    * 页面的初始数据
    */
   data: {
-    clientHeight: "",
-    tabTxt: ['设备位置','具体位置' ,'设备类型', '状态'],//设备信息查询条件分类
-    tab: [true, true,true, true],
-    locationList: [
-      { id:0,name: '工厂' },
-      { id:1,name: '车辆' }
-    ],
-    sensorStatusList: [
-      {id:0,name:'正常'},
-      {id:1,name:'异常'}
-    ],
-    sensor_current: 1,
-    sensor_id: -1,
-    sensorStatus_id: -1,
-    searchSerialNumberValueInput: '',
-    txt: ''
+    // clientHeight: "",
+    // tabTxt: ['设备位置','具体位置' ,'设备类型', '状态'],//设备信息查询条件分类
+    // tab: [true, true,true, true],
+    // locationList: [
+    //   { id:0,name: '工厂' },
+    //   { id:1,name: '车辆' }
+    // ],
+    // sensorStatusList: [
+    //   {id:0,name:'正常'},
+    //   {id:1,name:'异常'}
+    // ],
+    // sensor_current: 1,
+    // sensor_id: -1,
+    // sensorStatus_id: -1,
+    // searchSerialNumberValueInput: '',
+    // txt: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     var thit = this;
-     thit.queryAllSensorType();
-     thit.queryAllSite();
-     thit.queryAllCar();
-     thit.queryAllSensor();
-    //获取设备可视窗口高度
-    wx.getSystemInfo({
-      success: function (res) {
-        thit.setData({
-          clientHeight: res.windowHeight-100
-        });
+    //  var thit = this;
+    //  thit.queryAllSensorType();
+    //  thit.queryAllSite();
+    //  thit.queryAllCar();
+    //  thit.queryAllSensor();
+    // //获取设备可视窗口高度
+    // wx.getSystemInfo({
+    //   success: function (res) {
+    //     thit.setData({
+    //       clientHeight: res.windowHeight-100
+    //     });
+    //   }
+    // })
+    var that = this;
+    console.log(JSON.stringify(options));
+    that.setData({
+      sensorId:options.sensorId,    //获取从上一个页面传过来的sensorId
+    })
+    wx.request({
+      url: app.globalData.QUERY_SensorBySensorId_URL,
+      data:{sensorId: that.data.sensorId},
+      method:'GET',
+      headers: {
+        'content-type': 'application/json'
+      },
+      success:function(res){
+        console.log(res);
+        that.setData({
+          sensor:res.data
+        })
+      },
+      fail:function(err){
+        console.log(err);
       }
     })
   },
 
   // 设备信息选项卡
-  filterTab: function (e) {
-    var data = [true, true, true, true], index = e.currentTarget.dataset.index;
-    data[index] = !this.data.tab[index];
-    this.setData({
-      tab: data
-    })
-  },
+  // filterTab: function (e) {
+  //   var data = [true, true, true, true], index = e.currentTarget.dataset.index;
+  //   data[index] = !this.data.tab[index];
+  //   this.setData({
+  //     tab: data
+  //   })
+  // },
   //设备信息筛选项点击操作
-  filter: function (e) {
-    var self = this, id = e.currentTarget.dataset.id, txt = e.currentTarget.dataset.txt, tabTxt = this.data.tabTxt;
-    switch (e.currentTarget.dataset.index) {
-      case '0':
-        tabTxt[0] = txt;
-        self.setData({
-          tab: [true, true, true, true],
-          tabTxt: tabTxt,
-          location_id: id,
-          location_txt: txt
-        });
-        break;
-      case '1':
-        tabTxt[1] = txt;
-        self.setData({
-          tab: [true, true, true, true],
-          tabTxt: tabTxt,
-          id: id,
-          txt: txt
-        });
-        break;
-      case '2':
-        tabTxt[2] = txt;
-        self.setData({
-          tab: [true, true, true, true],
-          tabTxt: tabTxt,
-          sensor_id: id,
-          sensor_txt: txt
-        });
-        break;
-      case '3':
-        tabTxt[3] = txt;
-        self.setData({
-          tab: [true, true, true, true],
-          tabTxt: tabTxt,
-          sensorStatus_id: id,
-          sensorStatus_txt: txt
-        });
-        break;
-    }
+  // filter: function (e) {
+  //   var self = this, id = e.currentTarget.dataset.id, txt = e.currentTarget.dataset.txt, tabTxt = this.data.tabTxt;
+  //   switch (e.currentTarget.dataset.index) {
+  //     case '0':
+  //       tabTxt[0] = txt;
+  //       self.setData({
+  //         tab: [true, true, true, true],
+  //         tabTxt: tabTxt,
+  //         location_id: id,
+  //         location_txt: txt
+  //       });
+  //       break;
+  //     case '1':
+  //       tabTxt[1] = txt;
+  //       self.setData({
+  //         tab: [true, true, true, true],
+  //         tabTxt: tabTxt,
+  //         id: id,
+  //         txt: txt
+  //       });
+  //       break;
+  //     case '2':
+  //       tabTxt[2] = txt;
+  //       self.setData({
+  //         tab: [true, true, true, true],
+  //         tabTxt: tabTxt,
+  //         sensor_id: id,
+  //         sensor_txt: txt
+  //       });
+  //       break;
+  //     case '3':
+  //       tabTxt[3] = txt;
+  //       self.setData({
+  //         tab: [true, true, true, true],
+  //         tabTxt: tabTxt,
+  //         sensorStatus_id: id,
+  //         sensorStatus_txt: txt
+  //       });
+  //       break;
+  //   }
     //数据筛选
-    self.getDataList();
-  },
+  //   self.getDataList();
+  // },
 
   //加载数据
-  getDataList: function () {
+  // getDataList: function () {
     //调用数据接口，获取数据
 
 
-  },
+  // },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -109,11 +131,11 @@ Page({
 
   },
   // 新增传感器
-  adddevice: function () {
-    this.setData({
-      showModal: true
-    })
-  },
+  // adddevice: function () {
+  //   this.setData({
+  //     showModal: true
+  //   })
+  // },
   /**
    * 弹出框蒙层截断touchmove事件
    */
@@ -122,55 +144,55 @@ Page({
   /**
    * 隐藏模态对话框
    */
-  hideModal: function () {
-    this.setData({
-      showModal: false
-    });
-  },
+  // hideModal: function () {
+  //   this.setData({
+  //     showModal: false
+  //   });
+  // },
   /**
    * 对话框取消按钮点击事件
    */
-  onCancel: function () {
-    this.hideModal();
-  },
+  // onCancel: function () {
+  //   this.hideModal();
+  // },
   // 获取输入框数据
-  sensorserialnumberinputChange: function (e) {
-    console.log(e.detail.value);
-    this.setData({
-      sensorSerialNumberinput: e.detail.value
-    });
-  },
-  sensortypeinputChange:function(e){
-     console.log(e.detail.value);
-     this.setData({
-       sensorTypeinput:e.detail.value
-     })
-  },
-  gPSIDinputChange: function (e) {
-    console.log(e.detail.value);
-    this.setData({
-      gPSIDinput: e.detail.value
-    });
-  },
-  locationinputChange:function(e){
-    console.log(e.detail.value);
-    this.setData({
-      placeSelectinput: e.detail.value
-    });
-  },
-  placeinputChange:function(e){
-    console.log(e.detail.value);
-    this.setData({
-      placeinput: e.detail.value
-    });
-  },
+  // sensorserialnumberinputChange: function (e) {
+  //   console.log(e.detail.value);
+  //   this.setData({
+  //     sensorSerialNumberinput: e.detail.value
+  //   });
+  // },
+  // sensortypeinputChange:function(e){
+  //    console.log(e.detail.value);
+  //    this.setData({
+  //      sensorTypeinput:e.detail.value
+  //    })
+  // },
+  // gPSIDinputChange: function (e) {
+  //   console.log(e.detail.value);
+  //   this.setData({
+  //     gPSIDinput: e.detail.value
+  //   });
+  // },
+  // locationinputChange:function(e){
+  //   console.log(e.detail.value);
+  //   this.setData({
+  //     placeSelectinput: e.detail.value
+  //   });
+  // },
+  // placeinputChange:function(e){
+  //   console.log(e.detail.value);
+  //   this.setData({
+  //     placeinput: e.detail.value
+  //   });
+  // },
   // 设备信息里的查询值获取
-  searchSerialNumberValueInputChange: function (e) {
-    console.log(e.detail.value);
-    this.setData({
-      searchSerialNumberValueInput: e.detail.value
-    })
-  },
+  // searchSerialNumberValueInputChange: function (e) {
+  //   console.log(e.detail.value);
+  //   this.setData({
+  //     searchSerialNumberValueInput: e.detail.value
+  //   })
+  // },
   // siteinputChange: function (e) {
   //   console.log(e.detail.value);
   //   this.setData({
@@ -184,118 +206,118 @@ Page({
   //   });
   // },
   // 下拉选择框数据获取
-  bindsensorTypePickerChange: function (e) {
-    var sensortypename = this.data.sensorTypeList[e.detail.value].type;
-    console.log(this.data.sensorTypeList[e.detail.value].type)
-    if (e.detail.value == 4) {
-      this.setData({ reply: true })
-    } else {
-      this.setData({ reply: false })
-    }
-    this.setData({
-      sensorTypeIndex: e.detail.value,
-      sensorTypeName: sensortypename
-    })
-  },
-  bindlocationPickerChange:function(e){
-    var locationname = this.data.locationList[e.detail.value].name;
-    console.log(this.data.locationList[e.detail.value].name)
-    if (e.detail.value == 4) {
-      this.setData({ reply: true })
-    } else {
-      this.setData({ reply: false })
-    }
-    this.setData({
-      locationIndex: e.detail.value,
-      locationName: locationname
-    })
-  },
-  bindsitePickerChange: function (e) {
-    var sitename = this.data.siteList[e.detail.value].siteName;
-    console.log(this.data.siteList[e.detail.value].siteName)
-    if (e.detail.value == 4) {
-      this.setData({ reply: true })
-    } else {
-      this.setData({ reply: false })
-    }
-    this.setData({
-      siteIndex: e.detail.value,
-      siteName: sitename
-    })
-  },
-  bindcarPickerChange: function (e) {
-    var license = this.data.carList[e.detail.value].license;
-    console.log(this.data.carList[e.detail.value].license)
-    if (e.detail.value == 4) {
-      this.setData({ reply: true })
-    } else {
-      this.setData({ reply: false })
-    }
-    this.setData({
-      carIndex: e.detail.value,
-      selectedLicense: license
-    })
-  },
+  // bindsensorTypePickerChange: function (e) {
+  //   var sensortypename = this.data.sensorTypeList[e.detail.value].type;
+  //   console.log(this.data.sensorTypeList[e.detail.value].type)
+  //   if (e.detail.value == 4) {
+  //     this.setData({ reply: true })
+  //   } else {
+  //     this.setData({ reply: false })
+  //   }
+  //   this.setData({
+  //     sensorTypeIndex: e.detail.value,
+  //     sensorTypeName: sensortypename
+  //   })
+  // },
+  // bindlocationPickerChange:function(e){
+  //   var locationname = this.data.locationList[e.detail.value].name;
+  //   console.log(this.data.locationList[e.detail.value].name)
+  //   if (e.detail.value == 4) {
+  //     this.setData({ reply: true })
+  //   } else {
+  //     this.setData({ reply: false })
+  //   }
+  //   this.setData({
+  //     locationIndex: e.detail.value,
+  //     locationName: locationname
+  //   })
+  // },
+  // bindsitePickerChange: function (e) {
+  //   var sitename = this.data.siteList[e.detail.value].siteName;
+  //   console.log(this.data.siteList[e.detail.value].siteName)
+  //   if (e.detail.value == 4) {
+  //     this.setData({ reply: true })
+  //   } else {
+  //     this.setData({ reply: false })
+  //   }
+  //   this.setData({
+  //     siteIndex: e.detail.value,
+  //     siteName: sitename
+  //   })
+  // },
+  // bindcarPickerChange: function (e) {
+  //   var license = this.data.carList[e.detail.value].license;
+  //   console.log(this.data.carList[e.detail.value].license)
+  //   if (e.detail.value == 4) {
+  //     this.setData({ reply: true })
+  //   } else {
+  //     this.setData({ reply: false })
+  //   }
+  //   this.setData({
+  //     carIndex: e.detail.value,
+  //     selectedLicense: license
+  //   })
+  // },
   // 查询所有传感器类型
-  queryAllSensorType: function (callback) {
-    var thit = this
-    wx.request({
-      url: app.globalData.QUERY_AllSensoType_URL,
-      method: 'GET',
-      header: {
-        // "Content-Type":"application/json"
-      },
-      success: function (res) {
-        console.log(res.data);
-        thit.setData({
-          sensorTypeList: res.data
-        })
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-  },
+  // queryAllSensorType: function (callback) {
+  //   var thit = this
+  //   wx.request({
+  //     url: app.globalData.QUERY_AllSensoType_URL,
+  //     method: 'GET',
+  //     header: {
+  //       // "Content-Type":"application/json"
+  //     },
+  //     success: function (res) {
+  //       console.log(res.data);
+  //       thit.setData({
+  //         sensorTypeList: res.data
+  //       })
+  //     },
+  //     fail: function (err) {
+  //       console.log(err)
+  //     }
+  //   })
+  // },
   // 查询所有站点
-  queryAllSite: function (callback) {
-    var thit = this
-    wx.request({
-      url: app.globalData.QUERY_AllSite_URL,
-      method: 'GET',
-      header: {
-        // "Content-Type":"application/json"
-      },
-      success: function (res) {
-        console.log(res.data);
-        thit.setData({
-          siteList: res.data
-        })
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    })
-  },
+  // queryAllSite: function (callback) {
+  //   var thit = this
+  //   wx.request({
+  //     url: app.globalData.QUERY_AllSite_URL,
+  //     method: 'GET',
+  //     header: {
+  //       // "Content-Type":"application/json"
+  //     },
+  //     success: function (res) {
+  //       console.log(res.data);
+  //       thit.setData({
+  //         siteList: res.data
+  //       })
+  //     },
+  //     fail: function (err) {
+  //       console.log(err)
+  //     }
+  //   })
+  // },
   // 查询所有车辆
-  queryAllCar:function(callback){
-    var thit = this
-    wx.request({
-      url: app.globalData.QUERY_AllCar_URL,
-      method: 'GET',
-      header: {
-        // "Content-Type":"application/json"
-      },
-      success: function (res) {
-        console.log(res.data);
-        thit.setData({
-          carList: res.data
-        })
-      },
-      fail: function (err) {
-        console.log(err)
-      }
-    }) 
-  },
+  // queryAllCar:function(callback){
+  //   var thit = this
+  //   wx.request({
+  //     url: app.globalData.QUERY_AllCar_URL,
+  //     method: 'GET',
+  //     header: {
+  //       // "Content-Type":"application/json"
+  //     },
+  //     success: function (res) {
+  //       console.log(res.data);
+  //       thit.setData({
+  //         carList: res.data
+  //       })
+  //     },
+  //     fail: function (err) {
+  //       console.log(err)
+  //     }
+  //   }) 
+  // },
   // 查询所有传感器
   queryAllSensor: function (callback) {
     var thit = this
@@ -317,149 +339,149 @@ Page({
     })
   },
   // 设备查询
-  querySensorByCondition:function(){
-    var that = this;
-    if (that.data.searchSerialNumberValueInput == ''){
-      var sensorSerialNumber = "none";
-    }else{
-      var sensorSerialNumber = that.data.searchSerialNumberValueInput;
-    }
-    var placeSelectId = that.data.location_id;
-    if(placeSelectId == 0){
-        var placeSelect = "site";
-    } else if (placeSelectId == 1){
-      var placeSelect = "slugeCar";
-    }else{
-      var placeSelect = "none";
-    }
-    if (that.data.txt == ''){
-      var place = "none";
-    }else{
-      var place = that.data.txt;
-    }
-    if (that.data.sensor_id == -1){
-      var sensorTypeId = -1;
-    }else{
-      var sensorTypeId = parseInt(that.data.sensor_id);
-    }
-    if(that.data.sensorStatus_id == -1){
-      var status = -1;
-    }else{
-      var status = that.data.sensorStatus_id;
-    }
-    wx.request({
-      url: app.globalData.QUERY_SensorByCondition_URL,
-      data: JSON.stringify({
-        sensorSerialNumber: sensorSerialNumber,
-        sensorTypeId: sensorTypeId,
-        placeSelect: placeSelect,
-        place: place,
-        status: status
-      }),
-      method: 'post',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        that.setData({
-          sensorList: res.data
-        })
-      }
-    })
-  },
+  // querySensorByCondition:function(){
+  //   var that = this;
+  //   if (that.data.searchSerialNumberValueInput == ''){
+  //     var sensorSerialNumber = "none";
+  //   }else{
+  //     var sensorSerialNumber = that.data.searchSerialNumberValueInput;
+  //   }
+  //   var placeSelectId = that.data.location_id;
+  //   if(placeSelectId == 0){
+  //       var placeSelect = "site";
+  //   } else if (placeSelectId == 1){
+  //     var placeSelect = "slugeCar";
+  //   }else{
+  //     var placeSelect = "none";
+  //   }
+  //   if (that.data.txt == ''){
+  //     var place = "none";
+  //   }else{
+  //     var place = that.data.txt;
+  //   }
+  //   if (that.data.sensor_id == -1){
+  //     var sensorTypeId = -1;
+  //   }else{
+  //     var sensorTypeId = parseInt(that.data.sensor_id);
+  //   }
+  //   if(that.data.sensorStatus_id == -1){
+  //     var status = -1;
+  //   }else{
+  //     var status = that.data.sensorStatus_id;
+  //   }
+  //   wx.request({
+  //     url: app.globalData.QUERY_SensorByCondition_URL,
+  //     data: JSON.stringify({
+  //       sensorSerialNumber: sensorSerialNumber,
+  //       sensorTypeId: sensorTypeId,
+  //       placeSelect: placeSelect,
+  //       place: place,
+  //       status: status
+  //     }),
+  //     method: 'post',
+  //     header: {
+  //       'content-type': 'application/json' // 默认值
+  //     },
+  //     success: function (res) {
+  //       console.log(res.data);
+  //       that.setData({
+  //         sensorList: res.data
+  //       })
+  //     }
+  //   })
+  // },
   //增加传感器
-  onSensorConfirm: function () {
-    var that = this;
-    var sensorSerialNumber = that.data.sensorSerialNumberinput;
-    var sensorType = that.data.sensorTypeName;
-    var gPSID= that.data.gPSIDinput;
-    var placeSelect = that.data.locationName;
-    if(placeSelect == "工厂"){
-      var place = that.data.siteName;
-    }else{
-      placeSelect="slugeCar";
-      var place = that.data.selectedLicense;
-    }
-    var sensorInfo;
-    if(sensorType == "GPS传感器"){
-      sensorInfo = JSON.stringify({
-        sensorSerialNumber: sensorSerialNumber,
-        sensorType: sensorType,
-        GPSID: gPSID,
-        placeSelect: placeSelect,
-        place: place
-      })
-    }else{
-      sensorInfo = JSON.stringify({
-        sensorSerialNumber: sensorSerialNumber,
-        sensorType: sensorType,
-        placeSelect: placeSelect,
-        place: place
-      })
-    }
-    var reg = /^[A-Z][0-9]{5}$/; //设备号的正则表达式
-    if(sensorSerialNumber == " " || placeSelect == null || place == null){
-       wx.showToast({
-         title: '设备信息不完善',
-         icon:'none',
-         duration:2000
-       })
-    }else if(!(reg.test(sensorSerialNumber))){
-       wx.showToast({
-         title: '请输入正确的设备号',
-         icon:'none',
-         duration:2000
-       })
-    }else{
-      wx.request({
-        url: app.globalData.ADD_Sensor_URL,
-        data: sensorInfo,
-        method: 'post',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function (res) {
-          console.log(res.data);
-          if (res.data.result == "SUCCESS") {
-            wx.showToast({
-              title: "新增成功",
-              icon: 'success',
-              duration: 2000,
-            })
-            that.hideModal();
-            that.queryAllSensor();
-          } else if (res.data.result == "DUPLICATE"){
-            wx.showToast({
-              title: "设备号冲突",
-              icon: 'success',
-              duration: 2000,
-            })
-          } else if (res.data.result == "INPUT"){
-            wx.showToast({
-              title: "请检查输入数据",
-              icon: 'success',
-              duration: 2000,
-            })
-          }else{
-            wx.showToast({
-              title: "添加失败",
-              icon: 'success',
-              duration: 2000,
-            })
-          }
-        },
-        fail:function(err){
-          console.log(err);
-          wx.showToast({
-            title: "添加失败",
-            icon: 'success',
-            duration: 2000,
-          })
-        }
-      })
-    }
-  },
+  // onSensorConfirm: function () {
+  //   var that = this;
+  //   var sensorSerialNumber = that.data.sensorSerialNumberinput;
+  //   var sensorType = that.data.sensorTypeName;
+  //   var gPSID= that.data.gPSIDinput;
+  //   var placeSelect = that.data.locationName;
+  //   if(placeSelect == "工厂"){
+  //     var place = that.data.siteName;
+  //   }else{
+  //     placeSelect="slugeCar";
+  //     var place = that.data.selectedLicense;
+  //   }
+  //   var sensorInfo;
+  //   if(sensorType == "GPS传感器"){
+  //     sensorInfo = JSON.stringify({
+  //       sensorSerialNumber: sensorSerialNumber,
+  //       sensorType: sensorType,
+  //       GPSID: gPSID,
+  //       placeSelect: placeSelect,
+  //       place: place
+  //     })
+  //   }else{
+  //     sensorInfo = JSON.stringify({
+  //       sensorSerialNumber: sensorSerialNumber,
+  //       sensorType: sensorType,
+  //       placeSelect: placeSelect,
+  //       place: place
+  //     })
+  //   }
+  //   var reg = /^[A-Z][0-9]{5}$/; //设备号的正则表达式
+  //   if(sensorSerialNumber == " " || placeSelect == null || place == null){
+  //      wx.showToast({
+  //        title: '设备信息不完善',
+  //        icon:'none',
+  //        duration:2000
+  //      })
+  //   }else if(!(reg.test(sensorSerialNumber))){
+  //      wx.showToast({
+  //        title: '请输入正确的设备号',
+  //        icon:'none',
+  //        duration:2000
+  //      })
+  //   }else{
+  //     wx.request({
+  //       url: app.globalData.ADD_Sensor_URL,
+  //       data: sensorInfo,
+  //       method: 'post',
+  //       header: {
+  //         'content-type': 'application/json' // 默认值
+  //       },
+  //       success: function (res) {
+  //         console.log(res.data);
+  //         if (res.data.result == "SUCCESS") {
+  //           wx.showToast({
+  //             title: "新增成功",
+  //             icon: 'success',
+  //             duration: 2000,
+  //           })
+  //           that.hideModal();
+  //           that.queryAllSensor();
+  //         } else if (res.data.result == "DUPLICATE"){
+  //           wx.showToast({
+  //             title: "设备号冲突",
+  //             icon: 'success',
+  //             duration: 2000,
+  //           })
+  //         } else if (res.data.result == "INPUT"){
+  //           wx.showToast({
+  //             title: "请检查输入数据",
+  //             icon: 'success',
+  //             duration: 2000,
+  //           })
+  //         }else{
+  //           wx.showToast({
+  //             title: "添加失败",
+  //             icon: 'success',
+  //             duration: 2000,
+  //           })
+  //         }
+  //       },
+  //       fail:function(err){
+  //         console.log(err);
+  //         wx.showToast({
+  //           title: "添加失败",
+  //           icon: 'success',
+  //           duration: 2000,
+  //         })
+  //       }
+  //     })
+  //   }
+  // },
   //删除传感器记录
   delSensor: function (e) {
     var that = this;
@@ -499,18 +521,18 @@ Page({
     })
   },
   //分页事件
-  sensorhandleChange({ detail }) {
-    const type = detail.type;
-    if (type === 'next') {
-      this.setData({
-        sensor_current: this.data.sensor_current + 1
-      });
-    } else if (type === 'prev') {
-      this.setData({
-        sensor_current: this.data.sensor_current - 1
-      });
-    }
-  },
+  // sensorhandleChange({ detail }) {
+  //   const type = detail.type;
+  //   if (type === 'next') {
+  //     this.setData({
+  //       sensor_current: this.data.sensor_current + 1
+  //     });
+  //   } else if (type === 'prev') {
+  //     this.setData({
+  //       sensor_current: this.data.sensor_current - 1
+  //     });
+  //   }
+  // },
   /**
    * 生命周期函数--监听页面显示
    */
