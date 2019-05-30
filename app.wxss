@@ -64,11 +64,9 @@
  
 }
 .page-head-line{
-  margin: 0 auto;
   width: 300rpx;
-  height: 2rpx;
   background-color: #BEBEBE;
-  margin-bottom: 15px;
+  
 }
 .collapse{
   margin-bottom: 130rpx;
@@ -187,7 +185,7 @@ font-size: 34rpx;
 }  
 
 .page_tab_content  {  
-  background-color: #FAFAFA;
+  
   position: relative;  
   height: 304px; 
   box-shadow: 3px 3px 10px rgba(104, 101, 101, 0.2); 
