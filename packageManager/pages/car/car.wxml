@@ -43,7 +43,7 @@
         <input class="modal-input" bindinput="brandinputChange" value="{{car.brand}}" placeholder="品牌" name= "brand"/>
         <view class="modal-input">
          <picker bindchange="bindnocarassigndriverPickerChange" range="{{noCarAssignedDriverList}}" value='{{noCarAssignedDriverList[driverIndex].text}}' class='regSelect' range-key="{{'text'}}" >
-         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="不改动司机" name='nocarassigndriver' disabled='false' value="{{selectedCarRealname}}" name="selectedCarRealname"/> 
+         <input class='selectInp'  bindinput="nocarassigndriverinputChange" placeholder="请选择司机" name='nocarassigndriver' disabled='false' value="{{selectedCarRealname}}" name="selectedCarRealname"/> 
          <view class='select'> 
            <image class='select-img'src="/resources/down.png"></image>
          </view>
