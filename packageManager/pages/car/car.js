@@ -8,8 +8,12 @@ Page({
   data: {
     noCarAssignedDriverList: [
       {
+        id:-1,
+        text:"--不改动司机--"
+      },
+      {
         id: 0,
-        text: "暂不分配"
+        text: "--暂不分配--"
       }
     ],
   },
@@ -103,7 +107,7 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        var num = 1;
+        var num = 2;
         for (var i = 0; i < res.data.length; i++) {
           var id = "noCarAssignedDriverList[" + num + "].id";
           var text = "noCarAssignedDriverList[" + num + "].text";
