@@ -10,7 +10,7 @@
 <view class=' txt-area'>
 <text class='title'>角色介绍</text>
 <text class='txt'>智能污泥处置平台的用户权限分为五种：系统管理员、工厂工作人员、运输车司机、处理车司机、访客。</text>
-<image class='image' src='../../../../../resources/introduce/actors.png'></image>
+<image style="width:100%; height:310rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/actors.png'></image>
 <text class='txt'>不同的角色，其访问权限和操作权限是不同的，即可访问的模块（界面）集合是不同的，并且确定可以在各模块（界面）上进行的操作集合也是不同的。下面主要介绍系统管理员模块使用指南。</text>
 </view>
 
@@ -24,38 +24,46 @@
 <view class=' txt-area'>
 <text class='title'>(二)首页（地图）</text>
 <text class='txt'>登陆系统后进入系统主页，系统主页展示了地图上的相关车辆、工厂和智慧泥仓，点击车辆和工厂图标可查看对应的当前状态信息。点击车辆和工厂悬浮信息框，可进入查看车辆和工厂的详情页面。</text>
-<image class='image' src='../../../../../resources/introduce/map.png'></image>
-<image class='image' src='../../../../../resources/introduce/warehouseinfo.png'></image>
+<image style="width:100%; height:560rpx; margin-top: 20px;display: flex;justify-content: center;"src='../../../../../resources/introduce/map.png'></image>
+<image style="width:100%; height:560rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/warehouseinfo.png'></image>
 
 </view>
 
 <view class=' txt-area'>
 <text class='title'>(三)个人信息</text>
 <text class='txt'>点击首页的“个人信息”，即可左侧滑动，查看此登录用户的详情信息，并且可以在详情页中修改个人信息，修改账号密码。</text>
-<image class='image' src='../../../../../resources/introduce/leftmenu.png'></image>
-<image class='image' src='../../../../../resources/introduce/personinfo.png'></image>
+<image style="width:100%; height:920rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/leftmenu.png'></image>
+<image style="width:100%; height:800rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/personinfo.png'></image>
+<image style="width:100%; height:500rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/modifypassword.png'></image>
 </view>
 
 <view class=' txt-area'>
 <text class='title'>(四)系统管理</text>
 <text class='txt'>主要包括人员管理、车队管理以及站点管理，对用户、车辆、传感器设备、摄像头以及工厂进行增、删、改、查操作。</text>
-<image class='image' src='../../../../../resources/introduce/sysmange.png'></image>
-<image class='image' src='../../../../../resources/introduce/deviceinfo.png'></image>
+<image style="width:100%; height:1220rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/sysmange.png'></image>
+<image style="width:100%; height:1220rpx; margin-top: 20px;display: flex;justify-content: center;"  src='../../../../../resources/introduce/carmange.png'></image>
+
+<image style="width:100%; height:1020rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/sitemange.png'></image>
+
+<image style="width:100%; height:1220rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/devicemange.png'></image>
 </view>
 
 <view class=' txt-area'>
 <text class='title'>(五)监控</text>
 <text class='txt'>主页面分为两个选项卡，一个选项卡页面列表展示所有车辆的监控，另一个选项卡页面列表展示所有工厂的监控。点击每一个列表元素可跳转至对应车辆或工厂的详情页面，查看其现场处理视频以及传感器数据。</text>
-<image class='image' src='../../../../../resources/introduce/monitor.png'></image>
-<image class='image' src='../../../../../resources/introduce/sensorinfo.png'></image>
+<image style="width:100%; height:620rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/monitor.png'></image>
+
+<image style="width:100%; height:620rpx; margin-top: 20px;display: flex;justify-content: center;" src='../../../../../resources/introduce/sensorinfo.png'></image>
 </view>
 
 <view class=' txt-area'>
 <text class='title'>(六)智慧泥仓</text>
-<text class='txt'>图表展示智慧泥仓详情，污泥出入记录的增删改查，处理记录的增、删、、改、查。</text>
-<image class='image' src='../../../../../resources/introduce/warehouse.png'></image>
-<image class='image' src='../../../../../resources/introduce/warehouse_sludge.png'></image>
-<image class='image' src='../../../../../resources/introduce/warehouse_record.png'></image>
-</view>
+<text class='txt'>图表展示智慧泥仓详情，污泥出入记录的增删改查，处理记录的增、删、改、查。</text>
+<image style="width:100%; height:920rpx; margin-top: 20px;display: flex;justify-content: center;"  src='../../../../../resources/introduce/warehouse.png'></image>
 
+<image style="width:100%; height:770rpx; margin-top: 20px;display: flex;justify-content: center;"  src='../../../../../resources/introduce/warehouse_sludge.png'></image>
+
+<image style="width:100%; height:960rpx; margin-top: 20px;display: flex;justify-content: center;"  src='../../../../../resources/introduce/warehouse_record.png'></image>
+</view>
+<i-divider  color="#2d8cf0" lineColor="#2d8cf0">加载已经完成,没有其他数据</i-divider>
 </view>
