@@ -39,7 +39,8 @@ Page({
     that.queryAllFunc();
   },
   getDate: function (e) {
-    this.setData({
+    var that=this;
+    that.setData({
       selectFunc: e.detail
     });
     console.log(e.detail)

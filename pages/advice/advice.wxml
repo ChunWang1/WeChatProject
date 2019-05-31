@@ -1,2 +1,20 @@
 <!--pages/advice/advice.wxml-->
-<text>pages/advice/advice.wxml</text>
+<i-panel>
+<text class='text'>意见反馈</text>
+<view class="page-head-line"></view>
+<form bindsubmit="getAdvice">
+<view class="section" style='justify-content: center;display: flex;align-items: center;'>
+  <textarea style='border: solid 3px green;border-radius:10px;' value='{{adviceInfo}}'  name="adviceInfo" placeholder="欢迎您的反馈(-^〇^-)，请输入您想告诉我们的吧!(最多200个字)"  maxlength="200" auto-focus />
+</view>
+
+<view style='background-color:#d7d7d7;width:100%;height:20px;margin-top:15rpx;'>
+<text style='font-size:30rpx;color:grey;justify-content: center;display: flex;align-items: center;'>✮留下您的联系方式，以便我们联系您（选填)✮</text>
+</view>
+
+<i-input value="{{ phoneNum }}" type="text" name="phoneNum" title="联系方式" placeholder="电话号码/邮箱" />
+
+<view class='button'>
+      <button type='primary' form-type='submit'>确认提交</button>
+</view>
+</form>
+</i-panel>
