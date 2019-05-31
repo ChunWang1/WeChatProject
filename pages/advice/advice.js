@@ -23,7 +23,7 @@ Page({
     var phoneNum = e.detail.value.phoneNum;
     if (adviceInfo==""){
       wx.showToast({
-        title: "您还未输入反馈 (^〇^)",
+        title: "您还未输入反馈^〇^",
         icon: 'none',
         duration: 2000,
       })

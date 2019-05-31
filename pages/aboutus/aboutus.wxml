@@ -4,7 +4,7 @@
 <text class='text'>关于我们</text>
 <view class="page-head-line"></view>
 <view class="section" style='justify-content: center;display: flex;margin-top:20rpx;align-items: center;'>
-  <textarea style='border: solid 3px green;border-radius:20px;align-items: center;margin-top:20rpx;justify-content: center;' value='“智能污泥处置平台”是由湖南大学信息科学与工程学院嵌入式与网络计算湖南省重点实验室开发的微信小程序,旨在低成本、高效率解决小型污水厂的污泥干化系统信息智能化问题，以更加高效和智能的方式实现污泥处理的“智慧”。' />
+  <textarea style='border: solid 3px green;border-radius:20px;align-items: center;margin-top:20rpx;justify-content: center;' value='“智能污泥处置平台”是由湖南大学信息科学与工程学院嵌入式与网络计算湖南省重点实验室开发的微信小程序,旨在低成本、高效率解决小型污水厂的污泥干化系统信息智能化问题，以更加高效和智能的方式实现污泥处理的“智慧”。'  disabled/>
 </view>
 <i-input title="与我们联系：邮箱"  disabled/>
 <i-input title="王纯："  value='1151848018@qq.com' disabled/>
